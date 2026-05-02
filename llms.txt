@@ -4,6 +4,9 @@
 
 ## Articles
 
+- [DeepSeek多模态技术范式公布，以视觉原语思考](/deepseek-duo-mo-tai-ji-shu-fan-shi-gong-bu-yi-shi/): Thinking with Visual Primitives
+
+昨天，DeepSeek 陈小康一个 X 消息，让大家开始关注 DeepSeek 的多模态。
 - [CreBee 正式发布 MCP 协议与 Agent Skill 支持智能体驱动全平台内容运营](/crebee-zheng-shi-fa-bu-mcp-xie-yi-yu-agent-skill-z/): CreBee 正式推出 MCP 协议接入与 Agent Skill 技能包支持，实现与 OpenClaw、Claude Code、Cursor、Windsurf
 - [思拓发布AI短视频创作工具——蜂桥创作 V1：不会剪辑，也能做出专业短视频](/思拓发布AI短视频创作工具_蜂桥创作_V1_不会剪辑_也能做出专业短视频/): 1 月 15 日，思拓正式发布一款专为媒体人量身打造的 AI 短视频创作工具，无需电脑、不用专业技能，机就能实现 “即采、即编、即发”，让短视频生产像转发文章一
 - [CreBee 发布 MCP 协议与 Agent Skill 支持智能体驱动全平台内容运营](/CreBee_发布_MCP_协议与_Agent_Skill_支持智能体驱动全平台/): 2026年3月，思拓旗下新媒体矩阵运营工具——CreBee 推出 MCP 协议接入与 Agent Skill 技能包支持，实现与 OpenClaw、Claude
