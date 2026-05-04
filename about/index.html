@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-type="about">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="CreBee AI-Assisted">
+  <title>关于 - Crebee 产品官网</title>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "AboutPage", "mainEntity": {"@type": "Organization", "name": "Crebee 产品官网", "description": ""}}</script>
+  <style>
+    /* CSS variables 由 brand_assets.py 注入（v1.1 P0+.5） */
+    :root {
+      --site-brand-primary: #16a34a;
+      --site-brand-primary-hover: #00933b;
+      --site-brand-primary-soft: #d8eedb;
+      --site-brand-bg: #ffffff;
+      --site-brand-bg-elev: #ffffff;
+      --site-brand-fg: #1a1a1a;
+      --site-brand-fg-muted: oklch(0.55 0.01 250);
+      --site-border-subtle: oklch(0.92 0.005 250);
+      --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
+      --site-content-max: 65ch;
+      --site-spacing-section: clamp(3rem, 8vw, 6rem);
+      --site-grid-card-gap: 1.5rem;
+      --site-radius-card: 0.75rem;
+      --site-radius-button: 0.5rem;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --site-brand-bg: oklch(0.16 0.01 250);
+        --site-brand-bg-elev: oklch(0.20 0.01 250);
+        --site-brand-fg: oklch(0.92 0.01 250);
+        --site-brand-fg-muted: oklch(0.65 0.01 250);
+        --site-border-subtle: oklch(0.30 0.005 250);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--site-brand-font-body);
+      background: var(--site-brand-bg);
+      color: var(--site-brand-fg);
+      line-height: 1.6;
+    }
+    a { color: var(--site-brand-primary); text-decoration: none; }
+    a:hover { color: var(--site-brand-primary-hover); }
+    h1, h2, h3, h4 { font-family: var(--site-brand-font-heading); line-height: 1.25; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    .card {
+      background: var(--site-brand-bg-elev);
+      border: 1px solid var(--site-border-subtle);
+      border-radius: var(--site-radius-card);
+      padding: 1.5rem;
+      transition: border-color 0.15s ease;
+    }
+    .card:hover { border-color: var(--site-brand-primary-soft); }
+    .button-primary {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--site-brand-primary);
+      color: white;
+      border-radius: var(--site-radius-button);
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      min-height: 44px;  /* mobile-first tappable */
+    }
+    .button-primary:hover { background: var(--site-brand-primary-hover); color: white; }
+    .cta { padding: 1.5rem; border-radius: var(--site-radius-card); background: var(--site-brand-bg-elev); border: 1px solid var(--site-border-subtle); }
+    .cta-qr { width: 200px; height: 200px; }
+    .cta-newsletter input, .cta-sales-form input, .cta-sales-form textarea {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid var(--site-border-subtle);
+      border-radius: var(--site-radius-button);
+      background: var(--site-brand-bg);
+      color: var(--site-brand-fg);
+      min-height: 44px;
+    }
+    .cta-legal { font-size: 0.85rem; color: var(--site-brand-fg-muted); }
+    
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner" style="border-bottom: 1px solid var(--site-border-subtle); padding: 1rem 0; position: sticky; top: 0; background: var(--site-brand-bg); z-index: 10;">
+  <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+    <a href="/" class="brand" style="display: flex; align-items: center; gap: 0.5rem;">
+      
+      <span class="brand-name" style="font-weight: 600;">Crebee 产品官网</span>
+    </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display: none;">
+    <label for="nav-toggle" class="nav-toggle-label" aria-label="菜单" style="display: none; cursor: pointer; padding: 0.5rem;">☰</label>
+    <nav class="site-nav" role="navigation" style="display: flex; gap: 1.5rem; align-items: center;">
+      <a href="/">首页</a>
+      <a href="/categories/">分类</a>
+      <a href="/archive/">归档</a>
+      <a href="/about/">关于</a>
+      <a href="/rss.xml" rel="alternate">RSS</a>
+    </nav>
+  </div>
+</header>
+<style>
+  /* Mobile：< 768px 折叠为汉堡菜单（CSS-only） */
+  @media (max-width: 768px) {
+    .nav-toggle-label { display: inline-block !important; }
+    .site-nav {
+      display: none !important;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      flex-direction: column;
+      background: var(--site-brand-bg-elev);
+      border: 1px solid var(--site-border-subtle);
+      padding: 1rem;
+      min-width: 180px;
+    }
+    .nav-toggle:checked ~ .site-nav { display: flex !important; }
+  }
+</style>
+
+  <main class="container" role="main">
+    <!-- About 关于页 (v1.1 P0+.2 F4)
+     spec: docs/specs/p0-plus-2-website-page-templates.md §3.1 - F4
+     URL: /about/
+     是 v1.1 唯一允许多 CTA 的页面（B2B 转化前哨页面） -->
+<nav aria-label="breadcrumb" style="padding: 1rem 0; font-size: 0.9rem; color: var(--site-brand-fg-muted);">
+  <a href="/">首页</a> <span>/</span> <span>关于</span>
+</nav>
+
+<section style="padding: 1.5rem 0 var(--site-spacing-section); text-align: center;">
+  
+  <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin: 1rem 0;">Crebee 产品官网</h1>
+  <p style="color: var(--site-brand-primary); font-size: 1.15rem; max-width: 600px; margin: 0 auto;"></p>
+</section>
+
+<section style="max-width: var(--site-content-max); margin: 0 auto; padding: 1rem 0 var(--site-spacing-section);">
+  <div class="long-description">
+    
+  </div>
+</section>
+
+
+
+<section style="padding: var(--site-spacing-section) 0;">
+  <h2 style="text-align: center; margin-bottom: 2rem;">联系我们</h2>
+  <div class="contact-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--site-grid-card-gap); max-width: 1000px; margin: 0 auto;">
+    <p style="color:var(--site-brand-fg-muted);text-align:center;grid-column:1/-1;">暂未配置联系方式。</p>
+  </div>
+</section>
+
+<section style="padding: var(--site-spacing-section) 0; background: var(--site-brand-bg-elev); border-radius: var(--site-radius-card); margin: 0 -1.5rem;">
+  <div style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">订阅与转化</h2>
+    <!-- About 页是 v1.1 唯一允许多 CTA 的页面 -->
+    <div data-cta-slot="about_section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--site-grid-card-gap);">
+      <div class="cta cta-wechat-qr" data-cta-id="cta-wechat_qr"><h3>关注公众号</h3><p></p></div><div class="cta cta-wechat-contact" data-cta-id="cta-wechat_contact"><h3>加创始人微信</h3></div><form class="cta cta-newsletter" data-cta-id="cta-newsletter" action="/api/subscribe" method="POST"><h3>邮件订阅</h3><input type="email" name="email" placeholder="邮箱地址" required/><button type="submit">订阅</button><p class="cta-legal"></p></form><form class="cta cta-sales-form" data-cta-id="cta-sales_form" action="/api/leads" method="POST"><h3>联系销售</h3><input type="text" name="name" placeholder="姓名" required/><input type="text" name="company" placeholder="公司"/><input type="email" name="email" placeholder="邮箱" required/><input type="text" name="interest" placeholder="兴趣点"/><textarea name="message" placeholder="留言" rows="3"></textarea><button type="submit">提交</button></form>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 2rem 0; font-size: 0.85rem; color: var(--site-brand-fg-muted); text-align: center;">
+  
+</section>
+
+  </main>
+  <footer class="site-footer" role="contentinfo" style="border-top: 1px solid var(--site-border-subtle); margin-top: var(--site-spacing-section); padding: 2rem 0; color: var(--site-brand-fg-muted); font-size: 0.9rem;">
+  <div class="container" style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center;">
+    <div>
+      <strong>Crebee 产品官网</strong>
+      
+    </div>
+    <nav style="display: flex; gap: 1rem;">
+      <a href="/about/">关于</a>
+      
+      
+      <a href="/rss.xml">RSS</a>
+    </nav>
+  </div>
+  <div class="container" style="margin-top: 1rem; font-size: 0.8rem;">
+    © 2026 Crebee 产品官网  
+  </div>
+</footer>
+
+  
+</body>
+</html>
