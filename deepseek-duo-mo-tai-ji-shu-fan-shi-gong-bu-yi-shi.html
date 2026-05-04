@@ -73,12 +73,12 @@
         <p>Thinking with Visual Primitives</p>
 <p>虽迟但到，五一长假将至，DeepSeek 给大家公开新技术了。</p>
 <p>昨天，DeepSeek 陈小康一个 X 消息，让大家开始关注 DeepSeek 的多模态。</p>
-<figure><img src="http://localhost:7777/api/files/materials/2026-05/671e938f894a.jpg" alt="" loading="lazy" /></figure>
+<figure><img src="assets/671e938f894a.jpg" alt="" loading="lazy" /></figure>
 <p>之后，一些用户就已经可以在 DeepSeek 网页端和 App 上体验其多模态能力。</p>
 <p>而就在刚刚，DeepSeek 在 Github 上正式发布了多模态模型，公布了背后的技术报告。</p>
-<figure><img src="http://localhost:7777/api/files/materials/2026-05/04dd76a1f478.jpg" alt="" loading="lazy" /></figure>
+<figure><img src="assets/04dd76a1f478.jpg" alt="" loading="lazy" /></figure>
 <p>实打实的新鲜出炉！而且是开创性的推理范式。</p>
-<figure><img src="http://localhost:7777/api/files/materials/2026-05/d1280c66aadc.jpg" alt="" loading="lazy" /></figure>
+<figure><img src="assets/d1280c66aadc.jpg" alt="" loading="lazy" /></figure>
 <p>项目地址：https\://github.com/deepseek-ai/Thinking-with-Visual-Primitives</p>
 <p>技术报告：https\://github.com/deepseek-ai/Thinking-with-Visual-Primitives/blob/main/Thinking_with_Visual_Primitives.pdf</p>
 <p>下面我们就基于 DeepSeek 这篇技术报告，具体看看 DeepSeek、北京大学、清华大学又创造了怎样的奇迹。</p>
@@ -92,7 +92,7 @@
 <p>但 DeepSeek 的论文指出，感知能力再强，也代替不了精确的「指代能力」。「看见」和「能说清楚在说哪个」，是两件不同的事。</p>
 <h2><strong>架构：站在 V4-Flash 肩膀上</strong></h2>
 <p>这项工作以 DeepSeek 刚发布的 V4-Flash 为语言主干 —— 这是一个 284B 总参数、推理时激活 13B 参数的混合专家模型（MoE）。视觉编码部分则使用 DeepSeek 自研的 ViT（视觉 Transformer），支持任意分辨率输入。</p>
-<figure><img src="http://localhost:7777/api/files/materials/2026-05/b877a1015817.jpg" alt="" loading="lazy" /></figure>
+<figure><img src="assets/b877a1015817.jpg" alt="" loading="lazy" /></figure>
 <p>值得注意的是，这支团队的核心贡献在于提出了一套完整的「训练哲学」：如何用极少的视觉 token，教会模型在推理过程中精确指代视觉对象。</p>
 <h2><strong>核心创新一：把坐标变成「思维单元」</strong></h2>
 <p>这篇论文最核心的思路，用一句话说就是：把点坐标和边界框（Bounding Box）变成推理的基本单位，像文字一样穿插在思维链里。</p>
@@ -111,7 +111,7 @@
 <p>团队首先爬取了近 10 万个与目标检测相关的数据集，经过两轮严格筛选（语义审核和几何质量审核），最终保留约 3.17 万个高质量数据源，生成超过 4000 万条训练样本。</p>
 <p>在「思考与视觉原语」的专项冷启动数据上，团队设计了四类任务。</p>
 <p>第一类是计数，分粗粒度（「图里有多少人」）和细粒度（「穿蓝色衣服的人有几个」）两种。对于粗粒度计数，模型学习「批量锁定」—— 一次性框出所有候选对象再数；对于细粒度计数，则学习逐一扫描、逐一核对属性。两种策略对应不同认知负荷，分别训练。</p>
-<figure><img src="http://localhost:7777/api/files/materials/2026-05/84e43041f7b9.jpg" alt="" loading="lazy" /></figure>
+<figure><img src="assets/84e43041f7b9.jpg" alt="" loading="lazy" /></figure>
 <p>第二类是空间推理和视觉问答，大量利用 GQA 数据集（自然场景）和 CLEVR 工具链（可控合成场景）生成多跳推理样本，迫使模型在每一步推理时都用边界框锁定涉及的对象。</p>
 <figure><img src="https://img.36krcdn.com/hsossms/20260430/v2_8f48b9f4967b40ca8347166a3e69c622@000000_oswg555070oswg1080oswg773_img_000?x-oss-process=image/format,jpg/interlace,1" alt="" loading="lazy" /></figure>
 <p>第三类是迷宫导航，共生成 46 万条样本。团队用 DFS（深度优先搜索）、Prim 和 Kruskal 算法生成矩形、圆形、六边形三种拓扑结构的迷宫，并专门设计了「表面可解但实际无解」的迷宫来训练模型的鲁棒性。模型需要用点坐标记录每一步探索轨迹，回溯时也要用坐标标记已排除路径。</p>
