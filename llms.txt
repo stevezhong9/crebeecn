@@ -4,6 +4,7 @@
 
 ## Articles
 
+- [ChatGPT卸载率飙升413%，Anthropic估值9000亿：AI双雄命运交叉](/chatgpt-xie-zai-lv-biao-sheng-413-anthropic-gu-zhi/): ChatGPT月卸载量暴增413%，而Claude日下载量首次超越ChatGPT。Anthropic估值9000亿，OpenAI却遭遇星际之门缩水、用户流失。A
 - [DeepSeek多模态技术范式公布，以视觉原语思考](/deepseek-duo-mo-tai-ji-shu-fan-shi-gong-bu-yi-shi/): Thinking with Visual Primitives
 
 昨天，DeepSeek 陈小康一个 X 消息，让大家开始关注 DeepSeek 的多模态。
