@@ -6,7 +6,10 @@
   <meta name="description" content="Crebee 产品官网">
   <meta name="generator" content="CreBee AI-Assisted">
   <title>Crebee 产品官网</title>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Crebee 产品官网", "description": ""}</script>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="./rss.xml"/>
+<link rel="alternate" type="application/atom+xml" title="Atom" href="./feed.atom"/>
+<link rel="alternate" type="application/feed+json" title="JSON Feed" href="./feed.json"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Crebee 产品官网", "description": ""}</script>
   <style>
     /* CSS variables 由 brand_assets.py 注入（v1.1 P0+.5） */
     :root {
@@ -123,9 +126,14 @@
 </style>
 
   <main class="container" role="main">
-    <!-- Home 首页 (v1.1 P0+.2 F1)
-     spec: docs/specs/p0-plus-2-website-page-templates.md §3.1
-     由 _base.html 包裹，本文件仅定义 main 内容（{$body} 占位填充） -->
+    <!-- Home 首页 (v1.1 P0+.2 F1 / M3 切片 C: site.json recipe-driven)
+     spec: docs/research/2026-05-09-website-template-mechanism.md §4.2
+     home.html 退化为单 body 占位 — section 顺序由站点 site.json 的
+     home.recipe 字段决定（默认走 site.default.json 与历史顺序一致）。
+     由 _base.html 包裹（body 占位填充）。 -->
+<!-- Hero block (M3 切片 A — block 化首批) — used_in: home, about
+     props: hero_logo_html, tagline, short_description, hero_cta_html
+     spec: docs/research/2026-05-09-website-template-mechanism.md §4.2 Block 层 -->
 <section class="hero" style="padding: var(--site-spacing-section) 0; text-align: center;">
   
   <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 1rem 0;">Crebee 产品官网</h1>
@@ -135,13 +143,17 @@
   </div>
 </section>
 
+
+<!-- Latest articles block — used_in: home
+     props: latest_articles_html, more_link_html
+     spec: docs/research/2026-05-09-website-template-mechanism.md §4.2 Block 层 -->
 <section class="latest" style="padding: 2rem 0;">
   <h2 style="margin-bottom: 1.5rem;">最新文章</h2>
   <div class="card-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--site-grid-card-gap);">
     <article class="card" style="margin-bottom: var(--site-grid-card-gap);">
   <a href="./ai-shou-ji-shi-shou-ji-chang-shang-de-sheng-yi-hai.html" style="display: block; color: inherit;">
     
-    <h3 style="margin: 0.5rem 0;">AI手机，是手机厂商的生意，还是OpenAI的？</h3>
+    <h3 style="margin: 0.5rem 0;">OpenAI要做AI手机了？这一次，它不想只当模型供应商</h3>
     <p style="margin: 0.5rem 0; color: var(--site-brand-fg-muted); font-size: 0.95rem;">OpenAI自研AI手机，计划2028年量产。其背后逻辑是：仅做模型供应商只能寄生于现有系统，只有自研硬件才能掌控数据、系统权限与Agent运行环境，真正定义下一代人机交互。</p>
     <footer style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.85rem; color: var(--site-brand-fg-muted); margin-top: 0.75rem;">
       <span></span>
@@ -227,6 +239,10 @@
 
 
 
+
+<!-- Subscribe block — used_in: home, about
+     props: subscribe_cta_html
+     spec: docs/research/2026-05-09-website-template-mechanism.md §4.2 Block 层 -->
 <section class="subscribe-section" id="subscribe" style="padding: var(--site-spacing-section) 0; background: var(--site-brand-bg-elev); margin: 2rem -1.5rem 0; border-radius: var(--site-radius-card);">
   <div style="text-align: center; padding: 0 1.5rem;">
     <h2>保持联系</h2>
@@ -236,6 +252,7 @@
     </div>
   </div>
 </section>
+
 
 
 
