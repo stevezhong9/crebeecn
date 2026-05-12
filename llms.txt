@@ -4,6 +4,7 @@
 
 ## Articles
 
+- [乔布斯：用这5条原则去成就一生的成功与幸福](/qiao-bu-si-yong-zhe-5-tiao-yuan-ze-qu-cheng-jiu-yi/)
 - [OpenAI要做AI手机了？这一次，它不想只当模型供应商](/ai-shou-ji-shi-shou-ji-chang-shang-de-sheng-yi-hai/): OpenAI自研AI手机，计划2028年量产。其背后逻辑是：仅做模型供应商只能寄生于现有系统，只有自研硬件才能掌控数据、系统权限与Agent运行环境，真正定义下
 - [用一句话就能生成游戏，AI互动平台会是下一个抖音吗？](/yong-yi-ju-hua-jiu-neng-sheng-cheng-you-xi-ai-hu-d/): 用一句话就能生成游戏，AI互动平台让普通人像发帖一样开发软件。但面对抖音、小红书等巨头，这些新平台更像AI时代的4399，难成大众社区。
 - [ChatGPT卸载率飙升413%，Anthropic估值9000亿：AI双雄命运交叉](/chatgpt-xie-zai-lv-biao-sheng-413-anthropic-gu-zhi/): ChatGPT月卸载量暴增413%，而Claude日下载量首次超越ChatGPT。Anthropic估值9000亿，OpenAI却遭遇星际之门缩水、用户流失。A
