@@ -4,7 +4,8 @@
 
 ## Articles
 
-- [别让五一假期毁在武汉人海里：避坑指南](/bie-rang-wu-yi-jia-qi-hui-zai-wu-han-ren-hai-li-bi/): 五一游武汉堵车、踩雷、吃不到地道美食？避开这些坑，省下冤枉钱。地铁出行、社区小店、错峰攻略，本地人亲测有效，让你玩得轻松不闹心。
+- [别让五一假期毁在武汉人海里：避坑指南](/bie-rang-wu-yi-jia-qi-hui-zai-wu-han-ren-hai-li-bi-5bf7/): 五一游武汉堵车、踩雷、吃不到地道美食？避开这些坑，省下冤枉钱。地铁出行、社区小店、错峰攻略，本地人亲测有效，让你玩得轻松不闹心。
+- [AI眼镜市场迎来分水岭？从千问S1热销看行业竞争新态势](/bie-rang-wu-yi-jia-qi-hui-zai-wu-han-ren-hai-li-bi/): 五一游武汉堵车、踩雷、吃不到地道美食？避开这些坑，省下冤枉钱。地铁出行、社区小店、错峰攻略，本地人亲测有效，让你玩得轻松不闹心。
 - [乔布斯：用这5条原则去成就一生的成功与幸福](/qiao-bu-si-yong-zhe-5-tiao-yuan-ze-qu-cheng-jiu-yi/)
 - [OpenAI要做AI手机了？这一次，它不想只当模型供应商](/ai-shou-ji-shi-shou-ji-chang-shang-de-sheng-yi-hai/): OpenAI自研AI手机，计划2028年量产。其背后逻辑是：仅做模型供应商只能寄生于现有系统，只有自研硬件才能掌控数据、系统权限与Agent运行环境，真正定义下
 - [用一句话就能生成游戏，AI互动平台会是下一个抖音吗？](/yong-yi-ju-hua-jiu-neng-sheng-cheng-you-xi-ai-hu-d/): 用一句话就能生成游戏，AI互动平台让普通人像发帖一样开发软件。但面对抖音、小红书等巨头，这些新平台更像AI时代的4399，难成大众社区。
