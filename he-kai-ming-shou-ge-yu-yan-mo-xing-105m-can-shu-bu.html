@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>何恺明首个语言模型：105M参数，不走GPT自回归老路</title>
+    <meta name="description" content="">
+    <meta property="og:title" content="何恺明首个语言模型：105M参数，不走GPT自回归老路">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="article">
+    <link rel="canonical" href="https://www.crebee.com.cn/he-kai-ming-shou-ge-yu-yan-mo-xing-105m-can-shu-bu.html">
+    <link rel="alternate" type="text/markdown" href="https://www.crebee.com.cn/he-kai-ming-shou-ge-yu-yan-mo-xing-105m-can-shu-bu.md">
+    <meta name="generator" content="CreBee AI-Assisted">
+    <meta name="ai-content-disclosure" content="本内容由 AI 辅助生成，已经人工审校。">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "何恺明首个语言模型：105M参数，不走GPT自回归老路", "description": "", "about": "何恺明首个语言模型：105M参数，不走GPT自回归老路", "wordCount": 6266, "inLanguage": "zh-CN", "author": {"@type": "Person", "name": "辉哥"}, "publisher": {"@type": "Organization", "name": "辉哥AI笔记", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, "creativeWorkStatus": "AI-Assisted, Human-Reviewed", "dateModified": "2026-05-14T14:20:35"}</script>
+    <style>
+        :root {
+          --site-brand-primary: #16a34a;
+          --site-brand-primary-hover: #00933b;
+          --site-brand-primary-subtle: #d8eedb;
+          --site-brand-bg: #ffffff;
+          --site-brand-fg: #1a1a1a;
+          --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
+        }
+        :root { --primary: var(--site-brand-primary); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        a { color: var(--site-brand-primary); text-decoration: none; }
+        a:hover { color: var(--site-brand-primary-hover); text-decoration: underline; }
+        img { max-width: 100%; height: auto; }
+        body { max-width: 800px; margin: 0 auto; padding: 0 1rem; font-family: var(--site-brand-font-body); line-height: 1.8; color: var(--site-brand-fg); background: var(--site-brand-bg); }
+        .site-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; border-bottom: 1px solid #ececec; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .site-header .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; color: #1a1a1a; }
+        .site-header .brand img { height: 32px; width: auto; border-radius: 4px; }
+        .site-header nav { display: flex; gap: 1.4rem; font-size: 0.95rem; }
+        .site-header nav a { color: #555; }
+        .site-header nav a:hover { color: var(--primary); text-decoration: none; }
+        article { padding: 0 0 3rem; }
+        article h1 { font-size: 2rem; margin-bottom: 0.6rem; line-height: 1.3; color: #111; }
+        article .meta { color: #888; font-size: 0.9rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #f0f0f0; }
+        article .meta span { margin-right: 1rem; }
+        article h2 { font-size: 1.45rem; margin: 2.2rem 0 0.8rem; color: #111; padding-left: 0.6rem; border-left: 4px solid var(--primary); }
+        article h3 { font-size: 1.2rem; margin: 1.6rem 0 0.6rem; color: #222; }
+        article p { margin-bottom: 1rem; }
+        article figure { margin: 1.5rem 0; text-align: center; }
+        article figcaption { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
+        article blockquote { border-left: 3px solid var(--primary); padding: 0.6rem 1rem; margin: 1.2rem 0; background: #fafafa; color: #444; }
+        article pre { background: #f5f5f7; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; }
+        article code { font-family: "SF Mono", "Menlo", monospace; font-size: 0.9em; }
+        article :not(pre) > code { background: #f0f0f3; padding: 0.1em 0.35em; border-radius: 3px; }
+        article ul, article ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        article li { margin-bottom: 0.3rem; }
+        article hr { border: none; border-top: 1px solid #e8e8e8; margin: 2.4rem 0; }
+        .site-footer { color: #999; font-size: 0.85rem; margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid #ececec; text-align: center; line-height: 1.6; }
+        .ai-disclosure { color: #999; font-size: 0.78rem; padding: 0.8rem 0; text-align: center; }
+        .qr-share-fab { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); z-index: 50; }
+        .qr-share-fab__inner { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); padding: 0.65rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+        .qr-share-fab__qr { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+        .qr-share-fab__hint { font-size: 0.72rem; color: #555; text-align: center; line-height: 1.3; letter-spacing: 0.02em; }
+        @media (max-width: 768px) { .qr-share-fab { display: none; } }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --site-brand-bg: #1c1c1a;
+                --site-brand-fg: #f0f0eb;
+            }
+            body { color: var(--site-brand-fg); background: var(--site-brand-bg); }
+            .site-header { border-bottom-color: #3a3a37; }
+            .site-header .brand { color: #f0f0eb; }
+            .site-header nav a { color: #a8a8a3; }
+            article h1, article h2, article h3 { color: #f0f0eb; }
+            article .meta { color: #a8a8a3; border-bottom-color: #3a3a37; }
+            article blockquote { background: #262624; color: #c8c8c3; border-left-color: var(--primary); }
+            article pre { background: #262624; border-color: #3a3a37; }
+            article :not(pre) > code { background: #3a3a37; color: #f0f0eb; }
+            article figcaption { color: #a8a8a3; }
+            article hr { border-top-color: #3a3a37; }
+            .site-footer { color: #a8a8a3; border-top-color: #3a3a37; }
+            .ai-disclosure { color: #7a7a77; }
+            .qr-share-fab__inner { background: #262624; border-color: #3a3a37;
+                box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+            .qr-share-fab__hint { color: #a8a8a3; }
+            nav.toc h4 { color: #a8a8a3; }
+            nav.toc a { color: #a8a8a3; }
+        }
+        @media (max-width: 640px) {
+            body { padding: 0 0.875rem; line-height: 1.7; font-size: 15px; }
+            .site-header { padding: 0.875rem 0; margin-bottom: 1.25rem; }
+            .site-header nav { width: 100%; gap: 1rem; font-size: 0.88rem; flex-wrap: wrap; }
+            article h1 { font-size: 1.55rem; }
+            article h2 { font-size: 1.2rem; margin: 1.8rem 0 0.6rem; }
+            article h3 { font-size: 1.08rem; }
+            article .meta { font-size: 0.82rem; margin-bottom: 1.4rem; }
+            article .meta span { margin-right: 0.7rem; }
+            article pre { font-size: 0.85rem; }
+            article figure { margin: 1.2rem 0; }
+        }
+
+
+    </style>
+</head>
+<body>
+    <header class="site-header"><a class="brand" href="https://www.crebee.com.cn"><img src="https://www.crebee.cn/assets/logo-h-CnCedbD4.png" alt="辉哥AI笔记" /><span>辉哥AI笔记</span></a></header>
+    <article>
+        <h1>何恺明首个语言模型：105M参数，不走GPT自回归老路</h1>
+        <div class="meta"><span>2026-05-14 14:20</span><span>辉哥</span><span>15 分钟阅读</span><span>6266 字</span></div>
+        <p>量子位·2026年05月13日 08:56</p>
+<p>顶级CV大佬也来卷LLM了吗？</p>
+<p>何恺明，也下场做语言模型了。</p>
+<p>只不过，这次他带队做的不是大家熟悉的、像ChatGPT背后那套“预测下一个词元”（next token prediction）的自回归范式。</p>
+<p>而是另一条过去几年在图像领域大火、如今正被越来越多人搬进文本生成的新路线：扩散语言模型（Diffusion Language Model，DLM）。</p>
+<p>在最新的论文中，何恺明团队放出全新连续扩散语言模型：ELF：Embedded Language Flows。</p>
+<figure><img src="assets/81764f9087ef.jpg" alt="" loading="lazy" /></figure>
+<p>与不少还停留在token层面做扩散的语言模型不同，ELF把整个生成过程都留在了连续的embedding空间里，直到最后一步，才重新离散化，将表示变回token。</p>
+<p>靠着这套设计，ELF只用了105M参数、45B训练token、32步采样，就正面跑赢了一批主流扩散语言模型。</p>
+<p>最直观的一项指标是它在OpenWebText上，把生成困惑度（Generative Perplexity）直接压到了24。</p>
+<p>这里简单科普一下生成困惑度，它本质上是让一个强大的语言模型，给生成结果“检查作业”，看看这些文本到底像不像真实人类写出来的语料——</p>
+<p>值越低，说明生成质量越高、模型出来的东西也就越没AI味儿，越自然。</p>
+<p>在和主流扩散语言模型的对比中，ELF在训练token少近10倍、采样步数更少的情况下，反而拿到了更低的生成困惑度。</p>
+<figure><img src="assets/fd5ac7e6f953.jpg" alt="" loading="lazy" /></figure>
+<p>可以说，在过去很长一段时间里，扩散语言模型的进展，几乎都发生在离散DLM（Discrete DLM）这一侧。</p>
+<p>而ELF第一次证明了一件事：连续的方法，不但能跑，而且效果不错。</p>
+<h2>ELF到底做了什么</h2>
+<p>要理解ELF，先得理解扩散语言模型现在到底在做什么。</p>
+<p>扩散语言模型，主要有两种技术路线。一是以MDLM、Duo为代表的离散派，直接在token空间做扩散，每一步处理的是离散随机变量。</p>
+<p>二是包括Diffusion-LM、CDCD、DiffuSeq在内的连续派，把token映成连续embedding，在连续空间里去噪。</p>
+<figure><img src="assets/2598679ead27.jpg" alt="" loading="lazy" /></figure>
+<p>此前的研究中，像MDLM、LLaDA、Dream 7B这些离散路线占据了上风。原因是很简单，因为语言本身就是离散的。</p>
+<p>对于这一看似常识的理解，恺明团队给出的判断恰恰相反——</p>
+<p>问题可能不是“语言必须离散”，问题可能是：前人根本没有让连续路线，连续到底。</p>
+<p>Diffusion-LM这一类的方法虽然在embedding空间去噪，但每一步都要算一次token-level的交叉熵，把连续轨迹一路绑在词表上。</p>
+<p>后来的LD4LG、Cosmos走latent diffusion路线，去噪过程是连续了，但要单独训一个decoder把latent解回token，相当于多一个模块。</p>
+<p>基于此，ELF把所有denoising，全留在continuous embedding space；直到最后一步 t=1，才重新投回token。</p>
+<figure><img src="assets/e8b629d5229a.jpg" alt="" loading="lazy" /></figure>
+<p>具体来说，ELF在训练时，离散token先被编码成连续embedding，再加噪成 z_t，模型要么负责把它还原成干净embedding（MSE），要么直接预测token（CE）。</p>
+<figure><img src="assets/3fe054b5ef5d.jpg" alt="" loading="lazy" /></figure>
+<p>推理时，模型从高斯噪声 z_0 出发，一路在连续空间里去噪，直到最后一步，才切到decode模式，把embedding重新投回token。</p>
+<p>ELF第一次把“连续表示”和“离散输出”这两个过去总被认为必须反复对齐的问题，彻底拆开了：</p>
+<p>中间的去噪，完全交给连续空间；最终的语言生成，只留到最后一步离散化。</p>
+<p>没有每一步都往词表上硬对齐，也不需要额外训练一个decoder，整个生成流程第一次真正做到了：</p>
+<p>连续就是连续，离散就是离散。</p>
+<p>而这，恰恰也是ELF后面能用更少采样步数、更少训练token，却跑赢一众扩散语言模型的关键。</p>
+<h2>ELF不是“先扩散，再解码”。</h2>
+<p>在具体的实现上，ELF还解决了三个问题：</p>
+<p>token怎么变连续？连续里怎么去噪？最后又怎么变回token？</p>
+<h4>把token变成连续embedding</h4>
+<p>要把连续扩散用在语言上，第一步，得先把离散的token变成连续表示。</p>
+<p>论文中，ELF先把它切成token序列，再映射到连续embedding空间。这里具体怎么映射，其实有多种选择。</p>
+<p>默认情况下，ELF用的是T5预训练encoder，生成双向的contextual embedding。论文后面也测试了jointly trained embedding和随机embedding等不同方案。</p>
+<p>值得注意的是，这个encoder只在训练阶段使用，推理时并不会额外增加模块。</p>
+<h4>在连续embedding空间里做Flow Matching</h4>
+<p>拿到连续表示之后，ELF就在embedding空间里做Flow Matching。</p>
+<p>简单说，Flow Matching定义了一条从噪声到真实数据的连续流动轨迹：</p>
+<p>t=0时，是高斯噪声；</p>
+<p>t=1时，是干净的embedding；</p>
+<p>中间所有状态，都是两者的线性插值，也就是论文里的rectified flow。</p>
+<p>在传统Flow Matching，网络通常直接预测“速度场” v。</p>
+<p>但ELF没有这么做，而是沿用了恺明团队半年前在《Back to Basics: Let Denoising Generative Models Denoise》里提出的思路——</p>
+<p>直接预测干净embedding x，也就是x-prediction。</p>
+<figure><img src="assets/567eefe5de6a.jpg" alt="" loading="lazy" /></figure>
+<p>训练目标，就是最小化预测embedding和真实embedding之间的均方误差（MSE）。</p>
+<figure><img src="assets/a78afc9402ae.jpg" alt="" loading="lazy" /></figure>
+<p>至于为什么采用x-prediction，论文给了两个原因：</p>
+<p>第一，它在高维表示上更稳定——比如768维甚至更高的token embedding；第二，它天然和最后一步“预测干净token”的目标对齐。</p>
+<p>论文还特别提到：虽然理论上也可以先预测速度v，再换算成x，但这样一来，后面denoising和decoding之间的权重共享就很难成立。</p>
+<p>实验上，他们也发现：一旦共享权重，v-prediction效果明显变差。</p>
+<h4>从连续embedding，再回到离散token</h4>
+<p>生成语言，最终输出还是离散token。</p>
+<p>所以ELF只在最后一个时间步（t = 1），还得把连续embedding重新投回token空间。</p>
+<p>不过，这一步ELF没有像很多latent diffusion方法那样，额外训练一个decoder。相反，它把最后一步直接视作：一次continuous-to-discrete decoding。</p>
+<p>换句话说：decoder和前面的denoiser，其实是同一个网络。</p>
+<p>为了让最后一步训练不至于太简单（因为理论上t→1时，输入已经非常接近干净embedding），ELF在最后一步额外加入了一次token-level corruption，构造出一个带扰动的输入。</p>
+<p>随后，同一个网络输出clean embedding，再通过一个可学习的unembedding矩阵 W，投影成token logits。</p>
+<p>训练目标，则是标准的token-level cross-entropy loss。整个网络共享同一套参数，并额外接收一个二值的mode token：去噪模式/解码模式。</p>
+<p>推理时，ELF从高斯噪声开始一路在连续空间里去噪，直到最后一步 t = 1，才切换到decode模式，再通过argmax输出最终token。</p>
+<p>值得一提的是，在ELF中，图像生成里最常用的技术之一，CFG（classifier-free guidance）也被搬过来了</p>
+<p>ELF用self-conditioning作为条件信号，套上training-time CFG（一次forward模拟两次推理，没有inference开销），把图像那边的方案直接搬了过来。</p>
+<h2>实验对比</h2>
+<p>实验部分，ELF基本回答了一个过去两年一直悬着的问题：</p>
+<p>连续扩散语言模型，到底能不能打？答案是：不但能打，而且第一次在质量、速度、训练成本三个维度同时赢。</p>
+<p>如开头所说，在OpenWebText生成任务中，在不做蒸馏的情况下，ELF只用32步采样，就把生成困惑度压到了24。</p>
+<p>而此前主流的离散扩散模型，往往要跑到1024步，才能接近这个水平。</p>
+<figure><img src="assets/cae0df5c02ce.jpg" alt="" loading="lazy" /></figure>
+<p>更夸张的是，ELF实现这一结果时，训练token只用了45B。</p>
+<p>而同级别对手，普遍是500B+。换句话说：采样步数少了一个数量级，训练数据也少了一个数量级，效果反而更好。</p>
+<p>而在很多扩散模型最容易掉队的条件生成任务上，ELF也没掉链子。</p>
+<p>无论是WMT14机器翻译，还是XSum文本摘要，ELF都稳定超过现有扩散语言模型，甚至把不少自回归baseline也压了下去。</p>
+<figure><img src="assets/a9b5608f1544.jpg" alt="" loading="lazy" /></figure>
+<p>论文最后给出的总结其实很克制：ELF在生成质量、采样效率和训练成本之间，实现了很强的trade-off。</p>
+<p>翻译成人话就是：连续派，不是不能打。只是以前没把连续这件事做到底。</p>
+<h2>作者介绍</h2>
+<p>最后，我们再来介绍一下这篇文章的作者。</p>
+<p>这篇论文的两篇一作是共同贡献，排名先后顺序由硬币决定。</p>
+<p>胡珂雅，她是这篇文章的两位第一作者之一，MIT EECS一年级博士生，也是恺明在MIT带的第一批博士生之一，目前由恺明和Jacob Andreas联合指导。</p>
+<figure><img src="assets/8c7eb11521aa.jpg" alt="" loading="lazy" /></figure>
+<p>她本科毕业于上交的ACM班，目前的研究兴趣主要是语言和视觉的交叉领域，致力于构建数据效率更高、泛化能力更强的智能体。</p>
+<p>值得一提的是，在恺明MIT的主页中，胡珂雅排在Grad students第一位，可以说是组内的大师姐了。</p>
+<figure><img src="assets/24111f5a592c.jpg" alt="" loading="lazy" /></figure>
+<p>第二位第一作者Linlu Qiu，同样是MIT的博士生，师从Yoon Kim。</p>
+<figure><img src="assets/0268b7d8fb56.jpg" alt="" loading="lazy" /></figure>
+<p>△</p>
+<p>她本科毕业于香港大学，硕士毕业于Georgia Institute of Technology，此前还在Google做过AI Resident。</p>
+<p>有意思的是，这并不是她第一次和恺明合作。就在不久前，她还和恺明团队一起拿下了CVPR 2026论文《ARC Is a Vision Problem!》，把ARC推理问题重新定义成了视觉问题。</p>
+<figure><img src="assets/dc4bd427c589.jpg" alt="" loading="lazy" /></figure>
+<p>另一位作者Hanhong Zhao（赵瀚宏）为MIT本科生，他高中就读于人大附中，曾是国际物理奥林匹克竞赛IPhO金牌得主。</p>
+<figure><img src="assets/760311bf66e6.jpg" alt="" loading="lazy" /></figure>
+<p>△</p>
+<p>还有一位作者陆伊炀，背景有点“少年班味道”。</p>
+<figure><img src="assets/055b4a4fac38.jpg" alt="" loading="lazy" /></figure>
+<p>△</p>
+<p>他是清华姚班大二本科生，目前在MIT计算机科学与人工智能实验室（CSAIL）实习，导师是何恺明，主要研究方向为计算机视觉和深度生成模型。</p>
+<p>高中时期，他是物理竞赛生，曾以江苏选手中第一名、全国第九名的成绩，在2022年获得了第三十九届全国中学生物理竞赛（CPhO）金牌。</p>
+<p>此前，他以一作身份与恺明合作过论文《Bidirectional Normalizing Flow: From Data to Noise and Back》。</p>
+<figure><img src="assets/190b85e0299e.jpg" alt="" loading="lazy" /></figure>
+<p>另一位核心作者黎天鸿，则是恺明组的博后。</p>
+<figure><img src="assets/f68ea3828c96.jpg" alt="" loading="lazy" /></figure>
+<p>△</p>
+<p>他本科就读于清华姚班，博士毕业于MIT，半年前那篇《Back to Basics: Let Denoising Generative Models Denoise》的一作，就是他。</p>
+<p>此外，论文的其他作者Yoon Kim、Jacob Andreas，MIT EECS两位语言模型方向的教授，以及何恺明本人。</p>
+<p>参考链接[1]<a href="https://arxiv.org/pdf/2605.10938">https://arxiv.org/pdf/2605.10938</a></p>
+<p>本文来自微信公众号“量子位”，作者：henry，36氪经授权发布。</p>
+<p>该文观点仅代表作者本人，36氪平台仅提供信息存储空间服务。</p>
+<p>\<section> 本文转载自 [<a href="http://www.36kr.com">www.36kr.com</a>]()，作者 原作者。​本号仅作信息分享，著作权归原作者所有。如有侵权请联系删除。 \</section></p>
+    </article>
+    <div class="site-footer">© 2026 www.crebee.com.cn</div>
+    <div class="ai-disclosure"><small>本文由 CreBee AI 辅助生成，已经作者审校。生成时间：2026-05-14 14:20</small></div>
+    <aside class="qr-share-fab" aria-label="扫码分享"><div class="qr-share-fab__inner"><div class="qr-share-fab__qr"><svg style="width:110px;height:110px;display:block;" width="148" height="148" class="segno"><path transform="scale(4)" class="qrline" stroke="#1a1a1a" d="M0 0.5h7m2 0h6m1 0h4m3 0h1m4 0h1m1 0h7m-37 1h1m5 0h1m2 0h3m2 0h2m4 0h1m1 0h1m2 0h1m1 0h2m1 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m3 0h1m1 0h2m3 0h2m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h4m1 0h1m1 0h3m6 0h3m3 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h2m2 0h1m1 0h5m1 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h3m1 0h2m1 0h1m1 0h1m2 0h2m3 0h4m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h6m2 0h1m1 0h1m1 0h5m2 0h2m-29 1h1m1 0h5m3 0h1m1 0h1m1 0h1m1 0h2m1 0h2m1 0h1m1 0h4m2 0h5m-35 1h1m6 0h2m1 0h2m1 0h3m1 0h4m2 0h1m4 0h1m2 0h1m3 0h1m-35 1h1m4 0h1m2 0h1m1 0h1m1 0h1m1 0h2m1 0h1m3 0h1m3 0h2m1 0h3m3 0h2m-37 1h2m1 0h1m1 0h1m2 0h1m1 0h3m1 0h2m3 0h1m1 0h2m3 0h2m1 0h1m3 0h1m2 0h1m-33 1h8m1 0h5m4 0h5m2 0h8m-37 1h1m1 0h1m5 0h1m3 0h3m1 0h4m3 0h1m4 0h2m1 0h1m-32 1h1m4 0h6m2 0h4m1 0h1m1 0h1m1 0h1m1 0h4m1 0h1m1 0h3m1 0h2m-37 1h1m1 0h1m4 0h3m1 0h1m4 0h1m1 0h1m2 0h1m1 0h1m2 0h1m4 0h2m2 0h1m-32 1h1m1 0h1m1 0h3m1 0h3m2 0h1m1 0h1m3 0h3m1 0h2m1 0h1m1 0h1m1 0h3m-36 1h1m3 0h1m3 0h1m3 0h1m1 0h3m1 0h2m2 0h2m3 0h1m2 0h1m2 0h2m-36 1h1m4 0h10m2 0h1m2 0h2m4 0h6m3 0h2m-35 1h2m1 0h1m1 0h2m2 0h1m2 0h1m1 0h1m1 0h1m1 0h2m4 0h4m2 0h1m3 0h1m-37 1h2m1 0h2m1 0h3m2 0h1m1 0h2m2 0h1m1 0h1m2 0h4m2 0h3m1 0h1m1 0h1m-28 1h1m1 0h1m1 0h2m1 0h1m1 0h1m1 0h3m2 0h3m2 0h2m3 0h1m-34 1h1m2 0h7m3 0h3m4 0h3m3 0h4m1 0h3m1 0h2m-35 1h3m5 0h2m2 0h2m2 0h1m2 0h2m3 0h1m2 0h4m2 0h2m-37 1h1m1 0h2m1 0h2m1 0h7m2 0h1m4 0h4m1 0h1m1 0h4m1 0h2m-36 1h2m3 0h1m1 0h1m3 0h1m2 0h2m2 0h2m1 0h3m1 0h2m4 0h1m1 0h2m-35 1h1m2 0h1m2 0h6m1 0h3m1 0h1m2 0h3m2 0h7m3 0h2m-37 1h1m3 0h1m2 0h1m1 0h2m1 0h1m2 0h1m4 0h3m5 0h2m1 0h2m2 0h2m-37 1h1m1 0h1m3 0h2m2 0h2m3 0h1m1 0h2m5 0h3m1 0h5m1 0h1m1 0h1m-29 1h1m1 0h2m4 0h6m1 0h1m3 0h2m3 0h2m-34 1h7m6 0h4m3 0h1m7 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-37 1h1m5 0h1m1 0h2m2 0h1m6 0h1m1 0h3m2 0h1m1 0h1m3 0h2m1 0h2m-37 1h1m1 0h3m1 0h1m1 0h1m5 0h2m1 0h1m1 0h2m1 0h2m1 0h1m1 0h6m1 0h3m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h2m3 0h1m1 0h4m2 0h2m1 0h3m1 0h1m1 0h1m2 0h2m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h5m5 0h2m1 0h2m2 0h1m6 0h2m-37 1h1m5 0h1m2 0h2m2 0h1m1 0h2m4 0h2m1 0h1m1 0h4m2 0h2m2 0h1m-37 1h7m1 0h2m2 0h2m2 0h2m1 0h1m2 0h1m1 0h3m2 0h2m1 0h5"/></svg>
+</div><div class="qr-share-fab__hint">微信扫码<br>分享文章</div></div></aside>
+</body>
+</html>
