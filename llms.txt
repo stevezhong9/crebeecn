@@ -4,6 +4,7 @@
 
 ## Articles
 
+- [谷歌发布安卓 AI 系统，这就是苹果想象中的自己](/gu-ge-fa-bu-an-zhuo-ai-xi-tong-zhe-jiu-shi-ping-gu/): 谷歌在Android发布会上宣布，Android将从操作系统转向智能系统，通过Gemini Intelligence实现多模态、跨环境的AI助理能力，让系统主动
 - [乔布斯减法：AI内容运营的极简主义实践](/qiao-bu-si-jian-fa-ai-nei-rong-yun-ying-de-ji-jian-848b/): 人形机器人行业因功能堆砌而亏损，内容运营同样陷入工具复杂度陷阱。CreBee 砍掉 80% 花哨界面，用极简主义实现 10 人团队管理 100 账号、集成时间从
 - [从崩溃到解放：创始人如何用AI逃离内容苦海](/cong-beng-kui-dao-jie-fang-chuang-shi-ren-ru-he-yo/): 初创CEO没时间写公众号？内容运营琐碎耗时？CreBee创始人亲述：如何用AI智能体解放老板，把排版发布自动化，让你专注战略。
 - [别数Token了，李彦宏的新指标DAA才是AI战果？](/bie-shu-token-le-li-yan-hong-de-xin-zhi-biao-daa-c/): 李彦宏在百度Create大会上提出DAA（日活智能体数），认为Token只衡量成本而非收益，呼吁从数Token转向数战果。
