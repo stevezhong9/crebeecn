@@ -5,8 +5,15 @@
   <subtitle></subtitle>
   <link href="https://www.crebee.com.cn/" rel="alternate"/>
   <link href="https://www.crebee.com.cn/feed.atom" rel="self" type="application/atom+xml"/>
-  <updated>2026-05-24T17:38:57+00:00</updated>
+  <updated>2026-05-25T22:51:39+00:00</updated>
   <author><name>Crebee 产品官网</name></author>
+  <entry>
+    <id>https://www.crebee.com.cn/gu-ge-fa-bu-an-zhuo-ai-xi-tong-zhe-jiu-shi-ping-gu.html</id>
+    <title>谷歌发布安卓 AI 系统，这就是苹果想象中的自己</title>
+    <link href="https://www.crebee.com.cn/gu-ge-fa-bu-an-zhuo-ai-xi-tong-zhe-jiu-shi-ping-gu.html"/>
+    <updated>2026-05-25T22:51:39+00:00</updated>
+    <summary type="html"><![CDATA[谷歌在Android发布会上宣布，Android将从操作系统转向智能系统，通过Gemini Intelligence实现多模态、跨环境的AI助理能力，让系统主动介入用户操作。]]></summary>
+  </entry>
   <entry>
     <id>https://www.crebee.com.cn/qiao-bu-si-jian-fa-ai-nei-rong-yun-ying-de-ji-jian-848b.html</id>
     <title>乔布斯减法：AI内容运营的极简主义实践</title>
