@@ -7,6 +7,14 @@
   "language": "zh-CN",
   "items": [
     {
+      "id": "https://www.crebee.com.cn/fu-pan-ai-agent-chuang-ye-ji-shu-zhan-jiao-xun-bie.html",
+      "url": "https://www.crebee.com.cn/fu-pan-ai-agent-chuang-ye-ji-shu-zhan-jiao-xun-bie.html",
+      "title": "复盘AI Agent创业技术栈教训：别迷信技术领先",
+      "summary": "技术自嗨让多少AI团队死掉？我们复盘Content Ops Agent技术栈教训：从Chat到Agent的上下文管理、MCP协议必选、IP隔离血泪史。避开这些坑，省下一半试错成本。",
+      "date_published": "2026-05-28T13:10:21+00:00",
+      "content_text": "技术自嗨让多少AI团队死掉？我们复盘Content Ops Agent技术栈教训：从Chat到Agent的上下文管理、MCP协议必选、IP隔离血泪史。避开这些坑，省下一半试错成本。"
+    },
+    {
       "id": "https://www.crebee.com.cn/gu-ge-fa-bu-an-zhuo-ai-xi-tong-zhe-jiu-shi-ping-gu.html",
       "url": "https://www.crebee.com.cn/gu-ge-fa-bu-an-zhuo-ai-xi-tong-zhe-jiu-shi-ping-gu.html",
       "title": "谷歌发布安卓 AI 系统，这就是苹果想象中的自己",
@@ -29,14 +37,6 @@
       "summary": "初创CEO没时间写公众号？内容运营琐碎耗时？CreBee创始人亲述：如何用AI智能体解放老板，把排版发布自动化，让你专注战略。",
       "date_published": "2026-05-22T07:48:07+00:00",
       "content_text": "初创CEO没时间写公众号？内容运营琐碎耗时？CreBee创始人亲述：如何用AI智能体解放老板，把排版发布自动化，让你专注战略。"
-    },
-    {
-      "id": "https://www.crebee.com.cn/bie-shu-token-le-li-yan-hong-de-xin-zhi-biao-daa-c.html",
-      "url": "https://www.crebee.com.cn/bie-shu-token-le-li-yan-hong-de-xin-zhi-biao-daa-c.html",
-      "title": "别数Token了，李彦宏的新指标DAA才是AI战果？",
-      "summary": "李彦宏在百度Create大会上提出DAA（日活智能体数），认为Token只衡量成本而非收益，呼吁从数Token转向数战果。",
-      "date_published": "2026-05-19T12:21:58+00:00",
-      "content_text": "李彦宏在百度Create大会上提出DAA（日活智能体数），认为Token只衡量成本而非收益，呼吁从数Token转向数战果。"
     },
     {
       "id": "https://www.crebee.com.cn/ya-li-shan-dai-wang-hui-ying-yi-qie-lecun-manus-wo.html",
