@@ -4,10 +4,10 @@
 
 ## Articles
 
+- [复盘AI Agent创业技术栈教训：别迷信技术领先](/fu-pan-ai-agent-chuang-ye-ji-shu-zhan-jiao-xun-bie/): 技术自嗨让多少AI团队死掉？我们复盘Content Ops Agent技术栈教训：从Chat到Agent的上下文管理、MCP协议必选、IP隔离血泪史。避开这些坑
 - [谷歌发布安卓 AI 系统，这就是苹果想象中的自己](/gu-ge-fa-bu-an-zhuo-ai-xi-tong-zhe-jiu-shi-ping-gu/): 谷歌在Android发布会上宣布，Android将从操作系统转向智能系统，通过Gemini Intelligence实现多模态、跨环境的AI助理能力，让系统主动
 - [乔布斯减法：AI内容运营的极简主义实践](/qiao-bu-si-jian-fa-ai-nei-rong-yun-ying-de-ji-jian-848b/): 人形机器人行业因功能堆砌而亏损，内容运营同样陷入工具复杂度陷阱。CreBee 砍掉 80% 花哨界面，用极简主义实现 10 人团队管理 100 账号、集成时间从
 - [从崩溃到解放：创始人如何用AI逃离内容苦海](/cong-beng-kui-dao-jie-fang-chuang-shi-ren-ru-he-yo/): 初创CEO没时间写公众号？内容运营琐碎耗时？CreBee创始人亲述：如何用AI智能体解放老板，把排版发布自动化，让你专注战略。
-- [别数Token了，李彦宏的新指标DAA才是AI战果？](/bie-shu-token-le-li-yan-hong-de-xin-zhi-biao-daa-c/): 李彦宏在百度Create大会上提出DAA（日活智能体数），认为Token只衡量成本而非收益，呼吁从数Token转向数战果。
 - [亚历山大王回应一切：LeCun、Manus，“我的父母都是中国人”](/ya-li-shan-dai-wang-hui-ying-yi-qie-lecun-manus-wo/): Meta AI负责人亚历山大王首次公开回应争议：140亿美元收购后，他组建超级智能实验室，9个月推出Muse Spark，认为AI终局尚未到来，算力差距将分裂行
 - [技术博弈与极端环境：歼-15如何炼成航母利刃？](/ji-shu-bo-yi-yu-ji-duan-huan-jing-jian-15-ru-he-li-7276/): 从气动布局到体系作战，深度拆解歼-15的三大非对称优势。不仅是军事科普，更是一场关于如何在资源受严格约束的系统中，做出正确决策的实战复盘。
 - [下一代计算机：没有CPU，没有操作系统，只有一个AI](/xia-yi-dai-ji-suan-ji-mei-you-cpu-mei-you-cao-zuo/): AI正在从“运行在计算机上的软件”进化为“计算机本身”。神经计算机概念放弃CPU和操作系统，让神经网络直接成为计算硬件，这将对软件底层逻辑、经济增速乃至国家监管
