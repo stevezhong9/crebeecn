@@ -160,8 +160,7 @@
     <h3 style="margin: 0.5rem 0;">别数Token了，李彦宏的新指标DAA才是AI战果？</h3>
     <p style="margin: 0.5rem 0; color: var(--site-brand-fg-muted); font-size: 0.95rem;">李彦宏在百度Create大会上提出DAA（日活智能体数），认为Token只衡量成本而非收益，呼吁从数Token转向数战果。</p>
     <footer style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.85rem; color: var(--site-brand-fg-muted); margin-top: 0.75rem;">
-      <span></span>
-      <span>·</span>
+      <span>辉哥</span><span>·</span>
       <time datetime="2026-05-19 12:21:58">2026-05-19</time>
       
     </footer>
@@ -179,7 +178,47 @@
 
   <aside style="position: sticky; top: 80px;">
     <div data-cta-slot="list_sidebar">
-      <form class="cta cta-newsletter" data-cta-id="cta-newsletter" action="/api/subscribe" method="POST"><h3>订阅本主题</h3><input type="email" name="email" placeholder="邮箱地址" required/><button type="submit">订阅</button><p class="cta-legal">我们承诺不发垃圾邮件 + 一键退订 + 数据本地存储</p></form>
+      <form class="cta cta-newsletter" data-cta-id="cta-newsletter" data-endpoint="https://situo.u.crebee.dev/api/subscribe" data-site-id="2" data-thanks="请查收确认邮件完成订阅。" method="POST"><h3>订阅本主题</h3><input type="email" name="email" placeholder="邮箱地址" required/><button type="submit">订阅</button><p class="cta-legal">我们承诺不发垃圾邮件 + 一键退订 + 数据本地存储</p></form><div class="cta cta-qr-fallback" data-cta-id="cta-newsletter-fallback" hidden><h3>订阅本主题</h3><p>扫码或添加微信与我们联系</p></div><script>
+(function(){
+  if(window.__crebeeCtaForm) return;
+  window.__crebeeCtaForm=1;
+  function showFallback(form){
+    form.setAttribute('hidden','');
+    var fb=document.querySelector('[data-cta-id="'+form.getAttribute('data-cta-id')+'-fallback"]');
+    if(fb) fb.removeAttribute('hidden');
+  }
+  document.addEventListener('submit', function(e){
+    var form=e.target;
+    if(!form || !form.getAttribute || !form.getAttribute('data-endpoint')) return;
+    e.preventDefault();
+    var payload={site_id: parseInt(form.getAttribute('data-site-id')||'0',10),
+                 referrer: document.referrer||''};
+    try{
+      var qs=new URLSearchParams(location.search);
+      payload.utm_source=qs.get('utm_source')||'';
+      payload.utm_medium=qs.get('utm_medium')||'';
+      payload.utm_campaign=qs.get('utm_campaign')||'';
+    }catch(err){}
+    var fields=form.querySelectorAll('input[name],textarea[name]');
+    for(var i=0;i<fields.length;i++){ payload[fields[i].name]=fields[i].value; }
+    var btn=form.querySelector('button[type="submit"]');
+    if(btn) btn.disabled=true;
+    fetch(form.getAttribute('data-endpoint'),{
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify(payload)
+    }).then(function(res){
+      if(res.ok){
+        form.innerHTML='<p class="cta-thanks"></p>';
+        form.firstChild.textContent=form.getAttribute('data-thanks')||'已提交，感谢！';
+      }else{
+        showFallback(form);
+      }
+    }).catch(function(){ showFallback(form); });
+  }, true);
+})();
+</script>
+
     </div>
 
     
@@ -219,6 +258,83 @@
   </div>
 </footer>
 
-  
+  <script>
+/* CreBee 埋点 beacon (v1.1 P0+.1, ≤ 1KB gzip 后 < 600B)
+   spec: docs/specs/p0-plus-1-website-tracking-beacon.md §F1
+   异步 + sendBeacon API，失败降级，不阻塞页面。
+   仅采集: pageview / scroll / dwell / referrer / utm（无 PII）
+   Blob type 用 text/plain（CORS-safelisted）：公网站点域 → 网关域跨域上报
+   零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
+(function() {
+  if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
+  var ENDPOINT = "https://situo.u.crebee.dev/api/track/website";  // /api/track/website
+  var SLUG = "";
+  var ACCOUNT_SLUG = "Crebee_产品官网";
+  var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
+
+  // UTM 解析
+  var qs = new URLSearchParams(location.search);
+  var utm = {
+    utm_source: qs.get("utm_source") || "",
+    utm_medium: qs.get("utm_medium") || "",
+    utm_campaign: qs.get("utm_campaign") || ""
+  };
+
+  // pageview 立即上报
+  var basePayload = {
+    slug: SLUG, account_slug: ACCOUNT_SLUG,
+    referrer: document.referrer || "",
+    path_suffix: PATH,
+    utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign,
+    event: "pageview"
+  };
+  try {
+    navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(basePayload)], {type: "text/plain"}));
+  } catch (e) { /* fail-open */ }
+
+  // dwell + scroll 累积，pagehide 时上报
+  var dwellStart = Date.now();
+  var dwellSum = 0;
+  var maxScrollPercent = 0;
+
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    } else {
+      dwellStart = Date.now();
+    }
+  });
+
+  function updateScroll() {
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (docH <= 0) return;
+    var pct = Math.round((window.scrollY / docH) * 100);
+    if (pct > maxScrollPercent) maxScrollPercent = Math.min(100, pct);
+  }
+  var rafScheduled = false;
+  window.addEventListener("scroll", function() {
+    if (!rafScheduled) {
+      rafScheduled = true;
+      requestAnimationFrame(function() { updateScroll(); rafScheduled = false; });
+    }
+  }, {passive: true});
+
+  function unloadReport() {
+    if (document.visibilityState !== "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    }
+    var p = Object.assign({}, basePayload, {
+      event: "unload",
+      dwell_seconds: Math.round(dwellSum),
+      scroll_depth: maxScrollPercent
+    });
+    try {
+      navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(p)], {type: "text/plain"}));
+    } catch (e) { /* fail-open */ }
+  }
+  window.addEventListener("pagehide", unloadReport);
+})();
+</script>
+
 </body>
 </html>
