@@ -206,7 +206,7 @@
    零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
 (function() {
   if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
-  var ENDPOINT = "https://situo.u.crebee.dev/api/track/website";  // /api/track/website
+  var ENDPOINT = "https://situo.u.crebee.com/api/track/website";  // /api/track/website
   var SLUG = "";
   var ACCOUNT_SLUG = "Crebee_产品官网";
   var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
