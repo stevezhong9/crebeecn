@@ -190,7 +190,7 @@
 
   <aside style="position: sticky; top: 80px;">
     <div data-cta-slot="list_sidebar">
-      <form class="cta cta-newsletter" data-cta-id="cta-newsletter" data-endpoint="https://situo.u.crebee.dev/api/subscribe" data-site-id="2" data-thanks="请查收确认邮件完成订阅。" method="POST"><h3>订阅本主题</h3><input type="email" name="email" placeholder="邮箱地址" required/><button type="submit">订阅</button><p class="cta-legal">我们承诺不发垃圾邮件 + 一键退订 + 数据本地存储</p></form><div class="cta cta-qr-fallback" data-cta-id="cta-newsletter-fallback" hidden><h3>订阅本主题</h3><p>扫码或添加微信与我们联系</p></div><script>
+      <form class="cta cta-newsletter" data-cta-id="cta-newsletter" data-endpoint="https://situo.u.crebee.com/api/subscribe" data-site-id="2" data-thanks="请查收确认邮件完成订阅。" method="POST"><h3>订阅本主题</h3><input type="email" name="email" placeholder="邮箱地址" required/><button type="submit">订阅</button><p class="cta-legal">我们承诺不发垃圾邮件 + 一键退订 + 数据本地存储</p></form><div class="cta cta-qr-fallback" data-cta-id="cta-newsletter-fallback" hidden><h3>订阅本主题</h3><p>扫码或添加微信与我们联系</p></div><script>
 (function(){
   if(window.__crebeeCtaForm) return;
   window.__crebeeCtaForm=1;
@@ -279,7 +279,7 @@
    零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
 (function() {
   if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
-  var ENDPOINT = "https://situo.u.crebee.dev/api/track/website";  // /api/track/website
+  var ENDPOINT = "https://situo.u.crebee.com/api/track/website";  // /api/track/website
   var SLUG = "";
   var ACCOUNT_SLUG = "Crebee_产品官网";
   var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
