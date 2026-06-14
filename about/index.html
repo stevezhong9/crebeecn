@@ -160,7 +160,7 @@
     <h2 style="text-align: center; margin-bottom: 2rem;">订阅与转化</h2>
     <!-- About 页是 v1.1 唯一允许多 CTA 的页面 -->
     <div data-cta-slot="about_section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--site-grid-card-gap);">
-      <div class="cta cta-wechat-qr" data-cta-id="cta-wechat_qr"><h3>关注公众号</h3><p></p></div><div class="cta cta-wechat-contact" data-cta-id="cta-wechat_contact"><h3>加创始人微信</h3></div><form class="cta cta-newsletter" data-cta-id="cta-newsletter" data-endpoint="https://situo.u.crebee.dev/api/subscribe" data-site-id="2" data-thanks="请查收确认邮件完成订阅。" method="POST"><h3>邮件订阅</h3><input type="email" name="email" placeholder="邮箱地址" required/><button type="submit">订阅</button><p class="cta-legal"></p></form><div class="cta cta-qr-fallback" data-cta-id="cta-newsletter-fallback" hidden><h3>邮件订阅</h3><p>扫码或添加微信与我们联系</p></div><script>
+      <div class="cta cta-wechat-qr" data-cta-id="cta-wechat_qr"><h3>关注公众号</h3><p></p></div><div class="cta cta-wechat-contact" data-cta-id="cta-wechat_contact"><h3>加创始人微信</h3></div><form class="cta cta-newsletter" data-cta-id="cta-newsletter" data-endpoint="https://situo.u.crebee.com/api/subscribe" data-site-id="2" data-thanks="请查收确认邮件完成订阅。" method="POST"><h3>邮件订阅</h3><input type="email" name="email" placeholder="邮箱地址" required/><button type="submit">订阅</button><p class="cta-legal"></p></form><div class="cta cta-qr-fallback" data-cta-id="cta-newsletter-fallback" hidden><h3>邮件订阅</h3><p>扫码或添加微信与我们联系</p></div><script>
 (function(){
   if(window.__crebeeCtaForm) return;
   window.__crebeeCtaForm=1;
@@ -200,7 +200,7 @@
   }, true);
 })();
 </script>
-<form class="cta cta-sales-form" data-cta-id="cta-sales_form" data-endpoint="https://situo.u.crebee.dev/api/leads" data-site-id="2" data-thanks="已收到，我们会尽快与您联系。" method="POST"><h3>联系销售</h3><input type="text" name="name" placeholder="姓名" required/><input type="text" name="company" placeholder="公司"/><input type="email" name="email" placeholder="邮箱" required/><input type="text" name="interest" placeholder="兴趣点"/><textarea name="message" placeholder="留言" rows="3"></textarea><button type="submit">提交</button></form><div class="cta cta-qr-fallback" data-cta-id="cta-sales_form-fallback" hidden><h3>联系销售</h3><p>扫码或添加微信与我们联系</p></div><script>
+<form class="cta cta-sales-form" data-cta-id="cta-sales_form" data-endpoint="https://situo.u.crebee.com/api/leads" data-site-id="2" data-thanks="已收到，我们会尽快与您联系。" method="POST"><h3>联系销售</h3><input type="text" name="name" placeholder="姓名" required/><input type="text" name="company" placeholder="公司"/><input type="email" name="email" placeholder="邮箱" required/><input type="text" name="interest" placeholder="兴趣点"/><textarea name="message" placeholder="留言" rows="3"></textarea><button type="submit">提交</button></form><div class="cta cta-qr-fallback" data-cta-id="cta-sales_form-fallback" hidden><h3>联系销售</h3><p>扫码或添加微信与我们联系</p></div><script>
 (function(){
   if(window.__crebeeCtaForm) return;
   window.__crebeeCtaForm=1;
@@ -277,7 +277,7 @@
    零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
 (function() {
   if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
-  var ENDPOINT = "https://situo.u.crebee.dev/api/track/website";  // /api/track/website
+  var ENDPOINT = "https://situo.u.crebee.com/api/track/website";  // /api/track/website
   var SLUG = "";
   var ACCOUNT_SLUG = "Crebee_产品官网";
   var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
