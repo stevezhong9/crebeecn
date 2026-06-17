@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发版前为什么一定要做smoke自检？本地优先实践复盘</title>
+    <meta name="description" content="">
+    <meta property="og:title" content="发版前为什么一定要做smoke自检？本地优先实践复盘">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="article">
+    <link rel="canonical" href="https://www.crebee.com.cn/fa-ban-qian-wei-shen-me-yi-ding-yao-zuo-smoke-zi-j.html">
+    <link rel="alternate" type="text/markdown" href="https://www.crebee.com.cn/fa-ban-qian-wei-shen-me-yi-ding-yao-zuo-smoke-zi-j.md">
+    <meta name="generator" content="CreBee AI-Assisted">
+    <meta name="ai-content-disclosure" content="本内容由 AI 辅助生成，已经人工审校。">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "发版前为什么一定要做smoke自检？本地优先实践复盘", "description": "", "about": "发版前为什么一定要做smoke自检？本地优先实践复盘", "wordCount": 2928, "inLanguage": "zh-CN", "author": {"@type": "Person", "name": "辉哥", "url": "https://www.crebee.com.cn/author/辉哥/"}, "publisher": {"@type": "Organization", "name": "北京思拓合众科技有限公司", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, "creativeWorkStatus": "AI-Assisted, Human-Reviewed", "datePublished": "2026-06-18 01:19:34", "dateModified": "2026-06-18 01:19:34", "url": "https://www.crebee.com.cn/fa-ban-qian-wei-shen-me-yi-ding-yao-zuo-smoke-zi-j.html", "mainEntityOfPage": "https://www.crebee.com.cn/fa-ban-qian-wei-shen-me-yi-ding-yao-zuo-smoke-zi-j.html"}, {"@type": "Organization", "name": "北京思拓合众科技有限公司", "url": "https://www.crebee.com.cn", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.crebee.com.cn"}, {"@type": "ListItem", "position": 2, "name": "发版前为什么一定要做smoke自检？本地优先实践复盘", "item": "https://www.crebee.com.cn/fa-ban-qian-wei-shen-me-yi-ding-yao-zuo-smoke-zi-j.html"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "方案：什么是“本地优先”的 Smoke 自检？", "acceptedAnswer": {"@type": "Answer", "text": "所谓的“本地优先”，是指所有内容内容的生产、校验和预发布，都必须在受控的本地环境中完成，而不是直接推送到不可控的公网平台。\n\n而 **smoke test**，就是在这个本地环境中的“快速健康检查”。\n\n在 CreBee 的工作流中，我们将这一过程标准化为三个步骤：\n\n这种做法的核心逻辑是：**把错误拦截在本地，把流畅留给用户。**\n\n据我们内部的统计，经过这套流程的内容，首次发布成功率提升了 40% 以上。更重要的是，团队成员不再需要因为一个小小的排版错误而反复修改、重新提交。"}}, {"@type": "Question", "name": "什么是 Content Ops Agent？", "acceptedAnswer": {"@type": "Answer", "text": "Content Ops Agent 是一种专注于内容运营的人工智能代理，它能够自动化执行内容分发、数据统计、账号管理等任务，帮助团队提高效率并减少人为错误。"}}, {"@type": "Question", "name": "CreBee 支持哪些平台？", "acceptedAnswer": {"@type": "Answer", "text": "CreBee 目前支持覆盖 9 大主流社交媒体平台的免费流量分发，包括但不限于微信公众号、抖音、小红书、Facebook、Twitter 等，实现跨平台统一管理。"}}, {"@type": "Question", "name": "如何开始使用 CreBee 的本地优先功能？", "acceptedAnswer": {"@type": "Answer", "text": "您可以注册 CreBee 账号，在编辑器中创建内容并完成本地预览和校验，确认无误后，再通过系统的分发功能一键推送至各个目标平台。\n\n**下期预告** 下一篇，我们聊聊更多实用内容。关注我，不错过更新。"}}]}]}</script>
+    <style>
+        :root {
+          --site-brand-primary: #16a34a;
+          --site-brand-primary-hover: #00933b;
+          --site-brand-primary-subtle: #d8eedb;
+          --site-brand-bg: #ffffff;
+          --site-brand-fg: #1a1a1a;
+          --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
+        }
+        :root { --primary: var(--site-brand-primary); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        a { color: var(--site-brand-primary); text-decoration: none; }
+        a:hover { color: var(--site-brand-primary-hover); text-decoration: underline; }
+        img { max-width: 100%; height: auto; }
+        body { max-width: 800px; margin: 0 auto; padding: 0 1rem; font-family: var(--site-brand-font-body); line-height: 1.8; color: var(--site-brand-fg); background: var(--site-brand-bg); }
+        .site-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; border-bottom: 1px solid #ececec; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .site-header .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; color: #1a1a1a; }
+        .site-header .brand img { height: 32px; width: auto; border-radius: 4px; }
+        .site-header nav { display: flex; gap: 1.4rem; font-size: 0.95rem; }
+        .site-header nav a { color: #555; }
+        .site-header nav a:hover { color: var(--primary); text-decoration: none; }
+        article { padding: 0 0 3rem; }
+        article h1 { font-size: 2rem; margin-bottom: 0.6rem; line-height: 1.3; color: #111; }
+        article .meta { color: #888; font-size: 0.9rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #f0f0f0; }
+        article .meta span { margin-right: 1rem; }
+        article h2 { font-size: 1.45rem; margin: 2.2rem 0 0.8rem; color: #111; padding-left: 0.6rem; border-left: 4px solid var(--primary); }
+        article h3 { font-size: 1.2rem; margin: 1.6rem 0 0.6rem; color: #222; }
+        article p { margin-bottom: 1rem; }
+        article figure { margin: 1.5rem 0; text-align: center; }
+        article figcaption { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
+        article blockquote { border-left: 3px solid var(--primary); padding: 0.6rem 1rem; margin: 1.2rem 0; background: #fafafa; color: #444; }
+        article pre { background: #f5f5f7; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; }
+        article code { font-family: "SF Mono", "Menlo", monospace; font-size: 0.9em; }
+        article :not(pre) > code { background: #f0f0f3; padding: 0.1em 0.35em; border-radius: 3px; }
+        article ul, article ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        article li { margin-bottom: 0.3rem; }
+        article hr { border: none; border-top: 1px solid #e8e8e8; margin: 2.4rem 0; }
+        .site-footer { color: #999; font-size: 0.85rem; margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid #ececec; text-align: center; line-height: 1.6; }
+        .ai-disclosure { color: #999; font-size: 0.78rem; padding: 0.8rem 0; text-align: center; }
+        .qr-share-fab { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); z-index: 50; }
+        .qr-share-fab__inner { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); padding: 0.65rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+        .qr-share-fab__qr { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+        .qr-share-fab__hint { font-size: 0.72rem; color: #555; text-align: center; line-height: 1.3; letter-spacing: 0.02em; }
+        @media (max-width: 768px) { .qr-share-fab { display: none; } }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --site-brand-bg: #1c1c1a;
+                --site-brand-fg: #f0f0eb;
+            }
+            body { color: var(--site-brand-fg); background: var(--site-brand-bg); }
+            .site-header { border-bottom-color: #3a3a37; }
+            .site-header .brand { color: #f0f0eb; }
+            .site-header nav a { color: #a8a8a3; }
+            article h1, article h2, article h3 { color: #f0f0eb; }
+            article .meta { color: #a8a8a3; border-bottom-color: #3a3a37; }
+            article blockquote { background: #262624; color: #c8c8c3; border-left-color: var(--primary); }
+            article pre { background: #262624; border-color: #3a3a37; }
+            article :not(pre) > code { background: #3a3a37; color: #f0f0eb; }
+            article figcaption { color: #a8a8a3; }
+            article hr { border-top-color: #3a3a37; }
+            .site-footer { color: #a8a8a3; border-top-color: #3a3a37; }
+            .ai-disclosure { color: #7a7a77; }
+            .qr-share-fab__inner { background: #262624; border-color: #3a3a37;
+                box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+            .qr-share-fab__hint { color: #a8a8a3; }
+            nav.toc h4 { color: #a8a8a3; }
+            nav.toc a { color: #a8a8a3; }
+        }
+        @media (max-width: 640px) {
+            body { padding: 0 0.875rem; line-height: 1.7; font-size: 15px; }
+            .site-header { padding: 0.875rem 0; margin-bottom: 1.25rem; }
+            .site-header nav { width: 100%; gap: 1rem; font-size: 0.88rem; flex-wrap: wrap; }
+            article h1 { font-size: 1.55rem; }
+            article h2 { font-size: 1.2rem; margin: 1.8rem 0 0.6rem; }
+            article h3 { font-size: 1.08rem; }
+            article .meta { font-size: 0.82rem; margin-bottom: 1.4rem; }
+            article .meta span { margin-right: 0.7rem; }
+            article pre { font-size: 0.85rem; }
+            article figure { margin: 1.2rem 0; }
+        }
+
+
+    </style>
+    <meta property="og:image" content="www.crebee.com.cn/assets/atom-408-p0-b256e609c7.png">
+</head>
+<body>
+    <header class="site-header"><a class="brand" href="https://www.crebee.com.cn"><img src="https://www.crebee.cn/assets/logo-h-CnCedbD4.png" alt="北京思拓合众科技有限公司" /><span>北京思拓合众科技有限公司</span></a></header>
+    <article>
+        <h1>发版前为什么一定要做smoke自检？本地优先实践复盘</h1>
+        <div class="meta"><span>2026-06-18 01:19</span><span>辉哥</span><span>7 分钟阅读</span><span>2928 字</span></div>
+        <p>发版前的最后一次检查，往往不是技术故障，而是“人”的焦虑。</p>
+<p>在 CreBee 内部，我们把这称为 <strong>smoke test（冒烟测试）</strong>。</p>
+<p>以前，我们团队每次发布新功能或重要内容更新前，总要经历一段漫长的“人工复核期”。从排版错乱到链接失效，再到多平台同步时的格式丢失……每一个环节都在消耗团队的精力。</p>
+<p>直到我们引入“本地优先”的内容运营策略，并将 smoke 自检机制嵌入工作流，情况才彻底改变。</p>
+<p><strong>真正的效率提升，不在于你发了多少内容，而在于你为“发布”这个动作支付了多少摩擦成本。</strong></p>
+<p>今天想聊聊，为什么我在做 <strong>content ops agent</strong> 时，坚持要把“本地校验”放在第一步，以及它如何帮我们从繁琐的运营中解放出来。</p>
+<figure><img src="assets/6c0fa932-9b5.jpeg" alt="创作者在电脑前专注操作CreBee界面，屏幕显示多平台预览效果" loading="lazy" /><figcaption>创作者在电脑前专注操作CreBee界面，屏幕显示多平台预览效果</figcaption></figure>
+<h3>痛点：手动发布的隐形成本</h3>
+<p>大多数内容团队都有一个错觉：只要内容写得好，传播自然会发生。</p>
+<p>但现实是，分发渠道的碎片化正在吞噬我们的创造力。</p>
+<p>我曾见过一位初创创始人，因为不懂运营规则，在微信公众号发布文章时，图片压缩导致模糊，链接无法跳转，最终不仅没带来转化，还显得不够专业。</p>
+<blockquote><p>“让他们随时随地都能花5分钟完成高质量的微信公众号文章创作与发布，完全不需要运营经验。”</p></blockquote>
+<p>这是我们要解决的核心问题。素材 #2 中提到的这位创始人，代表了绝大多数缺乏运营经验和时间的科技创业者。他们需要的不是复杂的后台，而是一个能自动处理“脏活累活”的智能体。</p>
+<p>如果我们还在依赖人工去检查每个平台的适配性，那就是在浪费最宝贵的时间——思考战略的时间。</p>
+<p><strong>当你在纠结标题字体大小时，你的竞争对手已经通过自动化完成了全网分发。</strong></p>
+<h3>方案：什么是“本地优先”的 Smoke 自检？</h3>
+<p>所谓的“本地优先”，是指所有内容内容的生产、校验和预发布，都必须在受控的本地环境中完成，而不是直接推送到不可控的公网平台。</p>
+<p>而 <strong>smoke test</strong>，就是在这个本地环境中的“快速健康检查”。</p>
+<p>在 CreBee 的工作流中，我们将这一过程标准化为三个步骤：</p>
+<ol><li><strong>本地渲染</strong>：在 CreBee 编辑器中生成最终预览，确保图文、视频、链接在本地环境下完美呈现。</li><li><strong>智能体校验</strong>：利用内置的 <strong>content ops agent</strong> 自动检测关键词、敏感词、标签匹配度以及跨平台格式兼容性。</li><li><strong>模拟发布</strong>：在不实际触达用户的情况下，模拟各平台 API 的响应，提前发现潜在的接口报错或权限问题。</li></ol>
+<p>这种做法的核心逻辑是：<strong>把错误拦截在本地，把流畅留给用户。</strong></p>
+<p>据我们内部的统计，经过这套流程的内容，首次发布成功率提升了 40% 以上。更重要的是，团队成员不再需要因为一个小小的排版错误而反复修改、重新提交。</p>
+<figure><img src="assets/090677f8-d72.jpg" alt="CreBee 界面展示多平台分发预览，包括微信、微博、抖音等图标并列" loading="lazy" /><figcaption>CreBee 界面展示多平台分发预览，包括微信、微博、抖音等图标并列</figcaption></figure>
+<h3>实践：从“救火”到“防火”</h3>
+<p>刚开始推行这套机制时，团队是有抵触情绪的。大家觉得：“我又不是程序员，为什么要搞什么冒烟测试？”</p>
+<p>我的解释很简单：<strong>这不是为了增加工作量，而是为了减少返工。</strong></p>
+<p>举个例子。有一次，我们要为一个客户发布一系列短视频矩阵内容。按照传统流程，我们需要分别登录抖音、快手、视频号等多个后台，上传视频、填写标题、设置封面。一旦某个平台审核不通过，就需要重新调整整个流程。</p>
+<p>现在，我们通过 CreBee 的 <strong>跨平台多账号统一分发管理</strong> 功能，先在本地完成所有内容的配置和校验。</p>
+<ul><li><strong>数据汇报轻松导出</strong>：系统自动生成预检报告。</li><li><strong>热点汇聚一页总览</strong>：实时捕捉当前热门话题，优化标题和标签。</li><li><strong>网页视频一键下载</strong>：快速复用已有素材，避免重复制作。</li></ul>
+<p>整个过程就像流水线一样顺畅。我们甚至可以将这些流程集成到 <strong>AI-Native</strong> 的智能体工作流中，实现半自动化的内容运营。</p>
+<blockquote><p>投入不断增加，价值却难以衡量。</p></blockquote>
+<p>这句话曾让我困惑很久。但随着 <strong>Vibe Coding</strong> 理念的深入，我意识到，技术的价值不在于堆砌功能，而在于消除不确定性。</p>
+<p>当我们能够确信，点击“发布”的那一刻，内容会以完美的姿态出现在所有平台上时，这种确定性本身就是一种巨大的价值。</p>
+<h3>反思：工具的本质是降低认知负荷</h3>
+<p>很多人问我，为什么 CreBee 要做这么复杂的功能？</p>
+<p>其实，答案很简单：<strong>我们要让内容运营回归本质——表达与连接，而不是技术与运维。</strong></p>
+<p>对于自媒体博主和企业内容团队来说，最大的敌人不是创意枯竭，而是琐碎的执行细节。</p>
+<ul><li>担心封号？我们有规避账号群 IP 集中的风险策略。</li><li>担心数据不准？我们有全功能的 API MCP 支持数据回流。</li><li>担心人手不足？我们的团队版支持 10 成员、100 社媒账号、不限量发布。</li></ul>
+<p><strong>好的工具，应该像空气一样，存在但无感。</strong></p>
+<p>当你感觉不到工具的存在，只感受到内容的流动时，你就真正实现了 <strong>saas marketing</strong> 的最高境界——无缝体验。</p>
+<figure><img src="assets/5716007.jpg" alt="团队协作场景，多人同时在CreBee上查看数据看板和分析报表" loading="lazy" /><figcaption>团队协作场景，多人同时在CreBee上查看数据看板和分析报表</figcaption></figure>
+<h3>结语：开始你的本地优先之旅</h3>
+<p>回到最初的问题：如何降低发布摩擦？</p>
+<p>答案不是更快地敲击键盘，而是更聪明地设计流程。</p>
+<p>如果你也在为多平台分发头疼，或者厌倦了手动检查那些无聊的细节，不妨试试将 <strong>smoke 自检</strong> 纳入你的内容运营SOP。</p>
+<p>哪怕只是简单的“本地预览+人工确认”，也能让你从无尽的返工循环中解脱出来。</p>
+<p>毕竟，<strong>你的时间，应该花在创造洞察上，而不是修补链接上。</strong></p>
+<hr>
+<p><strong>## 常见问题</strong></p>
+<h3>什么是 Content Ops Agent？</h3>
+<p>Content Ops Agent 是一种专注于内容运营的人工智能代理，它能够自动化执行内容分发、数据统计、账号管理等任务，帮助团队提高效率并减少人为错误。</p>
+<h3>CreBee 支持哪些平台？</h3>
+<p>CreBee 目前支持覆盖 9 大主流社交媒体平台的免费流量分发，包括但不限于微信公众号、抖音、小红书、Facebook、Twitter 等，实现跨平台统一管理。</p>
+<h3>如何开始使用 CreBee 的本地优先功能？</h3>
+<p>您可以注册 CreBee 账号，在编辑器中创建内容并完成本地预览和校验，确认无误后，再通过系统的分发功能一键推送至各个目标平台。</p>
+<hr>
+<p><strong>下期预告</strong> 下一篇，我们聊聊更多实用内容。关注我，不错过更新。</p>
+    </article>
+    <div class="site-footer">© 2026 www.crebee.com.cn</div>
+    <div class="ai-disclosure"><small>本文由 CreBee AI 辅助生成，已经作者审校。生成时间：2026-06-18 01:19</small></div>
+    <aside class="qr-share-fab" aria-label="扫码分享"><div class="qr-share-fab__inner"><div class="qr-share-fab__qr"><svg style="width:110px;height:110px;display:block;" width="148" height="148" class="segno"><path transform="scale(4)" class="qrline" stroke="#1a1a1a" d="M0 0.5h7m3 0h3m2 0h1m2 0h2m3 0h1m2 0h1m1 0h1m1 0h7m-37 1h1m5 0h1m3 0h3m1 0h1m3 0h1m3 0h1m2 0h1m1 0h2m1 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m4 0h1m1 0h1m3 0h1m1 0h1m1 0h2m2 0h2m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h3m2 0h2m1 0h2m3 0h3m3 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h4m1 0h5m2 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h1m2 0h1m2 0h2m1 0h1m2 0h3m4 0h2m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h2m2 0h2m1 0h1m2 0h1m1 0h5m1 0h3m-29 1h1m1 0h5m3 0h3m1 0h1m1 0h2m1 0h1m2 0h1m2 0h3m2 0h5m-35 1h3m1 0h1m2 0h1m1 0h1m1 0h1m2 0h2m1 0h4m2 0h1m7 0h1m3 0h1m-36 1h3m3 0h2m1 0h1m3 0h1m1 0h2m1 0h1m1 0h1m1 0h1m3 0h6m3 0h2m-36 1h2m1 0h2m1 0h3m4 0h2m4 0h3m3 0h1m1 0h2m2 0h1m3 0h1m-37 1h1m4 0h4m1 0h6m1 0h1m1 0h1m2 0h6m1 0h8m-37 1h2m2 0h2m1 0h3m1 0h1m1 0h2m2 0h3m3 0h1m4 0h2m1 0h1m-32 1h1m3 0h1m1 0h1m1 0h3m2 0h4m1 0h1m3 0h1m1 0h1m2 0h1m3 0h3m1 0h2m-37 1h1m2 0h1m5 0h3m2 0h2m2 0h6m2 0h1m2 0h4m3 0h1m-34 1h1m1 0h2m1 0h1m2 0h3m3 0h1m1 0h1m2 0h6m2 0h3m1 0h1m-35 1h1m2 0h3m6 0h1m2 0h2m2 0h1m1 0h1m1 0h2m3 0h1m2 0h1m2 0h2m-33 1h2m1 0h4m1 0h1m1 0h1m4 0h1m1 0h1m1 0h1m3 0h2m1 0h3m1 0h4m-36 1h1m6 0h1m1 0h2m2 0h1m1 0h1m4 0h1m1 0h1m2 0h1m1 0h2m1 0h3m2 0h1m-37 1h1m1 0h5m1 0h1m4 0h2m2 0h1m1 0h1m2 0h4m2 0h3m1 0h3m-35 1h3m1 0h2m1 0h1m4 0h3m1 0h1m1 0h3m2 0h3m2 0h2m3 0h1m-33 1h8m1 0h2m2 0h3m3 0h1m4 0h5m1 0h3m1 0h2m-35 1h2m1 0h1m2 0h4m3 0h2m1 0h1m2 0h2m3 0h1m2 0h4m2 0h1m-36 1h7m2 0h1m2 0h1m2 0h1m1 0h1m4 0h4m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m-37 1h1m8 0h2m2 0h1m1 0h1m1 0h5m1 0h1m1 0h1m2 0h1m5 0h1m-35 1h1m2 0h4m2 0h4m1 0h2m1 0h1m3 0h1m3 0h7m3 0h2m-37 1h1m2 0h2m4 0h7m2 0h2m1 0h2m4 0h1m1 0h1m1 0h1m3 0h2m-37 1h1m2 0h2m1 0h2m1 0h2m3 0h2m1 0h3m4 0h3m1 0h7m1 0h1m-29 1h1m2 0h1m4 0h6m1 0h1m1 0h1m1 0h2m3 0h2m1 0h1m-36 1h7m6 0h1m1 0h2m4 0h2m3 0h1m1 0h1m1 0h1m1 0h1m1 0h3m-37 1h1m5 0h1m1 0h1m3 0h3m1 0h1m2 0h1m1 0h3m2 0h1m1 0h1m3 0h2m1 0h2m-37 1h1m1 0h3m1 0h1m1 0h2m5 0h1m1 0h1m2 0h1m2 0h1m1 0h8m1 0h2m-36 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h4m2 0h1m2 0h3m1 0h1m1 0h1m1 0h3m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m4 0h3m1 0h2m2 0h1m6 0h2m-37 1h1m5 0h1m2 0h2m3 0h3m3 0h5m1 0h5m1 0h1m3 0h1m-37 1h7m1 0h1m4 0h2m1 0h2m1 0h1m2 0h5m3 0h1m1 0h5"/></svg>
+</div><div class="qr-share-fab__hint">微信扫码<br>分享文章</div></div></aside>
+<script>
+/* CreBee 埋点 beacon (v1.1 P0+.1, ≤ 1KB gzip 后 < 600B)
+   spec: docs/specs/p0-plus-1-website-tracking-beacon.md §F1
+   异步 + sendBeacon API，失败降级，不阻塞页面。
+   仅采集: pageview / scroll / dwell / referrer / utm（无 PII）
+   Blob type 用 text/plain（CORS-safelisted）：公网站点域 → 网关域跨域上报
+   零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
+(function() {
+  if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
+  var ENDPOINT = "https://situo.u.crebee.com/api/track/website";  // /api/track/website
+  var SLUG = "fa-ban-qian-wei-shen-me-yi-ding-yao-zuo-smoke-zi-j";
+  var ACCOUNT_SLUG = "Crebee_产品官网";
+  var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
+
+  // UTM 解析
+  var qs = new URLSearchParams(location.search);
+  var utm = {
+    utm_source: qs.get("utm_source") || "",
+    utm_medium: qs.get("utm_medium") || "",
+    utm_campaign: qs.get("utm_campaign") || ""
+  };
+
+  // pageview 立即上报
+  var basePayload = {
+    slug: SLUG, account_slug: ACCOUNT_SLUG,
+    referrer: document.referrer || "",
+    path_suffix: PATH,
+    utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign,
+    event: "pageview"
+  };
+  try {
+    navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(basePayload)], {type: "text/plain"}));
+  } catch (e) { /* fail-open */ }
+
+  // dwell + scroll 累积，pagehide 时上报
+  var dwellStart = Date.now();
+  var dwellSum = 0;
+  var maxScrollPercent = 0;
+
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    } else {
+      dwellStart = Date.now();
+    }
+  });
+
+  function updateScroll() {
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (docH <= 0) return;
+    var pct = Math.round((window.scrollY / docH) * 100);
+    if (pct > maxScrollPercent) maxScrollPercent = Math.min(100, pct);
+  }
+  var rafScheduled = false;
+  window.addEventListener("scroll", function() {
+    if (!rafScheduled) {
+      rafScheduled = true;
+      requestAnimationFrame(function() { updateScroll(); rafScheduled = false; });
+    }
+  }, {passive: true});
+
+  function unloadReport() {
+    if (document.visibilityState !== "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    }
+    var p = Object.assign({}, basePayload, {
+      event: "unload",
+      dwell_seconds: Math.round(dwellSum),
+      scroll_depth: maxScrollPercent
+    });
+    try {
+      navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(p)], {type: "text/plain"}));
+    } catch (e) { /* fail-open */ }
+  }
+  window.addEventListener("pagehide", unloadReport);
+})();
+</script>
+
+</body>
+</html>
