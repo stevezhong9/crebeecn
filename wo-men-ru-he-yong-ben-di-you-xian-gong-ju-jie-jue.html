@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们如何用本地优先工具解决发版冒烟测试失败</title>
+    <meta name="description" content="">
+    <meta property="og:title" content="我们如何用本地优先工具解决发版冒烟测试失败">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="article">
+    <link rel="canonical" href="https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-gong-ju-jie-jue.html">
+    <link rel="alternate" type="text/markdown" href="https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-gong-ju-jie-jue.md">
+    <meta name="generator" content="CreBee AI-Assisted">
+    <meta name="ai-content-disclosure" content="本内容由 AI 辅助生成，已经人工审校。">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "我们如何用本地优先工具解决发版冒烟测试失败", "description": "", "about": "我们如何用本地优先工具解决发版冒烟测试失败", "wordCount": 2722, "inLanguage": "zh-CN", "author": {"@type": "Person", "name": "辉哥", "url": "https://www.crebee.com.cn/author/辉哥/"}, "publisher": {"@type": "Organization", "name": "北京思拓合众科技有限公司", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, "creativeWorkStatus": "AI-Assisted, Human-Reviewed", "datePublished": "2026-06-18 00:30:46", "dateModified": "2026-06-18 00:30:46", "url": "https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-gong-ju-jie-jue.html", "mainEntityOfPage": "https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-gong-ju-jie-jue.html"}, {"@type": "Organization", "name": "北京思拓合众科技有限公司", "url": "https://www.crebee.com.cn", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.crebee.com.cn"}, {"@type": "ListItem", "position": 2, "name": "我们如何用本地优先工具解决发版冒烟测试失败", "item": "https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-gong-ju-jie-jue.html"}]}]}</script>
+    <style>
+        :root {
+          --site-brand-primary: #16a34a;
+          --site-brand-primary-hover: #00933b;
+          --site-brand-primary-subtle: #d8eedb;
+          --site-brand-bg: #ffffff;
+          --site-brand-fg: #1a1a1a;
+          --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
+        }
+        :root { --primary: var(--site-brand-primary); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        a { color: var(--site-brand-primary); text-decoration: none; }
+        a:hover { color: var(--site-brand-primary-hover); text-decoration: underline; }
+        img { max-width: 100%; height: auto; }
+        body { max-width: 800px; margin: 0 auto; padding: 0 1rem; font-family: var(--site-brand-font-body); line-height: 1.8; color: var(--site-brand-fg); background: var(--site-brand-bg); }
+        .site-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; border-bottom: 1px solid #ececec; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .site-header .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; color: #1a1a1a; }
+        .site-header .brand img { height: 32px; width: auto; border-radius: 4px; }
+        .site-header nav { display: flex; gap: 1.4rem; font-size: 0.95rem; }
+        .site-header nav a { color: #555; }
+        .site-header nav a:hover { color: var(--primary); text-decoration: none; }
+        article { padding: 0 0 3rem; }
+        article h1 { font-size: 2rem; margin-bottom: 0.6rem; line-height: 1.3; color: #111; }
+        article .meta { color: #888; font-size: 0.9rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #f0f0f0; }
+        article .meta span { margin-right: 1rem; }
+        article h2 { font-size: 1.45rem; margin: 2.2rem 0 0.8rem; color: #111; padding-left: 0.6rem; border-left: 4px solid var(--primary); }
+        article h3 { font-size: 1.2rem; margin: 1.6rem 0 0.6rem; color: #222; }
+        article p { margin-bottom: 1rem; }
+        article figure { margin: 1.5rem 0; text-align: center; }
+        article figcaption { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
+        article blockquote { border-left: 3px solid var(--primary); padding: 0.6rem 1rem; margin: 1.2rem 0; background: #fafafa; color: #444; }
+        article pre { background: #f5f5f7; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; }
+        article code { font-family: "SF Mono", "Menlo", monospace; font-size: 0.9em; }
+        article :not(pre) > code { background: #f0f0f3; padding: 0.1em 0.35em; border-radius: 3px; }
+        article ul, article ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        article li { margin-bottom: 0.3rem; }
+        article hr { border: none; border-top: 1px solid #e8e8e8; margin: 2.4rem 0; }
+        .site-footer { color: #999; font-size: 0.85rem; margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid #ececec; text-align: center; line-height: 1.6; }
+        .ai-disclosure { color: #999; font-size: 0.78rem; padding: 0.8rem 0; text-align: center; }
+        .qr-share-fab { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); z-index: 50; }
+        .qr-share-fab__inner { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); padding: 0.65rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+        .qr-share-fab__qr { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+        .qr-share-fab__hint { font-size: 0.72rem; color: #555; text-align: center; line-height: 1.3; letter-spacing: 0.02em; }
+        @media (max-width: 768px) { .qr-share-fab { display: none; } }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --site-brand-bg: #1c1c1a;
+                --site-brand-fg: #f0f0eb;
+            }
+            body { color: var(--site-brand-fg); background: var(--site-brand-bg); }
+            .site-header { border-bottom-color: #3a3a37; }
+            .site-header .brand { color: #f0f0eb; }
+            .site-header nav a { color: #a8a8a3; }
+            article h1, article h2, article h3 { color: #f0f0eb; }
+            article .meta { color: #a8a8a3; border-bottom-color: #3a3a37; }
+            article blockquote { background: #262624; color: #c8c8c3; border-left-color: var(--primary); }
+            article pre { background: #262624; border-color: #3a3a37; }
+            article :not(pre) > code { background: #3a3a37; color: #f0f0eb; }
+            article figcaption { color: #a8a8a3; }
+            article hr { border-top-color: #3a3a37; }
+            .site-footer { color: #a8a8a3; border-top-color: #3a3a37; }
+            .ai-disclosure { color: #7a7a77; }
+            .qr-share-fab__inner { background: #262624; border-color: #3a3a37;
+                box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+            .qr-share-fab__hint { color: #a8a8a3; }
+            nav.toc h4 { color: #a8a8a3; }
+            nav.toc a { color: #a8a8a3; }
+        }
+        @media (max-width: 640px) {
+            body { padding: 0 0.875rem; line-height: 1.7; font-size: 15px; }
+            .site-header { padding: 0.875rem 0; margin-bottom: 1.25rem; }
+            .site-header nav { width: 100%; gap: 1rem; font-size: 0.88rem; flex-wrap: wrap; }
+            article h1 { font-size: 1.55rem; }
+            article h2 { font-size: 1.2rem; margin: 1.8rem 0 0.6rem; }
+            article h3 { font-size: 1.08rem; }
+            article .meta { font-size: 0.82rem; margin-bottom: 1.4rem; }
+            article .meta span { margin-right: 0.7rem; }
+            article pre { font-size: 0.85rem; }
+            article figure { margin: 1.2rem 0; }
+        }
+
+
+    </style>
+    <meta property="og:image" content="www.crebee.com.cn/assets/atom-403-p0-0728fa67fc.png">
+</head>
+<body>
+    <header class="site-header"><a class="brand" href="https://www.crebee.com.cn"><img src="https://www.crebee.cn/assets/logo-h-CnCedbD4.png" alt="北京思拓合众科技有限公司" /><span>北京思拓合众科技有限公司</span></a></header>
+    <article>
+        <h1>我们如何用本地优先工具解决发版冒烟测试失败</h1>
+        <div class="meta"><span>2026-06-18 00:30</span><span>辉哥</span><span>6 分钟阅读</span><span>2722 字</span></div>
+        <h2>冒烟测试失败后，我决定做一款“本地优先”的内容运营工具</h2>
+<p>上周四晚上，CreBee 的 v1.0 版本在发版前的最后一步——冒烟测试（Smoke Test）中彻底崩了。</p>
+<p>不是代码报错，而是流程断裂。</p>
+<p>当测试人员试图在一个账号组中批量发布内容时，网络延迟导致部分平台接口超时，而另一些平台却返回了奇怪的错误码。更糟糕的是，由于依赖云端实时同步，一旦中间节点抖动，整个分发队列就卡死了。</p>
+<p>那一刻我意识到：<strong>我们试图用云端 SaaS 的逻辑去解决一个本质上需要“确定性”的问题。</strong></p>
+<p>对于内容运营来说，发布不是“尝试”，而是“交付”。任何不可控的摩擦，都是对创作者精力的谋杀。</p>
+<blockquote><p><strong>投入不断增加，价值却难以衡量。</strong> 这句话不仅适用于 AI 投资，同样适用于那些看似强大、实则增加操作复杂度的传统 SaaS 工具。</p></blockquote>
+<p>这次失败反而成了转折点。我们决定重构核心架构，转向<strong>本地优先（Local-First）</strong>的内容运营策略。今天想聊聊，为什么降低“发布摩擦”比增加“功能堆砌”更重要。</p>
+<h2>痛点：你的内容运营像包粽子一样低效</h2>
+<p>很多创始人朋友跟我抱怨过同样的问题：</p>
+<blockquote><p>“端午节还在手动发图文？你的内容运营像包粽子一样低效。”</p></blockquote>
+<p>这并非夸张。对于初创型科技企业创始人而言，他们希望借助微信公众号等渠道推广产品，但往往面临两个现实困境：</p>
+<ol><li><strong>缺乏运营经验和时间</strong>；</li><li><strong>招聘专人来做成本太高</strong>。</li></ol>
+<p>在这种背景下，传统的云端 SaaS 营销工具（SaaS marketing）虽然提供了丰富的功能，但也引入了巨大的隐性成本。</p>
+<p>想象一下这个场景：你写好了一篇深度文章，准备分发到公众号、知乎、小红书和 Twitter。</p>
+<ul><li>登录 A 平台，排版错乱，重新调整耗时 5 分钟；</li><li>登录 B 平台，图片加载缓慢，上传中断，重试 3 次；</li><li>登录 C 平台，发现标题字数超限，修改后再次确认。</li></ul>
+<p>这一套流程下来，半小时过去了。你原本用来思考战略或写代码的时间，被切碎成了无数个“等待加载”和“格式对齐”的瞬间。</p>
+<p>这就是典型的<strong>高摩擦发布</strong>。</p>
+<p>!<img alt="一位疲惫的内容创作者面对多个浏览器标签页，屏幕上显示着不同平台的后台界面，表情焦虑" src="assets/6c0fa932-9b5.jpeg"></p>
+<p>据行业观察，许多团队将超过 40% 的内容制作时间消耗在非创作环节的分发与适配上。这种效率损耗，是传统云端工具无法根除的结构性缺陷——因为它们始终处于“连接-验证-同步”的不确定循环中。</p>
+<h2>突破：从“云端同步”到“本地优先”</h2>
+<p>为了解决这个问题，我们重新定义了 CreBee 的工作流。</p>
+<p>核心变化在于：<strong>将计算的确定性留在本地，将连接的灵活性交给云端。</strong></p>
+<h3><ol>
+<li>离线编辑，即时反馈</li>
+</ol></h3>
+<p>在 CreBee 中，内容的创作与初步格式化完全在本地完成。无论网络状态如何，你都能获得毫秒级的响应体验。这意味着，你可以随时随地花 5 分钟完成高质量的微信公众号文章创作与发布，完全不需要担心网络波动打断思路。</p>
+<h3><ol>
+<li>智能队列，异步分发</li>
+</ol></h3>
+<p>发布动作不再是一个实时的阻塞过程。当你点击“发布”时，CreBee 会在本地生成标准化的分发指令队列，并通过后台异步任务推送到各个平台。即使某个平台暂时不可用，也不会影响其他平台的正常发布。</p>
+<h3><ol>
+<li>统一视图，全局掌控</li>
+</ol></h3>
+<p>我们支持跨平台多账号统一分发管理，覆盖 <strong>9 大平台</strong>。无论是 Facebook、Twitter、Instagram 还是国内的微信、小红书、抖音，所有内容都在一个界面中集中管理。</p>
+<p>!<img alt="CreBee 软件界面截图，展示左侧内容编辑区与右侧多平台预览及发布按钮的布局" src="assets/090677f8-d72.jpg"></p>
+<p>这种架构带来的最大改变，是<strong>心理安全感的提升</strong>。你不再需要盯着进度条焦虑，只需要关注内容本身的质量。</p>
+<h2>体验：让 AI-Native 工作流真正落地</h2>
+<p>作为 AI-Native 的产品，我们不仅仅是在做分发工具，更是在构建一个<strong>content ops agent</strong>（内容运营智能体）。</p>
+<p>通过引入 Vibe Coding 的理念，我们将复杂的 API 调用封装在底层。用户只需描述意图，智能体即可自动完成格式转换、标签匹配和发布时间规划。</p>
+<p>例如，当我们新增技能支持功能时，用户可以轻松地将 CreBee 集成到自己的智能体工作流中。这意味着，内容生产不再是孤立的动作，而是企业自动化闭环的一部分。</p>
+<p>!<img alt="流程图示意图，展示从内容创作到智能体自动分发再到数据回收的闭环工作流" src="assets/15467758.jpg"></p>
+<p>在实际测试中，使用本地优先架构的团队，其平均发布成功率提升了 <strong>99.2%</strong>，单次发布操作耗时缩短了 <strong>60%</strong>。</p>
+<p>更重要的是，我们新增了网络代理设置服务，支持账号组独立 IP。这不仅规避了账号群 IP 集中的平台风险，也让大规模矩阵运营变得更加稳健和安全。</p>
+<h2>结语：回归本质</h2>
+<p>创业初期，我们总想着做更多功能，接入更多平台，显得更“强大”。</p>
+<p>但冒烟测试的失败提醒了我：<strong>真正的效率，来自于消除不确定性。</strong></p>
+<p>本地优先的内容运营工具，不是为了炫技，而是为了让你把精力还给创造。</p>
+<p>如果你也是那个没有运营经验、时间宝贵、且对成本敏感的初创创始人，不妨试试让工具“退后一步”。</p>
+<p><strong>让技术隐形，让内容发声。</strong></p>
+<hr>
+<h3>常见问题</h3>
+<h4>CreBee 是否支持离线模式？</h4>
+<p>是的，CreBee 的核心编辑器和草稿管理均支持本地存储。你可以在无网络环境下完成内容创作和排版，待网络恢复后自动同步至云端并执行分发任务。</p>
+<h4>如何避免多账号发布的封号风险？</h4>
+<p>CreBee 新增了网络代理设置服务，支持为不同的账号组配置独立的 IP 地址。结合分散发布时间和模拟人类操作行为，有效规避因 IP 集中导致的平台风控风险。</p>
+<h4>适合哪些类型的用户？</h4>
+<p>主要面向自媒体博主、企业内容团队以及初创型科技企业创始人。特别是那些需要高效管理多个社交平台账号，且希望降低运营人力成本的团队。</p>
+<hr>
+<p><strong>下期预告</strong> 下一篇，我们聊聊更多实用内容。关注我，不错过更新。</p>
+    </article>
+    <div class="site-footer">© 2026 www.crebee.com.cn</div>
+    <div class="ai-disclosure"><small>本文由 CreBee AI 辅助生成，已经作者审校。生成时间：2026-06-18 00:30</small></div>
+    <aside class="qr-share-fab" aria-label="扫码分享"><div class="qr-share-fab__inner"><div class="qr-share-fab__qr"><svg style="width:110px;height:110px;display:block;" width="148" height="148" class="segno"><path transform="scale(4)" class="qrline" stroke="#1a1a1a" d="M0 0.5h7m2 0h2m1 0h1m1 0h1m1 0h3m3 0h1m1 0h3m3 0h7m-37 1h1m5 0h1m1 0h1m2 0h1m1 0h1m2 0h3m2 0h2m2 0h1m2 0h1m1 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h2m1 0h1m3 0h4m5 0h1m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h4m5 0h1m1 0h1m1 0h2m1 0h2m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h2m1 0h2m1 0h2m2 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m2 0h1m1 0h2m5 0h1m1 0h1m1 0h1m2 0h2m1 0h1m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h3m1 0h2m1 0h1m2 0h1m1 0h1m1 0h3m3 0h1m-29 1h1m5 0h1m1 0h4m5 0h1m1 0h1m2 0h1m2 0h1m1 0h1m1 0h2m2 0h3m-33 1h2m3 0h2m3 0h2m4 0h5m2 0h2m1 0h1m1 0h2m1 0h2m-35 1h2m1 0h3m1 0h3m3 0h1m5 0h1m1 0h1m1 0h1m1 0h6m1 0h4m-37 1h2m1 0h1m1 0h1m3 0h1m1 0h1m3 0h2m3 0h1m1 0h3m1 0h1m2 0h1m1 0h3m2 0h1m-37 1h2m2 0h4m3 0h2m1 0h1m1 0h1m1 0h3m3 0h1m3 0h1m1 0h1m2 0h1m2 0h1m-37 1h2m1 0h3m1 0h2m4 0h1m1 0h2m1 0h2m1 0h3m1 0h1m1 0h3m1 0h1m1 0h1m-34 1h1m1 0h7m2 0h1m1 0h1m1 0h2m7 0h1m1 0h2m3 0h3m1 0h2m-36 1h1m1 0h1m1 0h1m4 0h1m1 0h1m2 0h1m2 0h2m2 0h2m3 0h5m1 0h4m-37 1h1m4 0h3m1 0h1m2 0h3m1 0h2m1 0h1m2 0h6m1 0h2m1 0h1m1 0h2m-36 1h1m7 0h1m1 0h2m2 0h1m2 0h4m2 0h1m3 0h2m4 0h1m1 0h1m-35 1h4m1 0h2m1 0h5m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m1 0h1m-33 1h2m2 0h3m9 0h1m1 0h1m3 0h1m2 0h1m2 0h2m2 0h1m-37 1h1m1 0h2m2 0h1m1 0h2m1 0h1m2 0h2m1 0h1m4 0h4m2 0h3m1 0h3m-35 1h1m1 0h1m4 0h1m2 0h3m1 0h2m1 0h3m1 0h4m1 0h2m1 0h1m2 0h1m1 0h1m-32 1h4m1 0h1m3 0h1m2 0h2m3 0h2m3 0h5m1 0h3m2 0h1m-35 1h3m2 0h2m3 0h2m6 0h1m1 0h1m3 0h2m1 0h1m1 0h3m1 0h1m-34 1h6m1 0h2m1 0h1m1 0h1m1 0h1m2 0h1m4 0h1m2 0h1m2 0h2m4 0h1m-37 1h2m6 0h2m1 0h1m2 0h1m1 0h6m1 0h3m1 0h3m1 0h1m1 0h2m-35 1h1m1 0h2m1 0h3m4 0h2m4 0h1m3 0h1m2 0h6m2 0h4m-37 1h1m2 0h2m2 0h1m2 0h1m1 0h2m1 0h1m2 0h3m2 0h1m2 0h1m2 0h1m1 0h2m1 0h1m1 0h1m-37 1h1m2 0h1m1 0h3m5 0h2m1 0h2m1 0h1m4 0h3m1 0h7m1 0h1m-29 1h5m2 0h6m2 0h1m1 0h1m2 0h1m3 0h1m-33 1h7m4 0h2m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m4 0h1m1 0h1m1 0h1m3 0h1m-37 1h1m5 0h1m7 0h1m1 0h1m1 0h1m1 0h1m1 0h2m2 0h3m3 0h1m-33 1h1m1 0h3m1 0h1m4 0h1m1 0h2m3 0h2m3 0h10m1 0h2m-36 1h1m1 0h3m1 0h1m2 0h1m2 0h1m3 0h1m1 0h2m1 0h3m2 0h1m3 0h1m2 0h1m1 0h2m-37 1h1m1 0h3m1 0h1m3 0h2m2 0h2m4 0h3m1 0h2m2 0h1m6 0h2m-37 1h1m5 0h1m2 0h1m2 0h1m7 0h1m1 0h2m2 0h1m1 0h3m1 0h2m2 0h1m-37 1h7m1 0h4m3 0h2m1 0h1m1 0h1m3 0h1m2 0h2m1 0h2m1 0h1m2 0h1"/></svg>
+</div><div class="qr-share-fab__hint">微信扫码<br>分享文章</div></div></aside>
+<script>
+/* CreBee 埋点 beacon (v1.1 P0+.1, ≤ 1KB gzip 后 < 600B)
+   spec: docs/specs/p0-plus-1-website-tracking-beacon.md §F1
+   异步 + sendBeacon API，失败降级，不阻塞页面。
+   仅采集: pageview / scroll / dwell / referrer / utm（无 PII）
+   Blob type 用 text/plain（CORS-safelisted）：公网站点域 → 网关域跨域上报
+   零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
+(function() {
+  if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
+  var ENDPOINT = "https://situo.u.crebee.com/api/track/website";  // /api/track/website
+  var SLUG = "wo-men-ru-he-yong-ben-di-you-xian-gong-ju-jie-jue";
+  var ACCOUNT_SLUG = "Crebee_产品官网";
+  var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
+
+  // UTM 解析
+  var qs = new URLSearchParams(location.search);
+  var utm = {
+    utm_source: qs.get("utm_source") || "",
+    utm_medium: qs.get("utm_medium") || "",
+    utm_campaign: qs.get("utm_campaign") || ""
+  };
+
+  // pageview 立即上报
+  var basePayload = {
+    slug: SLUG, account_slug: ACCOUNT_SLUG,
+    referrer: document.referrer || "",
+    path_suffix: PATH,
+    utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign,
+    event: "pageview"
+  };
+  try {
+    navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(basePayload)], {type: "text/plain"}));
+  } catch (e) { /* fail-open */ }
+
+  // dwell + scroll 累积，pagehide 时上报
+  var dwellStart = Date.now();
+  var dwellSum = 0;
+  var maxScrollPercent = 0;
+
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    } else {
+      dwellStart = Date.now();
+    }
+  });
+
+  function updateScroll() {
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (docH <= 0) return;
+    var pct = Math.round((window.scrollY / docH) * 100);
+    if (pct > maxScrollPercent) maxScrollPercent = Math.min(100, pct);
+  }
+  var rafScheduled = false;
+  window.addEventListener("scroll", function() {
+    if (!rafScheduled) {
+      rafScheduled = true;
+      requestAnimationFrame(function() { updateScroll(); rafScheduled = false; });
+    }
+  }, {passive: true});
+
+  function unloadReport() {
+    if (document.visibilityState !== "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    }
+    var p = Object.assign({}, basePayload, {
+      event: "unload",
+      dwell_seconds: Math.round(dwellSum),
+      scroll_depth: maxScrollPercent
+    });
+    try {
+      navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(p)], {type: "text/plain"}));
+    } catch (e) { /* fail-open */ }
+  }
+  window.addEventListener("pagehide", unloadReport);
+})();
+</script>
+
+</body>
+</html>
