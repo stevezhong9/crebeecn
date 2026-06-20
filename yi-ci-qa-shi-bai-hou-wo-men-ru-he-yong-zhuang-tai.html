@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一次QA失败后，我们如何用状态机提升Agent可靠性</title>
+    <meta name="description" content="">
+    <meta property="og:title" content="一次QA失败后，我们如何用状态机提升Agent可靠性">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="article">
+    <link rel="canonical" href="https://www.crebee.com.cn/yi-ci-qa-shi-bai-hou-wo-men-ru-he-yong-zhuang-tai.html">
+    <link rel="alternate" type="text/markdown" href="https://www.crebee.com.cn/yi-ci-qa-shi-bai-hou-wo-men-ru-he-yong-zhuang-tai.md">
+    <meta name="generator" content="CreBee AI-Assisted">
+    <meta name="ai-content-disclosure" content="本内容由 AI 辅助生成，已经人工审校。">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "一次QA失败后，我们如何用状态机提升Agent可靠性", "description": "", "about": "一次QA失败后，我们如何用状态机提升Agent可靠性", "wordCount": 3598, "inLanguage": "zh-CN", "author": {"@type": "Person", "name": "辉哥", "url": "https://www.crebee.com.cn/author/辉哥/"}, "publisher": {"@type": "Organization", "name": "北京思拓合众科技有限公司", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, "creativeWorkStatus": "AI-Assisted, Human-Reviewed", "datePublished": "2026-06-20 14:30:54", "dateModified": "2026-06-20 14:30:54", "url": "https://www.crebee.com.cn/yi-ci-qa-shi-bai-hou-wo-men-ru-he-yong-zhuang-tai.html", "mainEntityOfPage": "https://www.crebee.com.cn/yi-ci-qa-shi-bai-hou-wo-men-ru-he-yong-zhuang-tai.html"}, {"@type": "Organization", "name": "北京思拓合众科技有限公司", "url": "https://www.crebee.com.cn", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.crebee.com.cn"}, {"@type": "ListItem", "position": 2, "name": "一次QA失败后，我们如何用状态机提升Agent可靠性", "item": "https://www.crebee.com.cn/yi-ci-qa-shi-bai-hou-wo-men-ru-he-yong-zhuang-tai.html"}]}]}</script>
+    <style>
+        :root {
+          --site-brand-primary: #16a34a;
+          --site-brand-primary-hover: #00933b;
+          --site-brand-primary-subtle: #d8eedb;
+          --site-brand-bg: #ffffff;
+          --site-brand-fg: #1a1a1a;
+          --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
+        }
+        :root { --primary: var(--site-brand-primary); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        a { color: var(--site-brand-primary); text-decoration: none; }
+        a:hover { color: var(--site-brand-primary-hover); text-decoration: underline; }
+        img { max-width: 100%; height: auto; }
+        body { max-width: 800px; margin: 0 auto; padding: 0 1rem; font-family: var(--site-brand-font-body); line-height: 1.8; color: var(--site-brand-fg); background: var(--site-brand-bg); }
+        .site-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; border-bottom: 1px solid #ececec; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .site-header .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; color: #1a1a1a; }
+        .site-header .brand img { height: 32px; width: auto; border-radius: 4px; }
+        .site-header nav { display: flex; gap: 1.4rem; font-size: 0.95rem; }
+        .site-header nav a { color: #555; }
+        .site-header nav a:hover { color: var(--primary); text-decoration: none; }
+        article { padding: 0 0 3rem; }
+        article h1 { font-size: 2rem; margin-bottom: 0.6rem; line-height: 1.3; color: #111; }
+        article .meta { color: #888; font-size: 0.9rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #f0f0f0; }
+        article .meta span { margin-right: 1rem; }
+        article h2 { font-size: 1.45rem; margin: 2.2rem 0 0.8rem; color: #111; padding-left: 0.6rem; border-left: 4px solid var(--primary); }
+        article h3 { font-size: 1.2rem; margin: 1.6rem 0 0.6rem; color: #222; }
+        article p { margin-bottom: 1rem; }
+        article figure { margin: 1.5rem 0; text-align: center; }
+        article figcaption { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
+        article blockquote { border-left: 3px solid var(--primary); padding: 0.6rem 1rem; margin: 1.2rem 0; background: #fafafa; color: #444; }
+        article pre { background: #f5f5f7; padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; }
+        article code { font-family: "SF Mono", "Menlo", monospace; font-size: 0.9em; }
+        article :not(pre) > code { background: #f0f0f3; padding: 0.1em 0.35em; border-radius: 3px; }
+        article ul, article ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        article li { margin-bottom: 0.3rem; }
+        article hr { border: none; border-top: 1px solid #e8e8e8; margin: 2.4rem 0; }
+        .site-footer { color: #999; font-size: 0.85rem; margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid #ececec; text-align: center; line-height: 1.6; }
+        .ai-disclosure { color: #999; font-size: 0.78rem; padding: 0.8rem 0; text-align: center; }
+        .qr-share-fab { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); z-index: 50; }
+        .qr-share-fab__inner { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); padding: 0.65rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+        .qr-share-fab__qr { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+        .qr-share-fab__hint { font-size: 0.72rem; color: #555; text-align: center; line-height: 1.3; letter-spacing: 0.02em; }
+        @media (max-width: 768px) { .qr-share-fab { display: none; } }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --site-brand-bg: #1c1c1a;
+                --site-brand-fg: #f0f0eb;
+            }
+            body { color: var(--site-brand-fg); background: var(--site-brand-bg); }
+            .site-header { border-bottom-color: #3a3a37; }
+            .site-header .brand { color: #f0f0eb; }
+            .site-header nav a { color: #a8a8a3; }
+            article h1, article h2, article h3 { color: #f0f0eb; }
+            article .meta { color: #a8a8a3; border-bottom-color: #3a3a37; }
+            article blockquote { background: #262624; color: #c8c8c3; border-left-color: var(--primary); }
+            article pre { background: #262624; border-color: #3a3a37; }
+            article :not(pre) > code { background: #3a3a37; color: #f0f0eb; }
+            article figcaption { color: #a8a8a3; }
+            article hr { border-top-color: #3a3a37; }
+            .site-footer { color: #a8a8a3; border-top-color: #3a3a37; }
+            .ai-disclosure { color: #7a7a77; }
+            .qr-share-fab__inner { background: #262624; border-color: #3a3a37;
+                box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+            .qr-share-fab__hint { color: #a8a8a3; }
+            nav.toc h4 { color: #a8a8a3; }
+            nav.toc a { color: #a8a8a3; }
+        }
+        @media (max-width: 640px) {
+            body { padding: 0 0.875rem; line-height: 1.7; font-size: 15px; }
+            .site-header { padding: 0.875rem 0; margin-bottom: 1.25rem; }
+            .site-header nav { width: 100%; gap: 1rem; font-size: 0.88rem; flex-wrap: wrap; }
+            article h1 { font-size: 1.55rem; }
+            article h2 { font-size: 1.2rem; margin: 1.8rem 0 0.6rem; }
+            article h3 { font-size: 1.08rem; }
+            article .meta { font-size: 0.82rem; margin-bottom: 1.4rem; }
+            article .meta span { margin-right: 0.7rem; }
+            article pre { font-size: 0.85rem; }
+            article figure { margin: 1.2rem 0; }
+        }
+
+
+    </style>
+    <meta property="og:image" content="www.crebee.com.cn/assets/atom-418-p0-913efa879c.8af55cb97c.png">
+</head>
+<body>
+    <header class="site-header"><a class="brand" href="https://www.crebee.com.cn"><img src="https://www.crebee.cn/assets/logo-h-CnCedbD4.png" alt="北京思拓合众科技有限公司" /><span>北京思拓合众科技有限公司</span></a></header>
+    <article>
+        <h1>一次QA失败后，我们如何用状态机提升Agent可靠性</h1>
+        <div class="meta"><span>2026-06-20 14:30</span><span>辉哥</span><span>8 分钟阅读</span><span>3598 字</span></div>
+        <p>上周三凌晨两点，CreBee 的自动化视频生成 Agent 突然“发疯”。</p>
+<p>不是报错，而是静默地执行了一个错误动作。它向三个不同的客户账号发送了包含测试语音的视频草稿。</p>
+<blockquote><p>“你好,这是自动化视频生成的测试语音”</p></blockquote>
+<p>这声音在深夜显得格外刺耳。更糟糕的是，由于缺乏前置的状态校验，这个 Agent 直接绕过了我们的内容审核队列，触发了多平台的发布接口。</p>
+<p>那一刻，我坐在屏幕前，冷汗比代码跑得快。</p>
+<p><strong>普通聊天机器人答错问题，顶多只是建议偏差；但行动型 AI 一旦出错，可直接发送邮件、删除文件、触发交易，造成实打实的经济损失与数据泄露。</strong></p>
+<p>这次事故让我重新审视了我们引以为傲的 <strong>content ops agent</strong> 架构。我们一直沉浸在 Token 消耗的狂欢中，却忘了问自己一个最朴素的问题：<strong>你干成了多少事，而不是你烧了多少电？</strong></p>
+<figure><img src="assets/9c1a459b1525.166c25536f.gif" alt="深夜办公室，创始人盯着满是日志报错的电脑屏幕，神情凝重" loading="lazy" /><figcaption>深夜办公室，创始人盯着满是日志报错的电脑屏幕，神情凝重</figcaption></figure>
+<h2>Token 焦虑 vs. 结果导向</h2>
+<p>过去三年，AI 行业最重要的计量单位是 Token。</p>
+<p>比参数、比推理、比基准测试，最后都落到同一个问题：你烧了多少 Token。Token 消耗量成为这场军备竞赛的天然标尺，烧得越多，代表下注越深。</p>
+<p>但风向变了。</p>
+<p>Meta 内部有一个名为 "Claudeonomics" 的排行榜，汇集了超过 8.5 万名员工的 AI 使用数据，30 天内，榜单上的总使用量突破了 60 万亿 Token，“榜一大哥”烧掉的 Token 价值高达数百万美元。</p>
+<p>震惊之余，也引燃一场辩论：Token 消耗量，到底能不能代表一个人、一家公司“有多 AI Native”？</p>
+<p>HubSpot 的 CEO Yamini Rangan 的回应被多次转发：<strong>outcome maxxing is greater than token maxxing</strong>。别盯着 Token 消耗狂欢了，看看你到底产出了什么结果。</p>
+<p>黄仁勋站在算力侧把 Token 定义为工业品，提出要建 Token 工厂，比拼产能和效率。他甚至给 Token 设定了价格区间，从接近零成本，到每百万 Token 150 美元。</p>
+<p>在黄仁勋看来，Token 不会是统一定价的标准商品，它更像电力，会出现峰谷差价、分层调度和动态定价。</p>
+<p>阿里无招站在应用端提出“效法自然”，认为 Token 不是越多越好，而是应该像能量一样自然流动，减少无意义消耗。他的逻辑是效率，“子弹要打准，不能乱射”。</p>
+<p>而百度李彦宏则把视角进一步拉向生态和结果交付，提出了 DAA（日活智能体数），呼吁“别数子弹了，数战果”。</p>
+<p><strong>投入不断增加，价值却难以衡量。</strong> 这是我们做 SaaS marketing 时最常遇到的困境。如果我们的工具只是在帮用户更快地产生垃圾内容，那这种效率毫无意义。</p>
+<figure><img src="assets/8370332.65ad806a76.jpg" alt="对比图，左侧是堆积如山的 Token 消耗账单，右侧是清晰的任务交付流程图" loading="lazy" /><figcaption>对比图，左侧是堆积如山的 Token 消耗账单，右侧是清晰的任务交付流程图</figcaption></figure>
+<h2>状态机驱动：给 AI 装上“刹车”</h2>
+<p>回到那次事故。</p>
+<p>为什么 Agent 会直接发送测试内容？因为我们在设计工作流时，过于关注“生成速度”，而忽略了“状态校验”。</p>
+<p>在 Agentic 系统中，实体的“状态（Status）”属性极其重要。Agent 不应盲目行动，而是监听实体状态的改变。</p>
+<p>例如：当 <code>[内容成品]</code> 状态变为“素材已齐备”，且 <code>is_test_mode == false</code> 时，才触发 <code>[视频剪辑 Agent]</code> 开始工作，并最终由人工或双重确认机制触发发布。</p>
+<p>这就是 <strong>状态机驱动（State-Machine Driven）</strong> 的核心逻辑。</p>
+<p>传统软件的责任核心，是判断工具本身是否存在技术缺陷；那么行动式 AI 的核心责任命题，则是行动链条的设计与授权是否清晰、可追溯、可追责。</p>
+<p>如果说传统软件的责任核心，是判断工具本身是否存在技术缺陷；那么行动式 AI 的核心责任命题，则是行动链条的设计与授权是否清晰、可追溯、可追责。</p>
+<p>在这场龙虾热潮中，整个 AI 行业敲响了警钟：<strong>AI 商业化的核心竞争力，绝不能停留在“能否替人干活、替代人力”的浅层噱头，而在于能否建立一套权责清晰、可防可控、可追溯可追责的执行权体系。</strong></p>
+<p>对于 CreBee 这样的新媒体矩阵运营工具来说，我们提供的不仅是分发，更是<strong>安全边界</strong>。</p>
+<h2>从 DAU 到 DAA：新生产力的度量衡</h2>
+<p>百度提出 DAA（日活智能体数），从消耗转向结果交付。这是一个极具战略意义的信号。</p>
+<p>DAU 之所以能成为移动时代的标准，并不是靠谁“定义”了它，而是苹果和谷歌通过 iOS 与安卓，撑起了开放的应用生态。</p>
+<p>DAA 的故事要讲圆满，它需要的也不只是模型能力，还有真实运行的 Agent 生态。</p>
+<p>很长一段时间，搜索都是百度的核心的产品以及重要的营收来源。搜索的底层逻辑，本质上是一种高度中心化的产品思维：抓取内容、建立索引、掌握流量分发，它强调的是“聚合”。</p>
+<p>可 Agent 生态需要的是开放。</p>
+<p>Create 大会上，李彦宏强调“人与智能体混合编队”“更多授权、更少管控”“更少层级、更快协同”，都是在朝着容纳大量 Agent 协作的开放生态努力。</p>
+<p>平台上有多少 Agent 在真实运行？多少是有效交付？有多少企业客户愿意把合同审核、客服、供应链等核心流程放进百度的 Agent 体系？</p>
+<p>这些问题的答案，才能体现出 DAA 真正的含金量。</p>
+<p>不过它依然不是终局。</p>
+<p>一个启动后卡住的 Agent，算 DAA；一个循环调用自己的 Agent，也算 DAA；一份没有渗入真实工作流的 AI 报告，同样可能被统计进 DAA。</p>
+<p>所以严格来说，DAA 衡量的是“劳动投入”，而非最终的“价值交付”。</p>
+<figure><img src="assets/5439487.588f966d6e.jpg" alt="团队在会议室白板前讨论 Agent 状态流转图，重点标注了“审核节点”和“权限控制”" loading="lazy" /><figcaption>团队在会议室白板前讨论 Agent 状态流转图，重点标注了“审核节点”和“权限控制”</figcaption></figure>
+<h2>复盘：如何构建可信的 AI 原生工作流</h2>
+<p>这次 QA 失败，对我们是一次深刻的洗礼。它迫使我们重新思考 <strong>Vibe Coding</strong> 背后的工程严谨性。</p>
+<p>在 CreBee，我们正在重构我们的 <strong>content ops agent</strong> 验证流程：</p>
+<ol><li><strong>状态前置校验</strong>：任何操作触发前，必须检查当前实体的完整状态链。禁止在未明确标记为“测试环境”的情况下执行写操作。</li><li><strong>最小权限原则</strong>：Agent 的执行权限应与任务粒度严格匹配。视频生成 Agent 无权直接调用发布接口，必须经过“内容审核”这一中间态的人工或二次 AI 确认。</li><li><strong>可追溯日志</strong>：每一个 Action 都必须绑定唯一的 Trace ID，确保在出现问题时，能迅速定位是哪个环节的状态判断失误。</li></ol>
+<p><strong>技术突破只是产业发展的基础，而安全防护、责任界定、制度规范与成熟商业闭环，才真正决定 AI 智能体能否真正走进产业、落地生根，实现长期可持续的健康发展。</strong></p>
+<p>作为创始人，我深知从顶尖公司起步的创业故事往往充满传奇，但真实的日常是由无数个细节堆砌而成的。</p>
+<p>我们不需要成为下一个 Meta，也不需要立刻追赶百度的 DAA 概念。我们需要做的，是让每一个接入 CreBee 的用户，都能放心地把他们的内容资产交给我们的 Agent。</p>
+<p><strong>别数子弹了，数战果。</strong></p>
+<p>这句话不仅适用于宏观的产业叙事，也适用于我们每一次的代码提交、每一次的流程优化。</p>
+<p>在这个 AI Native 的时代，增长不再仅仅来自流量的获取，更来自信任的积累。</p>
+<p>如果你也在构建类似的智能体工作流，欢迎在评论区分享你的踩坑经验。我们一起，把这件事做对。</p>
+<p><hr></p>
+<p><strong>推荐阅读：</strong></p>
+<ul><li>[CreBee 团队版功能详解：10 成员、100 社媒账号的全栈支持]</li><li>[如何规避账号群 IP 集中的平台风险？网络代理设置指南]</li></ul>
+<p><hr></p>
+<p><strong>下期预告</strong>下一篇，我们聊聊更多实用内容。关注我，不错过更新。</p>
+    </article>
+    <div class="site-footer">© 2026 www.crebee.com.cn</div>
+    <div class="ai-disclosure"><small>本文由 CreBee AI 辅助生成，已经作者审校。生成时间：2026-06-20 14:30</small></div>
+    <aside class="qr-share-fab" aria-label="扫码分享"><div class="qr-share-fab__inner"><div class="qr-share-fab__qr"><svg style="width:110px;height:110px;display:block;" width="148" height="148" class="segno"><path transform="scale(4)" class="qrline" stroke="#1a1a1a" d="M0 0.5h7m3 0h1m3 0h3m1 0h3m1 0h2m4 0h1m1 0h7m-37 1h1m5 0h1m2 0h1m1 0h2m3 0h1m1 0h1m3 0h1m1 0h2m1 0h1m2 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h4m1 0h1m3 0h3m2 0h1m2 0h1m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m4 0h2m2 0h3m3 0h4m3 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m3 0h1m2 0h1m1 0h5m1 0h1m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h1m3 0h4m2 0h1m1 0h3m3 0h3m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h3m1 0h2m4 0h1m2 0h4m1 0h3m-29 1h1m1 0h5m2 0h2m3 0h2m1 0h1m4 0h1m1 0h2m1 0h1m2 0h5m-33 1h2m1 0h1m1 0h1m4 0h1m1 0h4m1 0h1m3 0h1m4 0h1m2 0h1m2 0h2m-36 1h1m3 0h4m4 0h2m6 0h1m1 0h1m1 0h1m1 0h6m2 0h3m-37 1h1m3 0h1m2 0h5m1 0h2m1 0h1m4 0h4m1 0h4m1 0h2m3 0h1m-37 1h1m3 0h1m1 0h2m1 0h2m1 0h1m1 0h1m2 0h1m1 0h2m1 0h5m2 0h4m1 0h3m-35 1h1m1 0h2m1 0h2m4 0h1m2 0h1m2 0h5m1 0h1m2 0h2m1 0h1m-31 1h6m1 0h2m2 0h2m1 0h2m3 0h2m2 0h1m1 0h2m1 0h5m1 0h2m-37 1h2m3 0h1m1 0h1m2 0h1m1 0h2m1 0h1m2 0h1m1 0h4m2 0h1m2 0h4m3 0h1m-37 1h1m1 0h2m2 0h1m1 0h1m6 0h3m1 0h1m2 0h2m1 0h3m1 0h2m1 0h1m1 0h1m-33 1h1m1 0h1m2 0h2m1 0h1m3 0h2m2 0h3m2 0h1m2 0h1m4 0h1m3 0h1m-34 1h1m2 0h3m3 0h8m1 0h2m4 0h6m3 0h2m-32 1h1m2 0h1m5 0h2m5 0h2m3 0h4m1 0h3m2 0h1m-37 1h1m1 0h1m1 0h4m1 0h3m2 0h2m1 0h1m4 0h4m1 0h4m1 0h3m-35 1h1m2 0h1m3 0h2m4 0h1m2 0h4m3 0h3m2 0h2m3 0h1m-31 1h4m2 0h2m1 0h4m4 0h1m1 0h1m4 0h3m1 0h3m1 0h2m-34 1h3m2 0h2m3 0h2m6 0h1m4 0h1m4 0h2m2 0h2m-35 1h3m1 0h1m1 0h5m1 0h2m1 0h1m1 0h1m2 0h7m1 0h1m1 0h1m1 0h2m-36 1h1m1 0h3m6 0h1m3 0h6m2 0h3m2 0h1m5 0h1m-35 1h1m1 0h2m1 0h4m2 0h1m2 0h1m3 0h1m2 0h1m3 0h3m1 0h4m2 0h2m-37 1h1m4 0h1m5 0h2m3 0h1m1 0h1m1 0h4m5 0h1m1 0h2m3 0h1m-37 1h1m1 0h1m1 0h1m1 0h3m4 0h2m2 0h1m6 0h9m1 0h1m1 0h1m-29 1h1m1 0h1m1 0h2m2 0h6m1 0h1m1 0h1m1 0h2m3 0h2m-34 1h7m3 0h4m1 0h2m3 0h1m1 0h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-37 1h1m5 0h1m1 0h5m2 0h2m1 0h2m1 0h3m2 0h1m1 0h1m3 0h2m1 0h2m-37 1h1m1 0h3m1 0h1m1 0h2m3 0h1m4 0h1m1 0h1m2 0h10m1 0h1m-35 1h1m1 0h3m1 0h1m1 0h2m3 0h3m1 0h4m2 0h1m3 0h2m1 0h1m1 0h1m2 0h2m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h1m3 0h1m2 0h1m1 0h3m1 0h2m2 0h1m5 0h3m-37 1h1m5 0h1m2 0h1m2 0h4m4 0h4m2 0h1m1 0h2m2 0h1m3 0h1m-37 1h7m1 0h3m1 0h1m1 0h2m1 0h3m2 0h5m2 0h2m1 0h5"/></svg>
+</div><div class="qr-share-fab__hint">微信扫码<br>分享文章</div></div></aside>
+<script>
+/* CreBee 埋点 beacon (v1.1 P0+.1, ≤ 1KB gzip 后 < 600B)
+   spec: docs/specs/p0-plus-1-website-tracking-beacon.md §F1
+   异步 + sendBeacon API，失败降级，不阻塞页面。
+   仅采集: pageview / scroll / dwell / referrer / utm（无 PII）
+   Blob type 用 text/plain（CORS-safelisted）：公网站点域 → 网关域跨域上报
+   零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
+(function() {
+  if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
+  var ENDPOINT = "https://situo.u.crebee.com/api/track/website";  // /api/track/website
+  var SLUG = "yi-ci-qa-shi-bai-hou-wo-men-ru-he-yong-zhuang-tai";
+  var ACCOUNT_SLUG = "Crebee_产品官网";
+  var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
+
+  // UTM 解析
+  var qs = new URLSearchParams(location.search);
+  var utm = {
+    utm_source: qs.get("utm_source") || "",
+    utm_medium: qs.get("utm_medium") || "",
+    utm_campaign: qs.get("utm_campaign") || ""
+  };
+
+  // pageview 立即上报
+  var basePayload = {
+    slug: SLUG, account_slug: ACCOUNT_SLUG,
+    referrer: document.referrer || "",
+    path_suffix: PATH,
+    utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign,
+    event: "pageview"
+  };
+  try {
+    navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(basePayload)], {type: "text/plain"}));
+  } catch (e) { /* fail-open */ }
+
+  // dwell + scroll 累积，pagehide 时上报
+  var dwellStart = Date.now();
+  var dwellSum = 0;
+  var maxScrollPercent = 0;
+
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    } else {
+      dwellStart = Date.now();
+    }
+  });
+
+  function updateScroll() {
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (docH <= 0) return;
+    var pct = Math.round((window.scrollY / docH) * 100);
+    if (pct > maxScrollPercent) maxScrollPercent = Math.min(100, pct);
+  }
+  var rafScheduled = false;
+  window.addEventListener("scroll", function() {
+    if (!rafScheduled) {
+      rafScheduled = true;
+      requestAnimationFrame(function() { updateScroll(); rafScheduled = false; });
+    }
+  }, {passive: true});
+
+  function unloadReport() {
+    if (document.visibilityState !== "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    }
+    var p = Object.assign({}, basePayload, {
+      event: "unload",
+      dwell_seconds: Math.round(dwellSum),
+      scroll_depth: maxScrollPercent
+    });
+    try {
+      navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(p)], {type: "text/plain"}));
+    } catch (e) { /* fail-open */ }
+  }
+  window.addEventListener("pagehide", unloadReport);
+})();
+</script>
+
+</body>
+</html>
