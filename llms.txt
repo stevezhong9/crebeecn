@@ -4,7 +4,6 @@
 
 ## Articles
 
-- [一次QA失败后，我们如何用状态机提升Agent可靠性](/yi-ci-qa-shi-bai-hou-wo-men-ru-he-yong-zhuang-tai/): 一次QA失败暴露Agent可靠性隐患。本文反思了过度关注Token消耗而忽视结果导向的问题，提出用状态机驱动设计提升Agent可靠性，强调'数战果而非子弹'的核
 - [为什么大多数SaaS都在死？原因只有一个核心前提](/wei-shen-me-da-duo-shu-saas-dou-zai-si-yuan-yin-zh/): 大多数SaaS死于缺乏核心前提。本文以CreBee为例，指出AI原生产品应做认知伙伴而非效率工具，强调安全与智能的平衡才是业务护城河，最终从人工作业转向智能体协
 - [2026年B2B企业AI Agent采用趋势与决策框架](/2026-nian-b2b-qi-ye-ai-agent-cai-yong-qu-shi-yu-ju/): 2026年B2B企业需从传统SaaS转向Agent，用AI替代人力，通过Context Engineering和智能体降低门槛，中小企业应抓住低代码机遇，聚焦算
 - [被投资人拒了30次后，我明白了AI不是救命稻草](/bei-tou-zi-ren-ju-le-30-ci-hou-wo-ming-bai-le-ai-b/): 当私募机构招聘16岁高中生操作数亿资金，AI军备竞赛的底线在哪里？技术红利是否掩盖了风险？本文深度剖析AI时代的合规与公平问题。
