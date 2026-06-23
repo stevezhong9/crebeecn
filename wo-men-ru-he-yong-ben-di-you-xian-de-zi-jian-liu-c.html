@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们如何用本地优先的自检流程将发布事故降为零</title>
+    <meta name="description" content="">
+    <meta property="og:title" content="我们如何用本地优先的自检流程将发布事故降为零">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="article">
+    <link rel="canonical" href="https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-de-zi-jian-liu-c.html">
+    <link rel="alternate" type="text/markdown" href="https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-de-zi-jian-liu-c.md">
+    <meta name="generator" content="CreBee AI-Assisted">
+    <meta name="ai-content-disclosure" content="本内容由 AI 辅助生成，已经人工审校。">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "我们如何用本地优先的自检流程将发布事故降为零", "description": "", "about": "我们如何用本地优先的自检流程将发布事故降为零", "wordCount": 2627, "inLanguage": "zh-CN", "author": {"@type": "Person", "name": "辉哥", "url": "https://www.crebee.com.cn/author/辉哥/"}, "publisher": {"@type": "Organization", "name": "北京思拓合众科技有限公司", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, "creativeWorkStatus": "AI-Assisted, Human-Reviewed", "datePublished": "2026-06-24 02:00:41", "dateModified": "2026-06-24 02:00:41", "url": "https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-de-zi-jian-liu-c.html", "mainEntityOfPage": "https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-de-zi-jian-liu-c.html"}, {"@type": "Organization", "name": "北京思拓合众科技有限公司", "url": "https://www.crebee.com.cn", "logo": {"@type": "ImageObject", "url": "https://www.crebee.cn/assets/logo-h-CnCedbD4.png"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.crebee.com.cn"}, {"@type": "ListItem", "position": 2, "name": "我们如何用本地优先的自检流程将发布事故降为零", "item": "https://www.crebee.com.cn/wo-men-ru-he-yong-ben-di-you-xian-de-zi-jian-liu-c.html"}]}]}</script>
+    <style>
+        :root {
+          --site-brand-primary: #16a34a;
+          --site-brand-primary-hover: #00933b;
+          --site-brand-primary-soft: #d8eedb;
+          --site-brand-bg: #ffffff;
+          --site-brand-fg: #1a1a1a;
+          --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+          --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
+          --site-radius-card: 0.375rem;
+          --site-line-height-body: 1.6;
+          --site-line-height-heading: 1.25;
+          --site-letter-spacing-heading: -0.02em;
+        }
+        :root { --primary: var(--site-brand-primary); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        a { color: var(--site-brand-primary); text-decoration: none; }
+        a:hover { color: var(--site-brand-primary-hover); text-decoration: underline; }
+        img { max-width: 100%; height: auto; }
+        /* P0-4 §3.4 Step 2.6：文章标题用品牌/preset 标题字体（统一两套路径——页面族
+           _base.html 早有此规则，文章页缺失致标题恒继承 body；无显式标题字体时
+           --site-brand-font-heading 回落 body，零回归）。base_css 不设 heading font-family，故此规则生效 */
+        article h1, article h2, article h3, article h4 { font-family: var(--site-brand-font-heading); line-height: var(--site-line-height-heading, inherit); letter-spacing: var(--site-letter-spacing-heading, normal); }
+        body { max-width: 800px; margin: 0 auto; padding: 0 1rem; font-family: var(--site-brand-font-body); line-height: var(--site-line-height-body, 1.8); color: var(--site-brand-fg); background: var(--site-brand-bg); }
+        .site-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; border-bottom: 1px solid #ececec; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .site-header .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; color: #1a1a1a; }
+        .site-header .brand img { height: 32px; width: auto; border-radius: 4px; }
+        .site-header nav { display: flex; gap: 1.4rem; font-size: 0.95rem; }
+        .site-header nav a { color: #555; }
+        .site-header nav a:hover { color: var(--primary); text-decoration: none; }
+        article { padding: 0 0 3rem; }
+        article h1 { font-size: 2rem; margin-bottom: 0.6rem; line-height: var(--site-line-height-heading, 1.3); color: #111; }
+        article .meta { color: #888; font-size: 0.9rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #f0f0f0; }
+        article .meta span { margin-right: 1rem; }
+        article h2 { font-size: 1.45rem; margin: 2.2rem 0 0.8rem; color: #111; padding-left: 0.6rem; border-left: 4px solid var(--primary); }
+        article h3 { font-size: 1.2rem; margin: 1.6rem 0 0.6rem; color: #222; }
+        article p { margin-bottom: 1rem; }
+        article figure { margin: 1.5rem 0; text-align: center; }
+        article figcaption { font-size: 0.85rem; color: #888; margin-top: 0.5rem; }
+        article blockquote { border-left: 3px solid var(--primary); padding: 0.6rem 1rem; margin: 1.2rem 0; background: #fafafa; color: #444; }
+        article pre { background: #f5f5f7; padding: 1rem; border-radius: var(--site-radius-card); overflow-x: auto; margin: 1rem 0; }
+        article code { font-family: "SF Mono", "Menlo", monospace; font-size: 0.9em; }
+        article :not(pre) > code { background: #f0f0f3; padding: 0.1em 0.35em; border-radius: 3px; }
+        article ul, article ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        article li { margin-bottom: 0.3rem; }
+        article hr { border: none; border-top: 1px solid #e8e8e8; margin: 2.4rem 0; }
+        .site-footer { color: #999; font-size: 0.85rem; margin: 2rem 0; padding: 1.5rem 0; border-top: 1px solid #ececec; text-align: center; line-height: 1.6; }
+        .ai-disclosure { color: #999; font-size: 0.78rem; padding: 0.8rem 0; text-align: center; }
+        .qr-share-fab { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); z-index: 50; }
+        .qr-share-fab__inner { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.08); padding: 0.65rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+        .qr-share-fab__qr { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; }
+        .qr-share-fab__hint { font-size: 0.72rem; color: #555; text-align: center; line-height: 1.3; letter-spacing: 0.02em; }
+        @media (max-width: 768px) { .qr-share-fab { display: none; } }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --site-brand-bg: #1c1c1a;
+                --site-brand-fg: #f0f0eb;
+            }
+            body { color: var(--site-brand-fg); background: var(--site-brand-bg); }
+            .site-header { border-bottom-color: #3a3a37; }
+            .site-header .brand { color: #f0f0eb; }
+            .site-header nav a { color: #a8a8a3; }
+            article h1, article h2, article h3 { color: #f0f0eb; }
+            article .meta { color: #a8a8a3; border-bottom-color: #3a3a37; }
+            article blockquote { background: #262624; color: #c8c8c3; border-left-color: var(--primary); }
+            article pre { background: #262624; border-color: #3a3a37; }
+            article :not(pre) > code { background: #3a3a37; color: #f0f0eb; }
+            article figcaption { color: #a8a8a3; }
+            article hr { border-top-color: #3a3a37; }
+            .site-footer { color: #a8a8a3; border-top-color: #3a3a37; }
+            .ai-disclosure { color: #7a7a77; }
+            .qr-share-fab__inner { background: #262624; border-color: #3a3a37;
+                box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+            .qr-share-fab__hint { color: #a8a8a3; }
+            nav.toc h4 { color: #a8a8a3; }
+            nav.toc a { color: #a8a8a3; }
+        }
+        @media (max-width: 640px) {
+            body { padding: 0 0.875rem; line-height: 1.7; font-size: 15px; }
+            .site-header { padding: 0.875rem 0; margin-bottom: 1.25rem; }
+            .site-header nav { width: 100%; gap: 1rem; font-size: 0.88rem; flex-wrap: wrap; }
+            article h1 { font-size: 1.55rem; }
+            article h2 { font-size: 1.2rem; margin: 1.8rem 0 0.6rem; }
+            article h3 { font-size: 1.08rem; }
+            article .meta { font-size: 0.82rem; margin-bottom: 1.4rem; }
+            article .meta span { margin-right: 0.7rem; }
+            article pre { font-size: 0.85rem; }
+            article figure { margin: 1.2rem 0; }
+        }
+
+
+    </style>
+    <meta property="og:image" content="www.crebee.com.cn/assets/atom-440-p0-763097e157.3ee602b4e2.png">
+</head>
+<body>
+    <header class="site-header"><a class="brand" href="https://www.crebee.com.cn"><img src="https://www.crebee.cn/assets/logo-h-CnCedbD4.png" alt="北京思拓合众科技有限公司" /><span>北京思拓合众科技有限公司</span></a></header>
+    <article>
+        <h1>我们如何用本地优先的自检流程将发布事故降为零</h1>
+        <div class="meta"><span>2026-06-24 02:00</span><span>辉哥</span><span>6 分钟阅读</span><span>2627 字</span></div>
+        <h2>发版 Smoke 自检：本地优先，如何把发布摩擦降到零？</h2>
+<p>我们曾经历过一段“灾难期”。</p>
+<p>每次更新 CreBee 的<strong>内容运营智能体</strong>功能，或者团队内部发布新的多平台稿件时，总有人在最后关头掉链子。链接失效、排版错乱、甚至发错账号。</p>
+<p>这种痛苦不是来自内容质量，而是来自<strong>重复操作</strong>。</p>
+<p>在传统的云端协作模式中，我们将精力过多地消耗在“搬运”和“对齐”上。直到我们引入了<strong>本地优先（Local-First）</strong>的策略，并建立了一套严格的 <strong>smoke 自检流程</strong>，情况才彻底改变。</p>
+<p>现在，我们的发布摩擦从频繁回滚降低到了零事故。</p>
+<blockquote><p><strong>核心结论：发布的高频错误往往源于人工在多平台间的机械重复，而非创意缺失。通过本地优先的内容沉淀与自动化分发，可以将这一风险降至最低。</strong></p></blockquote>
+<figure><img src="assets/6c0fa932-9b5.caa56eac4d.jpeg" alt="团队在电脑前进行代码或配置检查的场景，强调专注与本地化操作" loading="lazy" /><figcaption>团队在电脑前进行代码或配置检查的场景，强调专注与本地化操作</figcaption></figure>
+<h2>痛点：当“一致性”成为最大的敌人</h2>
+<p>做自媒体矩阵和企业内容运营，最累的不是写稿，而是“适配”。</p>
+<p>一篇公众号文章，要改成小红书笔记，再剪成抖音脚本，最后还要适配 Twitter 的短文本。每一个平台的调性、标签、图片尺寸都不同。</p>
+<p>过去，我们依赖云端同步。看似方便，实则隐患巨大：</p>
+<ol><li><strong>版本分裂</strong>：A 改了标题，B 没同步，导致发布不一致。</li><li><strong>网络延迟</strong>：大文件上传失败，卡在最后一步。</li><li><strong>人为失误</strong>：复制粘贴时的遗漏，是 smoke 测试中最难捕捉的 Bug。</li></ol>
+<p>据行业观察，<strong>投入不断增加，价值却难以衡量</strong>。我们花费大量时间在格式调整上，却忽略了内容本身的分发效率。</p>
+<p><strong>AI-Native 的核心，是让工具隐形，让数据流动。</strong></p>
+<h2>转折：本地优先 + 自动化分发</h2>
+<p>我们决定重构工作流。不再让内容在云端“裸奔”，而是先在本地完成标准化处理，再通过 API 统一分发。</p>
+<p>这就是 CreBee 作为<strong>saas marketing</strong> 枢纽的逻辑：<strong>一次创作，多端同步，本地校验。</strong></p>
+<h3><ol>
+<li>本地内容库：唯一的真相源</li>
+</ol></h3>
+<p>所有原始素材、多平台稿件的版本控制，全部存储在本地数据库。云端只负责同步和展示。</p>
+<p>这意味着，无论网络如何波动，创作者在本地拥有完整的编辑权和控制权。我们在本地完成最终的 <strong>smoke 自检</strong>——检查链接、预览排版、确认元数据。</p>
+<p>只有当本地状态标记为 <code>Ready</code>，才会触发云端分发任务。</p>
+<h3><ol>
+<li>自动化分发：消灭手动点击</li>
+</ol></h3>
+<p>CreBee 支持<strong>跨平台多账号统一分发管理</strong>，覆盖 9 大平台免费流量。</p>
+<p>一旦本地自检通过，系统自动将内容推送到微信公众号、小红书、Twitter 等平台。无需人工登录每个后台，无需反复调整格式。</p>
+<blockquote><p>“随时随地都能花5分钟完成高质量的微信公众号文章创作与发布”，这不再是口号，而是基于本地优先架构的现实能力。</p></blockquote>
+<figure><img src="assets/090677f8-d72.1071bacf43.jpg" alt="CreBee 界面截图，展示从本地草稿箱一键分发至多个社交媒体图标的路径" loading="lazy" /><figcaption>CreBee 界面截图，展示从本地草稿箱一键分发至多个社交媒体图标的路径</figcaption></figure>
+<h2>案例：从 30 分钟到 5 分钟的跃迁</h2>
+<p>让我们看一个真实的场景。</p>
+<p>一位初创科技企业的创始人，希望推广新产品。他没有运营经验，也没有时间学习复杂的后台操作。</p>
+<p>在传统模式下，他需要：</p>
+<ol><li>写稿（1小时）</li><li>注册/登录各平台（5分钟）</li><li>手动排版、配图（20分钟）</li><li>逐个发布，检查错误（15分钟）</li></ol>
+<p>总计：<strong>约 2 小时</strong>，且极易出错。</p>
+<p>使用 CreBee 后：</p>
+<ol><li>在本地编辑器中输入核心观点（5分钟）。</li><li><strong>内容运营智能体</strong>自动生成适配各平台的<strong>多平台稿件</strong>（包括标题优化、标签推荐）。</li><li>本地预览，确认无误。</li><li>一键分发。</li></ol>
+<p>总计：<strong>5 分钟</strong>。</p>
+<p>这不是魔法，这是<strong>Vibe Coding</strong> 思维下的工程化结果：将高频、低价值的动作自动化，让人专注于高价值的决策。</p>
+<p><strong>真正的效率，不是做得更快，而是不用做那些愚蠢的重复劳动。</strong></p>
+<h2>复盘：可复用的 Smoke 自检清单</h2>
+<p>为了保持零事故，我们提炼了一份适用于内容团队的 <strong>Smoke 自检清单</strong>。建议在执行本地优先策略时参考：</p>
+<ul><li>[ ] <strong>链接有效性</strong>：所有外部链接在本地环境可点击且无重定向死循环。</li><li>[ ] <strong>媒体资源完整性</strong>：图片、视频已上传至 CDN 且未过期，本地预览与云端一致。</li><li>[ ] <strong>元数据一致性</strong>：Title, Description, Tags 在各平台输出文件中完全匹配。</li><li>[ ] <strong>敏感词过滤</strong>：已通过 AI 代理进行初步合规性扫描。</li><li>[ ] <strong>回退机制</strong>：确认若发布失败，本地有完整备份，可随时重试。</li></ul>
+<p>这套流程不仅降低了技术风险，更提升了团队的心理安全感。你知道，只要本地通过了，云端就不会出错。</p>
+<figure><img src="assets/8850713.8f50949db6.jpg" alt="一份简洁的检查清单表格，列出了上述 5 个关键检查点" loading="lazy" /><figcaption>一份简洁的检查清单表格，列出了上述 5 个关键检查点</figcaption></figure>
+<h2>结语：拥抱确定性</h2>
+<p>在 AI Agent 正在替代传统 SaaS 的今天，工具的竞争不再是功能的堆砌，而是<strong>确定性的交付</strong>。</p>
+<p>本地优先不仅仅是一种技术架构，更是一种运营哲学：<strong>掌控源头，信任流程，释放创造力。</strong></p>
+<p>对于内容团队而言，减少发布摩擦，就是增加增长的机会。每一次成功的自动化分发，都是对团队信任的一次积累。</p>
+<p>如果你也在为多平台发布的混乱头疼，不妨试试从“本地优先”开始。先让内容在本地安静下来，再让它去世界喧嚣的地方发声。</p>
+<hr>
+<p><strong>互动话题</strong>： 你在内容分发中遇到的最大痛点是什么？是排版、多账号管理，还是数据统计？欢迎在评论区分享，我们一起探讨如何用<strong>内容运营智能体</strong>解决它。</p>
+<hr>
+<p><strong>今日互动</strong> 关于「发版smoke自检：本地优先内容运营如何」，你怎么看？ 欢迎在评论区分享你的看法。</p>
+    </article>
+    <div class="site-footer"><div style="margin-top:0.75rem;font-size:0.85rem;opacity:0.75;">© 2026 北京思拓合众科技有限公司</div></div>
+    <div class="ai-disclosure"><small>本文由 CreBee AI 辅助生成，已经作者审校。生成时间：2026-06-24 02:00</small></div>
+    <aside class="qr-share-fab" aria-label="扫码分享"><div class="qr-share-fab__inner"><div class="qr-share-fab__qr"><svg style="width:110px;height:110px;display:block;" width="148" height="148" class="segno"><path transform="scale(4)" class="qrline" stroke="#1a1a1a" d="M0 0.5h7m3 0h9m1 0h1m1 0h1m2 0h2m3 0h7m-37 1h1m5 0h1m1 0h1m1 0h1m4 0h4m1 0h3m1 0h2m2 0h1m1 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h5m1 0h2m2 0h2m1 0h1m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m3 0h5m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m2 0h1m1 0h1m5 0h1m1 0h2m2 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m2 0h3m4 0h2m2 0h1m4 0h2m1 0h1m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h3m3 0h1m-29 1h1m5 0h1m1 0h2m1 0h1m2 0h4m1 0h1m2 0h1m1 0h2m1 0h1m1 0h2m2 0h3m-35 1h2m1 0h2m2 0h1m1 0h3m3 0h1m1 0h2m1 0h3m2 0h2m1 0h1m1 0h2m1 0h2m-32 1h4m4 0h1m1 0h3m3 0h1m1 0h1m3 0h6m1 0h4m-37 1h6m1 0h1m1 0h4m1 0h1m5 0h1m1 0h1m3 0h1m2 0h1m1 0h3m2 0h1m-36 1h1m4 0h5m4 0h2m1 0h1m1 0h1m3 0h1m3 0h1m1 0h1m2 0h1m2 0h1m-36 1h2m2 0h1m7 0h7m2 0h2m1 0h1m1 0h3m1 0h1m1 0h1m-34 1h1m5 0h1m2 0h3m1 0h4m1 0h1m2 0h1m2 0h1m1 0h2m3 0h3m1 0h2m-32 1h1m4 0h3m1 0h2m2 0h2m3 0h1m3 0h5m1 0h4m-35 1h1m1 0h8m5 0h1m1 0h1m2 0h6m1 0h2m1 0h1m1 0h2m-36 1h3m1 0h2m1 0h1m1 0h2m1 0h2m2 0h2m1 0h1m3 0h2m2 0h2m4 0h1m1 0h1m-36 1h3m1 0h3m1 0h3m5 0h2m1 0h1m3 0h1m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m1 0h1m-37 1h3m1 0h2m3 0h1m2 0h1m1 0h3m3 0h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h2m2 0h1m-37 1h1m1 0h6m2 0h4m3 0h1m4 0h4m2 0h3m1 0h3m-34 1h1m1 0h1m1 0h1m1 0h1m7 0h1m2 0h2m1 0h4m1 0h2m1 0h1m2 0h1m1 0h1m-32 1h2m1 0h1m1 0h3m3 0h3m3 0h1m1 0h1m3 0h4m1 0h3m2 0h1m-37 1h1m1 0h1m1 0h2m4 0h1m2 0h1m4 0h1m1 0h1m6 0h1m1 0h1m1 0h3m1 0h1m-35 1h2m3 0h2m2 0h2m1 0h2m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m2 0h2m4 0h1m-37 1h1m1 0h1m8 0h2m4 0h5m1 0h1m1 0h1m1 0h3m1 0h1m1 0h2m-35 1h1m1 0h1m2 0h6m2 0h3m2 0h1m1 0h1m1 0h1m1 0h7m2 0h4m-37 1h1m3 0h2m2 0h1m4 0h1m2 0h1m1 0h1m1 0h1m2 0h2m1 0h1m2 0h1m1 0h2m1 0h3m-37 1h1m3 0h1m1 0h5m4 0h3m1 0h1m3 0h4m1 0h7m1 0h1m-29 1h1m1 0h1m1 0h1m1 0h8m1 0h1m4 0h1m3 0h1m-33 1h7m2 0h1m2 0h4m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m3 0h1m-37 1h1m5 0h1m4 0h1m4 0h1m3 0h1m1 0h2m2 0h3m3 0h1m-33 1h1m1 0h3m1 0h1m10 0h1m1 0h1m2 0h2m1 0h1m1 0h6m1 0h2m-36 1h1m1 0h3m1 0h1m5 0h1m1 0h1m1 0h1m1 0h2m1 0h3m2 0h1m3 0h1m2 0h1m1 0h2m-37 1h1m1 0h3m1 0h1m2 0h3m2 0h2m5 0h2m2 0h1m2 0h1m6 0h2m-37 1h1m5 0h1m2 0h2m2 0h2m1 0h1m3 0h1m1 0h1m3 0h1m1 0h3m1 0h2m2 0h1m-37 1h7m1 0h1m1 0h4m2 0h1m1 0h1m1 0h1m3 0h1m2 0h2m1 0h2m1 0h1m2 0h1"/></svg>
+</div><div class="qr-share-fab__hint">微信扫码<br>分享文章</div></div></aside>
+<script>
+/* CreBee 埋点 beacon (v1.1 P0+.1, ≤ 1KB gzip 后 < 600B)
+   spec: docs/specs/p0-plus-1-website-tracking-beacon.md §F1
+   异步 + sendBeacon API，失败降级，不阻塞页面。
+   仅采集: pageview / scroll / dwell / referrer / utm（无 PII）
+   Blob type 用 text/plain（CORS-safelisted）：公网站点域 → 网关域跨域上报
+   零 preflight；hono c.req.json() 按 Fetch 标准忽略 content-type 照常解析 */
+(function() {
+  if (!navigator.sendBeacon) return;  // 老浏览器无 sendBeacon → 静默放弃
+  var ENDPOINT = "https://situo.u.crebee.com/api/track/website";  // /api/track/website
+  var SLUG = "wo-men-ru-he-yong-ben-di-you-xian-de-zi-jian-liu-c";
+  var ACCOUNT_SLUG = "crebee";
+  var PATH = location.pathname.endsWith(".md") ? ".md" : ".html";
+
+  // UTM 解析
+  var qs = new URLSearchParams(location.search);
+  var utm = {
+    utm_source: qs.get("utm_source") || "",
+    utm_medium: qs.get("utm_medium") || "",
+    utm_campaign: qs.get("utm_campaign") || ""
+  };
+
+  // pageview 立即上报
+  var basePayload = {
+    slug: SLUG, account_slug: ACCOUNT_SLUG,
+    referrer: document.referrer || "",
+    path_suffix: PATH,
+    utm_source: utm.utm_source, utm_medium: utm.utm_medium, utm_campaign: utm.utm_campaign,
+    event: "pageview"
+  };
+  try {
+    navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(basePayload)], {type: "text/plain"}));
+  } catch (e) { /* fail-open */ }
+
+  // dwell + scroll 累积，pagehide 时上报
+  var dwellStart = Date.now();
+  var dwellSum = 0;
+  var maxScrollPercent = 0;
+
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    } else {
+      dwellStart = Date.now();
+    }
+  });
+
+  function updateScroll() {
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (docH <= 0) return;
+    var pct = Math.round((window.scrollY / docH) * 100);
+    if (pct > maxScrollPercent) maxScrollPercent = Math.min(100, pct);
+  }
+  var rafScheduled = false;
+  window.addEventListener("scroll", function() {
+    if (!rafScheduled) {
+      rafScheduled = true;
+      requestAnimationFrame(function() { updateScroll(); rafScheduled = false; });
+    }
+  }, {passive: true});
+
+  function unloadReport() {
+    if (document.visibilityState !== "hidden") {
+      dwellSum += (Date.now() - dwellStart) / 1000;
+    }
+    var p = Object.assign({}, basePayload, {
+      event: "unload",
+      dwell_seconds: Math.round(dwellSum),
+      scroll_depth: maxScrollPercent
+    });
+    try {
+      navigator.sendBeacon(ENDPOINT, new Blob([JSON.stringify(p)], {type: "text/plain"}));
+    } catch (e) { /* fail-open */ }
+  }
+  window.addEventListener("pagehide", unloadReport);
+})();
+</script>
+
+</body>
+</html>
