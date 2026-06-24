@@ -24,11 +24,31 @@
       --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
       --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
       --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
-      --site-content-max: 65ch;
-      --site-spacing-section: clamp(3rem, 8vw, 6rem);
-      --site-grid-card-gap: 1.5rem;
-      --site-radius-card: 0.75rem;
-      --site-radius-button: 0.5rem;
+      /* 版式 token 由 site_theme.resolve_theme(preset) 注入（P0-4 §3.4）；
+         无 style_preset → 默认值等于原硬编码（视觉零回归，决策 6-5 修订） */
+      --site-content-max: 72ch;
+      --site-spacing-section: clamp(2.5rem, 6vw, 4.5rem);
+      --site-grid-card-gap: 1.25rem;
+      --site-radius-card: 0.375rem;
+      --site-radius-button: 0.25rem;
+      /* G1（2026-06-22）扩展 token：间距尺度 / 圆角 / 阴影 / 语义色 / 排版（25 维三层金字塔）。
+         enterprise-saas / 无 preset 取值 = 原硬编码（视觉零回归）；供页面族 + AI 自定义页消费 */
+      --site-space-xs: 0.5rem;
+      --site-space-sm: 0.75rem;
+      --site-space-md: 1rem;
+      --site-space-lg: 1.5rem;
+      --site-space-xl: 2rem;
+      --site-radius-pill: 0.25rem;
+      --site-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.06);
+      --site-shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.1);
+      --site-shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --site-on-primary: #ffffff;
+      --site-success: #16a34a;
+      --site-danger: #dc2626;
+      --site-warning: #d97706;
+      --site-line-height-body: 1.6;
+      --site-line-height-heading: 1.25;
+      --site-letter-spacing-heading: -0.02em;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -45,33 +65,34 @@
       font-family: var(--site-brand-font-body);
       background: var(--site-brand-bg);
       color: var(--site-brand-fg);
-      line-height: 1.6;
+      line-height: var(--site-line-height-body);
     }
     a { color: var(--site-brand-primary); text-decoration: none; }
     a:hover { color: var(--site-brand-primary-hover); }
-    h1, h2, h3, h4 { font-family: var(--site-brand-font-heading); line-height: 1.25; }
+    h1, h2, h3, h4 { font-family: var(--site-brand-font-heading); line-height: var(--site-line-height-heading); letter-spacing: var(--site-letter-spacing-heading); }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
     .card {
       background: var(--site-brand-bg-elev);
       border: 1px solid var(--site-border-subtle);
       border-radius: var(--site-radius-card);
-      padding: 1.5rem;
-      transition: border-color 0.15s ease;
+      padding: var(--site-space-lg);
+      box-shadow: var(--site-shadow-card);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
-    .card:hover { border-color: var(--site-brand-primary-soft); }
+    .card:hover { border-color: var(--site-brand-primary-soft); box-shadow: var(--site-shadow-card-hover); }
     .button-primary {
       display: inline-block;
       padding: 0.75rem 1.5rem;
       background: var(--site-brand-primary);
-      color: white;
+      color: var(--site-on-primary);
       border-radius: var(--site-radius-button);
       border: none;
       font-weight: 500;
       cursor: pointer;
       min-height: 44px;  /* mobile-first tappable */
     }
-    .button-primary:hover { background: var(--site-brand-primary-hover); color: white; }
-    .cta { padding: 1.5rem; border-radius: var(--site-radius-card); background: var(--site-brand-bg-elev); border: 1px solid var(--site-border-subtle); }
+    .button-primary:hover { background: var(--site-brand-primary-hover); color: var(--site-on-primary); }
+    .cta { padding: var(--site-space-lg); border-radius: var(--site-radius-card); background: var(--site-brand-bg-elev); border: 1px solid var(--site-border-subtle); }
     .cta-qr { width: 200px; height: 200px; }
     .cta-newsletter input, .cta-sales-form input, .cta-sales-form textarea {
       display: block;
@@ -85,6 +106,12 @@
       min-height: 44px;
     }
     .cta-legal { font-size: 0.85rem; color: var(--site-brand-fg-muted); }
+    /* 真实性信号（spec 2026-06-18 P0）：信任带 + 作者资质徽章/外链，复用 --site-* token */
+    .trust-reviewed, .trust-sources, .trust-updated { font-size: 0.8rem; }
+    .trust-reviewed { color: var(--site-brand-primary); font-weight: 500; }
+    .trust-sources, .trust-updated { color: var(--site-brand-fg-muted); }
+    .expertise-tag { display: inline-block; padding: 0.15rem 0.5rem; background: var(--site-brand-primary-soft); color: var(--site-brand-primary); border-radius: var(--site-radius-pill); font-size: 0.75rem; font-weight: 500; }
+    .author-social { font-size: 0.8rem; color: var(--site-brand-primary); }
     
   </style>
 </head>
@@ -198,20 +225,30 @@
 </style>
 
   </main>
-  <footer class="site-footer" role="contentinfo" style="border-top: 1px solid var(--site-border-subtle); margin-top: var(--site-spacing-section); padding: 2rem 0; color: var(--site-brand-fg-muted); font-size: 0.9rem;">
-  <div class="container" style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center;">
-    <div>
-      <strong>Crebee 产品官网</strong>
+  <footer class="site-footer" role="contentinfo" style="border-top: 1px solid var(--site-border-subtle); margin-top: var(--site-spacing-section); padding: 2.5rem 0 2rem; color: var(--site-brand-fg-muted); font-size: 0.9rem;">
+  <div class="container" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
+    <div style="max-width: 320px;">
+      <strong style="font-size: 1rem; color: var(--site-brand-fg);">Crebee 产品官网</strong>
       
+      <div style="margin-top: 1rem;"><a href="../../about/" class="footer-cta" style="display:inline-block;padding:0.6rem 1.2rem;border-radius:var(--site-radius-button,6px);background:var(--site-brand-primary);color:#fff;font-weight:500;text-decoration:none;">订阅 / 联系我们</a></div>
     </div>
-    <nav style="display: flex; gap: 1rem;">
-      <a href="../../about/">关于</a>
+    <div>
+      <div style="font-weight: 600; color: var(--site-brand-fg); margin-bottom: 0.5rem;">浏览</div>
+      <nav style="display: flex; flex-direction: column; gap: 0.4rem;">
+        <a href="../../">首页</a><a href="../../categories/">分类</a><a href="../../archive/">归档</a><a href="../../about/">关于</a>
+      </nav>
+    </div>
+    <div>
+      <div style="font-weight: 600; color: var(--site-brand-fg); margin-bottom: 0.5rem;">关注</div>
       
-      
-      <a href="../../rss.xml">RSS</a>
-    </nav>
+      <nav style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap;">
+        
+        
+        <a href="../../rss.xml">RSS</a>
+      </nav>
+    </div>
   </div>
-  <div class="container" style="margin-top: 1rem; font-size: 0.8rem;">
+  <div class="container" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--site-border-subtle); font-size: 0.8rem;">
     © 2026 Crebee 产品官网  
   </div>
 </footer>
