@@ -11,6 +11,7 @@
 <link rel="alternate" type="application/feed+json" title="JSON Feed" href="../../feed.json"/>
 <link rel="canonical" href="https://www.crebee.com.cn/product/platform/">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "平台功能", "description": "跨平台内容分发、数据统计与账号管理，一键接入智能体工作流。"}</script>
+<meta property="og:image" content="https://www.crebee.com.cn/brand/og-visual.png">
   <style>
     /* CSS variables 由 brand_assets.py 注入（v1.1 P0+.5） */
     :root {
@@ -27,29 +28,29 @@
       --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
       /* 版式 token 由 site_theme.resolve_theme(preset) 注入（P0-4 §3.4）；
          无 style_preset → 默认值等于原硬编码（视觉零回归，决策 6-5 修订） */
-      --site-content-max: 72ch;
-      --site-spacing-section: clamp(2.5rem, 6vw, 4.5rem);
-      --site-grid-card-gap: 1.25rem;
-      --site-radius-card: 0.375rem;
-      --site-radius-button: 0.25rem;
+      --site-content-max: 65ch;
+      --site-spacing-section: clamp(3rem, 8vw, 6rem);
+      --site-grid-card-gap: 1.5rem;
+      --site-radius-card: 0.75rem;
+      --site-radius-button: 0.5rem;
       /* G1（2026-06-22）扩展 token：间距尺度 / 圆角 / 阴影 / 语义色 / 排版（25 维三层金字塔）。
          enterprise-saas / 无 preset 取值 = 原硬编码（视觉零回归）；供页面族 + AI 自定义页消费 */
       --site-space-xs: 0.5rem;
       --site-space-sm: 0.75rem;
       --site-space-md: 1rem;
       --site-space-lg: 1.5rem;
-      --site-space-xl: 2rem;
-      --site-radius-pill: 0.25rem;
-      --site-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.06);
-      --site-shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.1);
+      --site-space-xl: 2.5rem;
+      --site-radius-pill: 999px;
+      --site-shadow-card: none;
+      --site-shadow-card-hover: none;
       --site-shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.1);
       --site-on-primary: #ffffff;
-      --site-success: #16a34a;
-      --site-danger: #dc2626;
-      --site-warning: #d97706;
+      --site-success: #15803d;
+      --site-danger: #b91c1c;
+      --site-warning: #b45309;
       --site-line-height-body: 1.6;
       --site-line-height-heading: 1.25;
-      --site-letter-spacing-heading: -0.02em;
+      --site-letter-spacing-heading: normal;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -117,17 +118,17 @@
   </style>
 </head>
 <body>
-  <header class="site-header" role="banner" style="border-bottom: 1px solid var(--site-border-subtle); padding: 1rem 0; position: sticky; top: 0; background: var(--site-brand-bg); z-index: 10;">
+  <header data-crebee-edit="site.nav" class="site-header" role="banner" style="border-bottom: 1px solid var(--site-border-subtle); padding: 1rem 0; position: sticky; top: 0; background: var(--site-brand-bg); z-index: 10;">
   <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
     <a href="../../" class="brand" style="display: flex; align-items: center; gap: 0.5rem;">
-      
-      <span class="brand-name" style="font-weight: 600;">Crebee 产品官网</span>
+      <img data-crebee-field="nav_logo" data-crebee-media="image" src="http://localhost:7777/api/files/materials/2026-05/10e1f0113c50.png" alt="让一人撑起一条产品线内容运营" style="height:32px;">
+      <span class="brand-name" style="font-weight: 600;">让一人撑起一条产品线内容运营</span>
     </a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display: none;">
     <label for="nav-toggle" class="nav-toggle-label" aria-label="菜单" style="display: none; cursor: pointer; padding: 0.5rem;">☰</label>
     <nav class="site-nav" role="navigation" style="display: flex; gap: 1.5rem; align-items: center;">
       <a href="../../">首页</a>
-      <a href="../../categories/">分类</a>
+      <a href="../../industry-insights/">行业洞察</a><a href="../../zhuan-ye-zhi-shi/">专业知识</a>
       <a href="../../archive/">归档</a>
       <a href="../../about/">关于</a>
       <a href="../../rss.xml" rel="alternate">RSS</a>
@@ -158,21 +159,21 @@
      props: headline (required), subhead, cta_html
      一句话产品线定位 + 支撑句 + 主 CTA
      spec: docs/specs/2026-06-05-website-b2b-product-line-upgrade.md §W2 -->
-<section class="product-hero" style="padding: var(--site-spacing-section) 0; text-align: center;">
-  <h1 style="font-size: clamp(2rem, 5vw, 3.25rem); margin: 0 0 1rem; line-height: 1.25;">新媒体矩阵运营工具</h1>
-  <p style="color: var(--site-brand-fg-muted); font-size: 1.15rem; max-width: 640px; margin: 0 auto 2rem;">跨平台内容分发、数据统计与账号管理，一键接入智能体工作流。</p>
+<section data-crebee-edit="page.product/platform.product_hero" class="product-hero" style="padding: var(--site-spacing-section) 0; text-align: center;">
+  <h1 style="font-size: clamp(2rem, 5vw, 3.25rem); margin: 0 0 1rem; line-height: 1.25;"><span data-crebee-field="headline">跨平台内容分发与数据统计</span></h1>
+  <p style="color: var(--site-brand-fg-muted); font-size: 1.15rem; max-width: 640px; margin: 0 auto 2rem;"><span data-crebee-field="subhead">跨平台内容分发、数据统计与账号管理，一键接入智能体工作流。</span></p>
   <div class="product-hero-cta" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
     
   </div>
-</section>
+<video data-crebee-field="demo_video" data-crebee-media="video" controls preload="metadata" src="http://localhost:7777/api/files/materials/2026-04/c163bfe1-9c6.mp4" poster="http://localhost:7777/api/files/materials/2026-04/c163bfe1-9c6_thumb.jpg" style="display:block;width:100%;max-width:720px;margin:2rem auto 0;border-radius:var(--site-radius-card);"></video><div class="product-audio-card" style="max-width:640px;margin:1.5rem auto 0;padding:1rem 1.25rem;text-align:left;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg-elev);"><p style="margin:0 0 .6rem;font-size:.9rem;font-weight:600;"><span data-crebee-field="intro_audio_title">自动化生成的测试语音</span></p><audio data-crebee-field="intro_audio" data-crebee-media="audio" controls preload="none" src="http://localhost:7777/api/files/materials/2026-04/da85cb83-217.mp3" style="display:block;width:100%;"></audio></div><div class="product-detail-rich" style="max-width:720px;margin:2rem auto 0;text-align:left;"><p>产品介绍内容</p></div></section>
 
 
 <!-- Pain points block (W2 money page) — used_in: product, use_case
      props: pain_points_html (required), section_title
      adapter 把 content_json.pain_points 数组预构建为 <div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">多平台发布慢</h3><p style="margin:0;color:var(--site-brand-fg-muted);">逐个登录各平台发布内容，耗时且易出错。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">数据汇总难</h3><p style="margin:0;color:var(--site-brand-fg-muted);">各平台数据分散，手动整理报表效率低。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">账号管理乱</h3><p style="margin:0;color:var(--site-brand-fg-muted);">员工离职或账号众多，权限与安全难以控制。</p></div> 卡片
      spec: docs/specs/2026-06-05-website-b2b-product-line-upgrade.md §W2 -->
-<section class="pain-points" style="padding: var(--site-spacing-section) 0; border-top: 1px solid var(--site-border-subtle);">
-  <h2 style="text-align: center; margin-bottom: 1.5rem;">你面临的挑战</h2>
+<section data-crebee-edit="page.product/platform.pain_points" class="pain-points" style="padding: var(--site-spacing-section) 0; border-top: 1px solid var(--site-border-subtle);">
+  <h2 style="text-align: center; margin-bottom: 1.5rem;"><span data-crebee-field="section_title">你是否面临以下挑战？</span></h2>
   <div class="pain-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--site-grid-card-gap);">
     <div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">多平台发布慢</h3><p style="margin:0;color:var(--site-brand-fg-muted);">逐个登录各平台发布内容，耗时且易出错。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">数据汇总难</h3><p style="margin:0;color:var(--site-brand-fg-muted);">各平台数据分散，手动整理报表效率低。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">账号管理乱</h3><p style="margin:0;color:var(--site-brand-fg-muted);">员工离职或账号众多，权限与安全难以控制。</p></div>
   </div>
@@ -183,40 +184,27 @@
      props: use_cases_html (required), section_title
      adapter 把 content_json.use_cases 数组预构建为 <div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">内容批量分发</h3><p style="margin:0;color:var(--site-brand-fg-muted);">一次编辑，同步发布至微信、抖音、小红书等平台。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">传播效果分析</h3><p style="margin:0;color:var(--site-brand-fg-muted);">自动汇总阅读、互动等数据，生成跨平台对比报告。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">智能体工作流</h3><p style="margin:0;color:var(--site-brand-fg-muted);">接入AI智能体，自动回复评论、生成选题建议。</p></div> 卡片
      spec: docs/specs/2026-06-05-website-b2b-product-line-upgrade.md §W2 -->
-<section class="use-cases" style="padding: var(--site-spacing-section) 0; border-top: 1px solid var(--site-border-subtle);">
-  <h2 style="text-align: center; margin-bottom: 1.5rem;">适用场景</h2>
+<section data-crebee-edit="page.product/platform.use_cases" class="use-cases" style="padding: var(--site-spacing-section) 0; border-top: 1px solid var(--site-border-subtle);">
+  <h2 style="text-align: center; margin-bottom: 1.5rem;"><span data-crebee-field="section_title">适用场景</span></h2>
   <div class="use-case-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--site-grid-card-gap);">
     <div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">内容批量分发</h3><p style="margin:0;color:var(--site-brand-fg-muted);">一次编辑，同步发布至微信、抖音、小红书等平台。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">传播效果分析</h3><p style="margin:0;color:var(--site-brand-fg-muted);">自动汇总阅读、互动等数据，生成跨平台对比报告。</p></div><div class="money-card" style="padding:1.25rem;border:1px solid var(--site-border-subtle);border-radius:var(--site-radius-card);background:var(--site-brand-bg);"><h3 style="margin:0 0 .5rem;font-size:1.05rem;">智能体工作流</h3><p style="margin:0;color:var(--site-brand-fg-muted);">接入AI智能体，自动回复评论、生成选题建议。</p></div>
   </div>
 </section>
 
 
-<!-- Proof / evidence block (W2 money page) — used_in: product, case
-     props: proof_html (required), section_title, source_note_html
-     证据/数据/dogfood case；source_note_html = 事实来源标注（accountability，缺则前置预检 warn）
-     spec: docs/specs/2026-06-05-website-b2b-product-line-upgrade.md §W2 -->
-<section class="proof" style="padding: var(--site-spacing-section) 0; border-top: 1px solid var(--site-border-subtle); background: var(--site-brand-bg-elev); margin: 2rem -1.5rem 0; border-radius: var(--site-radius-card);">
-  <div style="padding: 0 1.5rem;">
-    <h2 style="text-align: center; margin-bottom: 1.5rem;">为什么选择我们</h2>
-    <div class="proof-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--site-grid-card-gap);">
-      
-    </div>
-    <p class="proof-source" style="color: var(--site-brand-fg-muted); font-size: 0.85rem; text-align: center; margin-top: 1.5rem;"></p>
-  </div>
-</section>
 
   </main>
-  <footer class="site-footer" role="contentinfo" style="border-top: 1px solid var(--site-border-subtle); margin-top: var(--site-spacing-section); padding: 2.5rem 0 2rem; color: var(--site-brand-fg-muted); font-size: 0.9rem;">
+  <footer data-crebee-edit="site.footer" class="site-footer" role="contentinfo" style="border-top: 1px solid var(--site-border-subtle); margin-top: var(--site-spacing-section); padding: 2.5rem 0 2rem; color: var(--site-brand-fg-muted); font-size: 0.9rem;">
   <div class="container" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
     <div style="max-width: 320px;">
       <strong style="font-size: 1rem; color: var(--site-brand-fg);">Crebee 产品官网</strong>
-      
+      <p style="margin:0;color:var(--site-brand-fg-muted);"><span data-crebee-field="tagline">让一人撑起一条产品线内容运营</span></p>
       <div style="margin-top: 1rem;"><a href="../../about/" class="footer-cta" style="display:inline-block;padding:0.6rem 1.2rem;border-radius:var(--site-radius-button,6px);background:var(--site-brand-primary);color:#fff;font-weight:500;text-decoration:none;">订阅 / 联系我们</a></div>
     </div>
     <div>
       <div style="font-weight: 600; color: var(--site-brand-fg); margin-bottom: 0.5rem;">浏览</div>
       <nav style="display: flex; flex-direction: column; gap: 0.4rem;">
-        <a href="../../">首页</a><a href="../../categories/">分类</a><a href="../../archive/">归档</a><a href="../../about/">关于</a>
+        <a href="../../">首页</a><a href="../../industry-insights/">行业洞察</a><a href="../../zhuan-ye-zhi-shi/">专业知识</a><a href="../../archive/">归档</a><a href="../../about/">关于</a>
       </nav>
     </div>
     <div>

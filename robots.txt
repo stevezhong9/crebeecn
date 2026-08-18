@@ -1,26 +1,26 @@
-# robots.txt — 三层 AI 爬虫策略（2026 GEO 最佳实践）
+# robots.txt — 三层 AI 可见性策略（2026-07-06）
 # 默认：放行常规搜索引擎与未知爬虫
 User-agent: *
 Allow: /
 
-# ── 第一层：训练爬虫 → Disallow（不产生流量，白送训练数据无回报）──
+# ── 第一层：训练爬虫 → Allow（创始人决策：最大化 AI 可见性与模型理解机会）──
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
 User-agent: ClaudeBot
-Disallow: /
+Allow: /
 
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 User-agent: CCBot
-Disallow: /
+Allow: /
 
 User-agent: Bytespider
-Disallow: /
+Allow: /
 
 User-agent: Meta-ExternalAgent
-Disallow: /
+Allow: /
 
 # ── 第二层：搜索爬虫 → Allow（产生引用流量）──
 User-agent: OAI-SearchBot
@@ -42,4 +42,4 @@ Allow: /
 User-agent: Perplexity-User
 Allow: /
 
-Sitemap: sitemap.xml
+Sitemap: https://www.crebee.com.cn/sitemap.xml

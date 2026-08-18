@@ -2,6 +2,11 @@
 
 > 由 CreBee 维护的内容站点。所有文章均可通过在 URL 后追加 .md 获取 markdown 版本。
 
+## Sections
+
+- [行业洞察](/industry-insights/): 深度解析行业趋势与洞察，助力B2B营销决策
+- [专业知识](/zhuan-ye-zhi-shi/)
+
 ## Articles
 
 - [明明懂专业，AI却不听话？你该试试这种新玩法](/ming-ming-dong-zhuan-ye-ai-que-bu-ting-hua-ni-gai/): 当通用大模型触及天花板，AI下一轮效率革命将发生在高专业壁垒的垂直领域。MiniMax推出'10x Team'计划，通过'产业研究合伙人机制'引入行业专家，将隐

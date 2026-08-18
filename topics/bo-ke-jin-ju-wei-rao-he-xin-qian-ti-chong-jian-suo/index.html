@@ -24,11 +24,31 @@
       --site-brand-font-heading: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
       --site-brand-font-body: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
       --site-brand-font-mono: "SF Mono", "Menlo", "Consolas", monospace;
-      --site-content-max: 65ch;
-      --site-spacing-section: clamp(3rem, 8vw, 6rem);
-      --site-grid-card-gap: 1.5rem;
-      --site-radius-card: 0.75rem;
-      --site-radius-button: 0.5rem;
+      /* 版式 token 由 site_theme.resolve_theme(preset) 注入（P0-4 §3.4）；
+         无 style_preset → 默认值等于原硬编码（视觉零回归，决策 6-5 修订） */
+      --site-content-max: 68ch;
+      --site-spacing-section: clamp(3.5rem, 7vw, 6.5rem);
+      --site-grid-card-gap: 1.25rem;
+      --site-radius-card: 0.875rem;
+      --site-radius-button: 0.625rem;
+      /* G1（2026-06-22）扩展 token：间距尺度 / 圆角 / 阴影 / 语义色 / 排版（25 维三层金字塔）。
+         enterprise-saas / 无 preset 取值 = 原硬编码（视觉零回归）；供页面族 + AI 自定义页消费 */
+      --site-space-xs: 0.5rem;
+      --site-space-sm: 0.75rem;
+      --site-space-md: 1rem;
+      --site-space-lg: 1.75rem;
+      --site-space-xl: 3rem;
+      --site-radius-pill: 999px;
+      --site-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --site-shadow-card-hover: 0 10px 24px rgba(15, 23, 42, 0.09);
+      --site-shadow-elevated: 0 18px 44px rgba(15, 23, 42, 0.12);
+      --site-on-primary: #ffffff;
+      --site-success: #15803d;
+      --site-danger: #b91c1c;
+      --site-warning: #b45309;
+      --site-line-height-body: 1.65;
+      --site-line-height-heading: 1.12;
+      --site-letter-spacing-heading: -0.015em;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -45,33 +65,34 @@
       font-family: var(--site-brand-font-body);
       background: var(--site-brand-bg);
       color: var(--site-brand-fg);
-      line-height: 1.6;
+      line-height: var(--site-line-height-body);
     }
     a { color: var(--site-brand-primary); text-decoration: none; }
     a:hover { color: var(--site-brand-primary-hover); }
-    h1, h2, h3, h4 { font-family: var(--site-brand-font-heading); line-height: 1.25; }
+    h1, h2, h3, h4 { font-family: var(--site-brand-font-heading); line-height: var(--site-line-height-heading); letter-spacing: var(--site-letter-spacing-heading); }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
     .card {
       background: var(--site-brand-bg-elev);
       border: 1px solid var(--site-border-subtle);
       border-radius: var(--site-radius-card);
-      padding: 1.5rem;
-      transition: border-color 0.15s ease;
+      padding: var(--site-space-lg);
+      box-shadow: var(--site-shadow-card);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
-    .card:hover { border-color: var(--site-brand-primary-soft); }
+    .card:hover { border-color: var(--site-brand-primary-soft); box-shadow: var(--site-shadow-card-hover); }
     .button-primary {
       display: inline-block;
       padding: 0.75rem 1.5rem;
       background: var(--site-brand-primary);
-      color: white;
+      color: var(--site-on-primary);
       border-radius: var(--site-radius-button);
       border: none;
       font-weight: 500;
       cursor: pointer;
       min-height: 44px;  /* mobile-first tappable */
     }
-    .button-primary:hover { background: var(--site-brand-primary-hover); color: white; }
-    .cta { padding: 1.5rem; border-radius: var(--site-radius-card); background: var(--site-brand-bg-elev); border: 1px solid var(--site-border-subtle); }
+    .button-primary:hover { background: var(--site-brand-primary-hover); color: var(--site-on-primary); }
+    .cta { padding: var(--site-space-lg); border-radius: var(--site-radius-card); background: var(--site-brand-bg-elev); border: 1px solid var(--site-border-subtle); }
     .cta-qr { width: 200px; height: 200px; }
     .cta-newsletter input, .cta-sales-form input, .cta-sales-form textarea {
       display: block;
@@ -85,21 +106,81 @@
       min-height: 44px;
     }
     .cta-legal { font-size: 0.85rem; color: var(--site-brand-fg-muted); }
+    /* 真实性信号（spec 2026-06-18 P0）：信任带 + 作者资质徽章/外链，复用 --site-* token */
+    .trust-reviewed, .trust-sources, .trust-updated { font-size: 0.8rem; }
+    .trust-reviewed { color: var(--site-brand-primary); font-weight: 500; }
+    .trust-sources, .trust-updated { color: var(--site-brand-fg-muted); }
+    .expertise-tag { display: inline-block; padding: 0.15rem 0.5rem; background: var(--site-brand-primary-soft); color: var(--site-brand-primary); border-radius: var(--site-radius-pill); font-size: 0.75rem; font-weight: 500; }
+    .author-social { font-size: 0.8rem; color: var(--site-brand-primary); }
     
+.site-section { padding: var(--site-spacing-section, 4rem) 0; }
+.site-section--bordered { border-top: 1px solid var(--site-border-subtle); }
+.site-section--elevated { margin-block: var(--site-space-lg, 1.5rem); padding-inline: clamp(1.25rem, 4vw, 3rem); background: var(--site-brand-bg-elev); border: 1px solid var(--site-border-subtle); border-radius: var(--site-radius-card); box-shadow: var(--site-shadow-card); }
+.site-section__header { max-width: 720px; margin: 0 0 var(--site-space-xl, 2.5rem); text-align: left; }
+.site-section__header > p { margin: var(--site-space-sm, .75rem) 0 0; color: var(--site-brand-fg-muted); }
+.site-section__header > p:empty, .site-lead:empty, .site-actions:empty, .proof-source:empty { display: none; }
+:where(.pain-points, .use-cases, .proof, .faq-list) h2 { text-align: left !important; }
+.site-reading-width { max-width: var(--site-content-max, 760px); margin: 0 auto; }
+.site-lead { max-width: 640px; margin: var(--site-space-md, 1rem) 0 0; color: var(--site-brand-fg-muted); font-size: clamp(1rem, 2vw, 1.2rem); }
+.site-actions { display: flex; flex-wrap: wrap; gap: var(--site-space-sm, .75rem); margin-top: var(--site-space-lg, 1.5rem); }
+.site-hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: clamp(2rem, 6vw, 5rem); min-height: min(720px, 74vh); }
+.site-hero__copy { min-width: 0; }
+.site-hero__grid:not(:has(.site-hero__media)) .site-hero__copy { max-width: 760px; margin-inline: auto; text-align: center; }
+.site-hero__grid:not(:has(.site-hero__media)) .site-lead { margin-inline: auto; }
+.site-hero__grid:not(:has(.site-hero__media)) .site-actions { justify-content: center; }
+.site-hero__media { overflow: hidden; border: 1px solid var(--site-border-subtle); border-radius: calc(var(--site-radius-card) * 1.25); background: var(--site-brand-bg-elev); box-shadow: var(--site-shadow-elevated); }
+.site-hero__media img { display: block; width: 100%; height: auto; }
+.site-card-grid { display: grid; gap: var(--site-grid-card-gap, 1.5rem); }
+.site-card-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.site-card-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pain-grid { counter-reset: pain; }
+.pain-item { position: relative; padding: var(--site-space-md, 1rem) 0 var(--site-space-md, 1rem) 3rem; border-top: 1px solid var(--site-border-subtle); counter-increment: pain; }
+.pain-item::before { content: "0" counter(pain); position: absolute; inset: var(--site-space-md, 1rem) auto auto 0; color: var(--site-brand-primary); font-weight: 700; font-variant-numeric: tabular-nums; }
+.pain-item h3, .pain-item p { margin-bottom: 0; }
+.pain-item p { color: var(--site-brand-fg-muted); }
+.workflow-steps__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--site-grid-card-gap, 1.5rem); margin: 0; padding: 0; list-style: none; counter-reset: workflow; }
+.workflow-step { position: relative; min-width: 0; padding: calc(var(--site-space-lg, 1.5rem) + 2rem) var(--site-space-lg, 1.5rem) var(--site-space-lg, 1.5rem); border-top: 2px solid var(--site-brand-primary-soft); background: linear-gradient(180deg, var(--site-brand-primary-soft), transparent 42%); counter-increment: workflow; }
+.workflow-step::before { content: counter(workflow, decimal-leading-zero); position: absolute; inset: var(--site-space-sm, .75rem) auto auto var(--site-space-lg, 1.5rem); display: grid; place-items: center; min-width: 2rem; min-height: 2rem; border-radius: var(--site-radius-pill, 999px); background: var(--site-brand-primary); color: var(--site-on-primary, #fff); font-weight: 700; font-variant-numeric: tabular-nums; }
+.workflow-step h3 { margin-bottom: var(--site-space-md, 1rem); }
+.workflow-step__detail + h3 { margin-top: var(--site-space-md, 1rem); }
+.workflow-step__detail span, .capability-card dt { display: block; margin-bottom: var(--site-space-xs, .375rem); color: var(--site-brand-primary); font-size: .78rem; font-weight: 700; }
+.workflow-step__detail p, .capability-card p, .capability-card dd { margin: 0; color: var(--site-brand-fg-muted); }
+.capability-card { min-width: 0; border-top: 3px solid var(--site-brand-primary-soft); }
+.capability-card__benefit { font-size: 1.02rem; }
+.capability-card dl { display: grid; gap: var(--site-space-md, 1rem); margin: var(--site-space-lg, 1.5rem) 0 0; padding-top: var(--site-space-md, 1rem); border-top: 1px solid var(--site-border-subtle); }
+.capability-card dd { margin-inline-start: 0; }
+.proof-source { margin: var(--site-space-lg, 1.5rem) 0 0; color: var(--site-brand-fg-muted); font-size: .85rem; text-align: center; }
+.faq-items { display: flex; flex-direction: column; gap: var(--site-space-md, 1rem); }
+.cta-banner { text-align: center; }
+.cta-banner .site-lead { margin-inline: auto; }
+.cta-banner [data-cta] { margin-top: var(--site-space-lg, 1.5rem); min-height: 44px; }
+@media (min-width: 900px) { .site-hero__grid:has(.site-hero__media) { grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr); } }
+@media (max-width: 768px) {
+  .site-section { padding-block: clamp(2.75rem, 12vw, 4.5rem); }
+  .site-section--elevated { padding-inline: 1.1rem; }
+  .site-hero__grid { min-height: auto; }
+  .site-card-grid--two, .site-card-grid--three, .workflow-steps__list { grid-template-columns: 1fr; }
+  .workflow-step { padding-left: calc(var(--site-space-lg, 1.5rem) + 2.5rem); padding-top: var(--site-space-lg, 1.5rem); border-top: 0; border-left: 2px solid var(--site-brand-primary-soft); background: linear-gradient(90deg, var(--site-brand-primary-soft), transparent 38%); }
+  .workflow-step::before { inset: var(--site-space-lg, 1.5rem) auto auto -1.05rem; }
+  .site-actions { align-items: stretch; }
+  .site-actions > * { width: 100%; min-height: 44px; text-align: center; }
+}
+
+
   </style>
 </head>
 <body>
-  <header class="site-header" role="banner" style="border-bottom: 1px solid var(--site-border-subtle); padding: 1rem 0; position: sticky; top: 0; background: var(--site-brand-bg); z-index: 10;">
+  <header data-crebee-edit="site.nav" class="site-header" role="banner" style="border-bottom: 1px solid var(--site-border-subtle); padding: 1rem 0; position: sticky; top: 0; background: var(--site-brand-bg); z-index: 10;">
   <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
     <a href="../../" class="brand" style="display: flex; align-items: center; gap: 0.5rem;">
-      
-      <span class="brand-name" style="font-weight: 600;">Crebee 产品官网</span>
+      <img data-crebee-field="nav_logo" data-crebee-media="image" src="http://localhost:7777/api/files/materials/2026-05/10e1f0113c50.png" alt="让一人撑起一条产品线内容运营" style="height:32px;">
+      <span class="brand-name" style="font-weight: 600;">让一人撑起一条产品线内容运营</span>
     </a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle" style="display: none;">
     <label for="nav-toggle" class="nav-toggle-label" aria-label="菜单" style="display: none; cursor: pointer; padding: 0.5rem;">☰</label>
     <nav class="site-nav" role="navigation" style="display: flex; gap: 1.5rem; align-items: center;">
       <a href="../../">首页</a>
-      <a href="../../categories/">分类</a>
+      <a href="../../industry-insights/">行业洞察</a><a href="../../zhuan-ye-zhi-shi/">专业知识</a>
       <a href="../../archive/">归档</a>
       <a href="../../about/">关于</a>
       <a href="../../rss.xml" rel="alternate">RSS</a>
@@ -129,7 +210,7 @@
     <!-- Collection / List 列表页 (v1.1 P0+.2 F2)
      spec: docs/specs/p0-plus-2-website-page-templates.md §3.1 - F2
      用于 /categories/{slug}/、/tags/{slug}/、/topics/{slug}/ 三类页面（同模板）
-     由 _base.html 包裹（{$body} 占位填充） -->
+     由 _base.html 包裹（{} 占位填充） -->
 <nav aria-label="breadcrumb" style="padding: 1rem 0; font-size: 0.9rem; color: var(--site-brand-fg-muted);">
   <a href="../../">首页</a> <span>/</span>
   <a href="../../topics/">主题</a> <span>/</span>
@@ -156,12 +237,13 @@
     <div class="card-grid" style="display: grid; grid-template-columns: 1fr; gap: var(--site-grid-card-gap);">
       <article class="card" style="margin-bottom: var(--site-grid-card-gap);">
   <a href="../../wei-shen-me-da-duo-shu-saas-dou-zai-si-yuan-yin-zh.html" style="display: block; color: inherit;">
-    
+    <img src="../../assets/atom-416-p0-349d1d03d8.65f5c47145.png" alt="" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--site-radius-card);margin-bottom:0.75rem;display:block;">
     <h3 style="margin: 0.5rem 0;">为什么大多数SaaS都在死？原因只有一个核心前提</h3>
     <p style="margin: 0.5rem 0; color: var(--site-brand-fg-muted); font-size: 0.95rem;">大多数SaaS死于缺乏核心前提。本文以CreBee为例，指出AI原生产品应做认知伙伴而非效率工具，强调安全与智能的平衡才是业务护城河，最终从人工作业转向智能体协作。</p>
     <footer style="display: flex; gap: 0.75rem; align-items: center; font-size: 0.85rem; color: var(--site-brand-fg-muted); margin-top: 0.75rem;">
       <span>辉哥</span><span>·</span>
       <time datetime="2026-06-18 13:33:30">2026-06-18</time>
+      <span class="trust-reviewed">✓ 人工审定</span>
       
     </footer>
   </a>
@@ -182,6 +264,7 @@
 (function(){
   if(window.__crebeeCtaForm) return;
   window.__crebeeCtaForm=1;
+  window.__crebeeCtaLoadTs=Date.now(); /* 时间陷阱起点：<3s 提交判 bot */
   function showFallback(form){
     form.setAttribute('hidden','');
     var fb=document.querySelector('[data-cta-id="'+form.getAttribute('data-cta-id')+'-fallback"]');
@@ -192,15 +275,34 @@
     if(!form || !form.getAttribute || !form.getAttribute('data-endpoint')) return;
     e.preventDefault();
     var payload={site_id: parseInt(form.getAttribute('data-site-id')||'0',10),
-                 referrer: document.referrer||''};
+                 referrer: document.referrer||'',
+                 source_url: document.referrer||'',
+                 observed_path: location.pathname||'',
+                 canonical_url: location.origin + location.pathname};
     try{
       var qs=new URLSearchParams(location.search);
       payload.utm_source=qs.get('utm_source')||'';
       payload.utm_medium=qs.get('utm_medium')||'';
       payload.utm_campaign=qs.get('utm_campaign')||'';
+      payload.utm_term=qs.get('utm_term')||'';
+      payload.gclid=qs.get('gclid')||'';
+      payload.bd_vid=qs.get('bd_vid')||'';
     }catch(err){}
-    var fields=form.querySelectorAll('input[name],textarea[name]');
-    for(var i=0;i<fields.length;i++){ payload[fields[i].name]=fields[i].value; }
+    payload.landing_page=location.origin+location.pathname;
+    payload.elapsed_ms=Date.now()-(window.__crebeeCtaLoadTs||Date.now());
+    var fid=parseInt(form.getAttribute('data-form-id')||'0',10);
+    if(fid) payload.form_id=fid;
+    /* 预置列直落 payload；自定义字段进 custom 子对象（含 select/checkbox） */
+    var STD={name:1,company:1,email:1,interest:1,message:1,self_reported_source:1,website:1};
+    var fields=form.querySelectorAll('input[name],textarea[name],select[name]');
+    var custom={};
+    for(var i=0;i<fields.length;i++){
+      var f=fields[i], k=f.name, v=f.value;
+      if(f.type==='checkbox') v=f.checked?'yes':'';
+      if(STD[k]) payload[k]=v;
+      else if(v) custom[k]=v;
+    }
+    if(Object.keys(custom).length) payload.custom=custom;
     var btn=form.querySelector('button[type="submit"]');
     if(btn) btn.disabled=true;
     fetch(form.getAttribute('data-endpoint'),{
@@ -209,6 +311,18 @@
       body:JSON.stringify(payload)
     }).then(function(res){
       if(res.ok){
+        try{
+          document.dispatchEvent(new CustomEvent('crebee:form_submit_success',{
+            detail:{
+              site_id: payload.site_id,
+              form_id: payload.form_id||0,
+              cta_id: form.getAttribute('data-cta-id')||'',
+              endpoint: form.getAttribute('data-endpoint')||'',
+              observed_path: payload.observed_path||'',
+              source_url: payload.source_url||''
+            }
+          }));
+        }catch(err){}
         form.innerHTML='<p class="cta-thanks"></p>';
         form.firstChild.textContent=form.getAttribute('data-thanks')||'已提交，感谢！';
       }else{
@@ -240,20 +354,30 @@
 </style>
 
   </main>
-  <footer class="site-footer" role="contentinfo" style="border-top: 1px solid var(--site-border-subtle); margin-top: var(--site-spacing-section); padding: 2rem 0; color: var(--site-brand-fg-muted); font-size: 0.9rem;">
-  <div class="container" style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center;">
-    <div>
-      <strong>Crebee 产品官网</strong>
-      
+  <footer data-crebee-edit="site.footer" class="site-footer" role="contentinfo" style="border-top: 1px solid var(--site-border-subtle); margin-top: var(--site-spacing-section); padding: 2.5rem 0 2rem; color: var(--site-brand-fg-muted); font-size: 0.9rem;">
+  <div class="container" style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between;">
+    <div style="max-width: 320px;">
+      <strong style="font-size: 1rem; color: var(--site-brand-fg);">Crebee 产品官网</strong>
+      <p style="margin:0;color:var(--site-brand-fg-muted);"><span data-crebee-field="tagline">让一人撑起一条产品线内容运营</span></p>
+      <div style="margin-top: 1rem;"><a href="../../about/" class="footer-cta" style="display:inline-block;padding:0.6rem 1.2rem;border-radius:var(--site-radius-button,6px);background:var(--site-brand-primary);color:#fff;font-weight:500;text-decoration:none;">订阅 / 联系我们</a></div>
     </div>
-    <nav style="display: flex; gap: 1rem;">
-      <a href="../../about/">关于</a>
+    <div>
+      <div style="font-weight: 600; color: var(--site-brand-fg); margin-bottom: 0.5rem;">浏览</div>
+      <nav style="display: flex; flex-direction: column; gap: 0.4rem;">
+        <a href="../../">首页</a><a href="../../industry-insights/">行业洞察</a><a href="../../zhuan-ye-zhi-shi/">专业知识</a><a href="../../archive/">归档</a><a href="../../about/">关于</a>
+      </nav>
+    </div>
+    <div>
+      <div style="font-weight: 600; color: var(--site-brand-fg); margin-bottom: 0.5rem;">关注</div>
       
-      
-      <a href="../../rss.xml">RSS</a>
-    </nav>
+      <nav style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap;">
+        
+        
+        <a href="../../rss.xml">RSS</a>
+      </nav>
+    </div>
   </div>
-  <div class="container" style="margin-top: 1rem; font-size: 0.8rem;">
+  <div class="container" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--site-border-subtle); font-size: 0.8rem;">
     © 2026 Crebee 产品官网  
   </div>
 </footer>
